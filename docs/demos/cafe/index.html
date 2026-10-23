@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salt &amp; Swell Café | Concept by Marshall Web Co.</title>
+  <meta name="description" content="Concept website for a fictional Warrnambool café, designed by Marshall Web Co.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --sea: #2f5d62; --sea-2: #5e8b7e; --sand: #f1e3c8; --cream: #fbf7ef; --ink: #22302f; --muted: #5d6b69; --coral: #e07a5f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Karla", system-ui, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; font-size: 17px; overflow-x: hidden; }
+    a { color: inherit; }
+    h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.1; margin: 0 0 .5em; color: var(--sea); }
+    h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); color: var(--cream); }
+    h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .demo-banner { background: #c9a227; color: #14213d; text-align: center; font-size: .9rem; font-weight: 700; padding: 9px 16px; }
+    .demo-banner a { color: #14213d; }
+    header { position: absolute; left: 0; right: 0; z-index: 5; }
+    .head { display: flex; justify-content: space-between; align-items: center; min-height: 76px; gap: 12px; }
+    .logo { font-family: "Fraunces", serif; font-weight: 800; font-size: 1.4rem; color: var(--cream); text-decoration: none; }
+    nav { display: flex; gap: 18px; }
+    nav a { color: var(--cream); text-decoration: none; font-weight: 700; }
+    @media (max-width: 600px) { nav a:not(:last-child) { display: none; } }
+    .hero { background: radial-gradient(circle at 80% 20%, rgba(241, 227, 200, .25), transparent 40%), linear-gradient(160deg, var(--sea), var(--sea-2)); padding: 140px 0 90px; color: var(--sand); position: relative; overflow: hidden; }
+    .hero svg { position: absolute; bottom: -1px; left: 0; width: 100%; height: 70px; }
+    .hero p { font-size: 1.25rem; max-width: 520px; }
+    .open { display: inline-flex; align-items: center; gap: 8px; background: rgba(251, 247, 239, .15); padding: 6px 14px; border-radius: 99px; font-weight: 700; margin-bottom: 18px; }
+    .open i { width: 9px; height: 9px; border-radius: 50%; background: #7ee2a8; display: inline-block; }
+    .btn { display: inline-block; padding: 14px 24px; border-radius: 99px; font-weight: 700; text-decoration: none; }
+    .btn-sand { background: var(--sand); color: var(--sea); }
+    .btn-line { border: 2px solid var(--sand); color: var(--sand); }
+    .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    section { padding: 76px 0; }
+    .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media (max-width: 760px) { .menu { grid-template-columns: 1fr; } }
+    .menu h3 { font-size: 1.4rem; border-bottom: 2px solid var(--sand); padding-bottom: 8px; }
+    .item { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px dashed #e4d8bf; }
+    .item small { display: block; color: var(--muted); }
+    .item b { color: var(--sea); white-space: nowrap; }
+    .tags { font-size: .78rem; font-weight: 700; color: var(--coral); }
+    .info { background: var(--sea); color: var(--sand); }
+    .info h2, .info h3 { color: var(--cream); }
+    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    @media (max-width: 760px) { .info-grid { grid-template-columns: 1fr; } }
+    .hours { width: 100%; border-collapse: collapse; }
+    .hours td { padding: 5px 0; border-bottom: 1px solid rgba(241, 227, 200, .2); }
+    .hours td:last-child { text-align: right; }
+    .map { background: repeating-linear-gradient(45deg, #e9dcc0, #e9dcc0 12px, #f1e3c8 12px, #f1e3c8 24px); border-radius: 16px; min-height: 220px; display: grid; place-items: center; color: var(--sea); font-weight: 700; text-align: center; padding: 20px; }
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .gallery div { aspect-ratio: 1; border-radius: 14px; display: grid; place-items: center; font-size: 2.6rem; }
+    @media (max-width: 600px) { .gallery { grid-template-columns: 1fr 1fr; } }
+    footer { padding: 30px 0; text-align: center; color: var(--muted); font-size: .92rem; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Concept site by Marshall Web Co. Salt &amp; Swell is not a real business. <a href="../../contact.html">Want one like this? →</a></div>
+  <div style="position:relative">
+    <header>
+      <div class="wrap head">
+        <a class="logo" href="#">Salt &amp; Swell</a>
+        <nav><a href="#menu">Menu</a><a href="#visit">Visit</a><a href="tel:+61355505678">Call</a></nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="wrap">
+        <span class="open"><i></i> Open today 7am – 3pm</span>
+        <h1>Coffee, brunch &amp; sea air</h1>
+        <p>Locally roasted coffee and all-day brunch a short stroll from the beach. Dogs welcome on the deck.</p>
+        <div class="ctas">
+          <a class="btn btn-sand" href="#menu">See the menu</a>
+          <a class="btn btn-line" href="#visit">Get directions</a>
+        </div>
+      </div>
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 C 240 10, 480 70, 720 40 S 1200 10, 1440 40 V70 H0Z" fill="#fbf7ef"/></svg>
+    </section>
+  </div>
+
+  <main>
+    <section id="menu">
+      <div class="wrap">
+        <h2>The menu</h2>
+        <div class="menu">
+          <div>
+            <h3>Brunch · all day</h3>
+            <div class="item"><span>Smashed avo on sourdough<small>Feta, dukkah, poached egg</small><span class="tags">V</span></span><b>$21</b></div>
+            <div class="item"><span>The Big Swell<small>Eggs, bacon, chorizo, mushrooms, hash brown</small></span><b>$26</b></div>
+            <div class="item"><span>Ricotta hotcakes<small>Berries, honeycomb butter, maple</small><span class="tags">V</span></span><b>$22</b></div>
+            <div class="item"><span>Chilli scrambled eggs<small>Crispy shallots, coriander, toast</small><span class="tags">V · GF option</span></span><b>$20</b></div>
+          </div>
+          <div>
+            <h3>Lunch · from 11am</h3>
+            <div class="item"><span>Fish of the day<small>Grilled, with chips and slaw</small><span class="tags">GF</span></span><b>$28</b></div>
+            <div class="item"><span>Pumpkin &amp; haloumi salad<small>Quinoa, rocket, seeds</small><span class="tags">V · GF</span></span><b>$22</b></div>
+            <div class="item"><span>Wagyu burger<small>Cheese, pickles, house sauce, chips</small></span><b>$25</b></div>
+            <div class="item"><span>Coffee<small>Locally roasted · oat &amp; almond available</small></span><b>from $4.80</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="wrap gallery" aria-label="Photo gallery placeholders">
+        <div style="background:#f1e3c8">☕</div><div style="background:#d6e5df">🥑</div><div style="background:#f6d6cb">🥞</div><div style="background:#e2e8d4">🐟</div>
+      </div>
+    </section>
+
+    <section class="info" id="visit">
+      <div class="wrap info-grid">
+        <div>
+          <h3>Opening hours</h3>
+          <table class="hours">
+            <tr><td>Mon – Fri</td><td>7am – 3pm</td></tr>
+            <tr><td>Sat – Sun</td><td>7:30am – 3pm</td></tr>
+            <tr><td>Public holidays</td><td>8am – 2pm</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Find us</h3>
+          <p>1 Example Street<br>Warrnambool VIC 3280</p>
+          <p>📞 <a href="tel:+61355505678">(03) 5550 5678</a></p>
+          <p>Walk-ins welcome. Book for groups of 8+.</p>
+        </div>
+        <div class="map">📍 Google Map embed goes here</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Salt &amp; Swell Café (fictional) · Concept design by <a href="../../index.html">Marshall Web Co.</a></footer>
+</body>
+</html>

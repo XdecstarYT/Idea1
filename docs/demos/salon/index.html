@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fern Lane Hair &amp; Beauty | Concept by Marshall Web Co.</title>
+  <meta name="description" content="Concept website for a fictional Warrnambool salon, designed by Marshall Web Co.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --plum: #3b2f3f; --rose: #9c6b7e; --blush: #f6d9d4; --ivory: #fdf9f7; --ink: #2e2630; --muted: #6f6470; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Manrope", system-ui, sans-serif; color: var(--ink); background: var(--ivory); line-height: 1.65; overflow-x: hidden; }
+    a { color: inherit; }
+    h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; line-height: 1.05; margin: 0 0 .45em; color: var(--plum); }
+    h1 { font-size: clamp(2.8rem, 7vw, 5rem); }
+    h2 { font-size: clamp(2rem, 4.5vw, 3rem); }
+    h3 { font-size: 1.6rem; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .demo-banner { background: #c9a227; color: #14213d; text-align: center; font-size: .9rem; font-weight: 700; padding: 9px 16px; }
+    .demo-banner a { color: #14213d; }
+    header { border-bottom: 1px solid #eadcd8; background: var(--ivory); position: sticky; top: 0; z-index: 5; }
+    .head { display: flex; justify-content: space-between; align-items: center; min-height: 72px; gap: 12px; }
+    .logo { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 700; text-decoration: none; color: var(--plum); }
+    .btn { display: inline-block; padding: 13px 26px; border-radius: 99px; font-weight: 700; text-decoration: none; letter-spacing: .02em; }
+    .btn-plum { background: var(--plum); color: var(--ivory); }
+    .btn-plum:hover { background: var(--rose); }
+    .btn-line { border: 1.5px solid var(--plum); color: var(--plum); }
+    .hero { padding: 70px 0; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+    @media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr; } }
+    .hero p { font-size: 1.15rem; color: var(--muted); max-width: 480px; }
+    .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .arch { aspect-ratio: 4 / 5; border-radius: 240px 240px 18px 18px; background: linear-gradient(170deg, var(--blush), var(--rose)); position: relative; max-width: 380px; width: 100%; justify-self: center; }
+    .arch span { position: absolute; bottom: 22px; left: 22px; right: 22px; background: rgba(253, 249, 247, .92); border-radius: 14px; padding: 14px 16px; font-size: .92rem; }
+    section { padding: 72px 0; }
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    @media (max-width: 760px) { .prices { grid-template-columns: 1fr; } }
+    .row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid #eadcd8; }
+    .row b { color: var(--plum); white-space: nowrap; }
+    .team { background: var(--plum); color: #e9dde6; }
+    .team h2, .team h3 { color: var(--ivory); }
+    .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 760px) { .people { grid-template-columns: 1fr; } }
+    .avatar { width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(135deg, var(--blush), var(--rose)); margin-bottom: 14px; }
+    .book { text-align: center; background: var(--blush); }
+    .book p { color: var(--muted); }
+    footer { padding: 30px 0; text-align: center; color: var(--muted); font-size: .92rem; }
+    .fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; box-shadow: 0 10px 24px rgba(59, 47, 63, .3); }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Concept site by Marshall Web Co. Fern Lane is not a real business. <a href="../../contact.html">Want one like this? →</a></div>
+  <header>
+    <div class="wrap head">
+      <a class="logo" href="#">Fern Lane</a>
+      <a class="btn btn-plum" href="#book">Book now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Hair &amp; beauty, beautifully unhurried</h1>
+          <p>Colour, cuts, brows and lashes in a calm little studio in the heart of Warrnambool. Book online in under a minute.</p>
+          <div class="ctas"><a class="btn btn-plum" href="#book">Book an appointment</a><a class="btn btn-line" href="#prices">View prices</a></div>
+        </div>
+        <div class="arch" aria-hidden="true"><span>✨ Next available: <b>Thursday 2:30pm</b></span></div>
+      </div>
+    </section>
+
+    <section id="prices" style="background:#fff">
+      <div class="wrap">
+        <h2>Services &amp; prices</h2>
+        <div class="prices">
+          <div>
+            <h3>Hair</h3>
+            <div class="row"><span>Women's cut &amp; blow-dry</span><b>from $75</b></div>
+            <div class="row"><span>Men's cut</span><b>from $38</b></div>
+            <div class="row"><span>Full head foils</span><b>from $180</b></div>
+            <div class="row"><span>Balayage</span><b>from $220</b></div>
+            <div class="row"><span>Root colour</span><b>from $95</b></div>
+          </div>
+          <div>
+            <h3>Beauty</h3>
+            <div class="row"><span>Brow shape &amp; tint</span><b>$45</b></div>
+            <div class="row"><span>Lash lift &amp; tint</span><b>$85</b></div>
+            <div class="row"><span>Spray tan</span><b>$40</b></div>
+            <div class="row"><span>Bridal trial</span><b>$120</b></div>
+            <div class="row"><span>Gift vouchers</span><b>any amount</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team">
+      <div class="wrap">
+        <h2>Meet the team</h2>
+        <div class="people">
+          <div><div class="avatar"></div><h3>Owner &amp; colourist</h3><p>Fifteen years behind the chair and a soft spot for lived-in blondes.</p></div>
+          <div><div class="avatar"></div><h3>Senior stylist</h3><p>Precision cuts and the best blow-dry in the South West.</p></div>
+          <div><div class="avatar"></div><h3>Beauty therapist</h3><p>Brows, lashes and tans. Calm hands and great chat.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="book" id="book">
+      <div class="wrap">
+        <h2>Ready for something new?</h2>
+        <p>On a real site, this button opens the salon's booking system (Fresha, Timely, Kitomba and others).</p>
+        <a class="btn btn-plum" href="#book">Book online</a>
+        <p style="margin-top:18px">Or call <a href="tel:+61355509012">(03) 5550 9012</a> · 1 Example Lane, Warrnambool</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>Fern Lane Hair &amp; Beauty (fictional) · Concept design by <a href="../../index.html">Marshall Web Co.</a></footer>
+  <a class="btn btn-plum fab" href="#book">Book</a>
+</body>
+</html>

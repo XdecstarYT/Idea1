@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saltbush Plumbing &amp; Gas | Concept by Marshall Web Co.</title>
+  <meta name="description" content="Concept website for a fictional Warrnambool plumber, designed by Marshall Web Co.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --dark: #10151f; --dark-2: #1b2230; --orange: #f28c28; --orange-dark: #d9741a; --light: #f4f5f7; --ink: #1d232e; --muted: #5c6575; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Archivo", system-ui, sans-serif; color: var(--ink); background: var(--white, #fff); line-height: 1.55; overflow-x: hidden; }
+    a { color: inherit; }
+    h1, h2, h3 { line-height: 1.1; margin: 0 0 .5em; letter-spacing: -0.01em; }
+    h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 900; text-transform: uppercase; }
+    h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; text-transform: uppercase; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .demo-banner { background: #c9a227; color: #14213d; text-align: center; font-size: .9rem; font-weight: 700; padding: 9px 16px; }
+    .demo-banner a { color: #14213d; }
+    .alert { background: var(--orange); color: var(--dark); font-weight: 800; text-align: center; padding: 10px 16px; }
+    .alert a { text-decoration: none; }
+    header { background: var(--dark); color: #fff; }
+    .head { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 72px; }
+    .logo { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: .02em; text-decoration: none; }
+    .logo span { color: var(--orange); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; text-decoration: none; border-radius: 8px; padding: 14px 22px; border: 0; font-size: 1rem; cursor: pointer; font-family: inherit; }
+    .btn-call { background: var(--orange); color: var(--dark); }
+    .btn-call:hover { background: var(--orange-dark); }
+    .btn-out { border: 2px solid #fff; color: #fff; }
+    .hero { background: linear-gradient(160deg, var(--dark) 40%, var(--dark-2)); color: #fff; padding: 70px 0 80px; position: relative; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; right: -120px; top: -80px; width: 420px; height: 420px; border-radius: 50%; border: 60px solid rgba(242, 140, 40, .12); }
+    .hero p { font-size: 1.2rem; color: #c6ccd6; max-width: 560px; }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0; }
+    .trust { display: flex; flex-wrap: wrap; gap: 10px 26px; list-style: none; padding: 0; margin: 0; color: #c6ccd6; font-weight: 600; position: relative; z-index: 1; }
+    .trust li::before { content: "✔ "; color: var(--orange); }
+    section { padding: 72px 0; }
+    .grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } .head .btn { padding: 10px 14px; font-size: .9rem; } }
+    .svc { background: var(--light); border-radius: 12px; padding: 24px; border-top: 4px solid var(--orange); }
+    .svc h3 { font-size: 1.2rem; }
+    .svc p { color: var(--muted); margin: 0; }
+    .band { background: var(--dark); color: #fff; }
+    .band .grid div { border-left: 3px solid var(--orange); padding-left: 16px; }
+    .band b { display: block; font-size: 2.2rem; font-weight: 900; color: var(--orange); }
+    .areas { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
+    .areas li { background: var(--light); padding: 8px 14px; border-radius: 99px; font-weight: 700; }
+    .reviews .r { background: var(--light); border-radius: 12px; padding: 22px; }
+    .stars { color: var(--orange); letter-spacing: 2px; }
+    .note { font-size: .85rem; color: var(--muted); }
+    .quote { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 860px) { .quote { grid-template-columns: 1fr; } }
+    form { background: var(--light); padding: 26px; border-radius: 12px; display: grid; gap: 12px; }
+    label { font-weight: 700; font-size: .95rem; }
+    input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #d5d9e0; border-radius: 8px; font: inherit; }
+    footer { background: var(--dark); color: #9aa3b2; padding: 34px 0; font-size: .92rem; }
+    .callbar { display: none; }
+    @media (max-width: 640px) {
+      .callbar { display: block; position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 12px; background: var(--dark); z-index: 10; }
+      .callbar .btn { width: 100%; }
+      body { padding-bottom: 70px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Concept site by Marshall Web Co. Saltbush Plumbing is not a real business. <a href="../../contact.html">Want one like this? →</a></div>
+  <div class="alert"><a href="tel:+61355501234">🚨 Burst pipe or no hot water? 24/7 emergency call-outs: (03) 5550 1234</a></div>
+
+  <header>
+    <div class="wrap head">
+      <a class="logo" href="#">Saltbush <span>Plumbing</span></a>
+      <a class="btn btn-call" href="tel:+61355501234">📞 Call now</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1>Warrnambool's on-time plumbers</h1>
+        <p>Blocked drains, hot water, gas fitting and leaks fixed fast. We turn up when we say we will, and we quote before we start.</p>
+        <div class="ctas">
+          <a class="btn btn-call" href="tel:+61355501234">📞 (03) 5550 1234</a>
+          <a class="btn btn-out" href="#quote">Get a free quote</a>
+        </div>
+        <ul class="trust">
+          <li>Licensed &amp; insured</li>
+          <li>Upfront pricing</li>
+          <li>Same-day service</li>
+          <li>Seniors' discount</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>What we fix</h2>
+        <div class="grid">
+          <div class="svc"><h3>Blocked drains</h3><p>Camera inspection and high-pressure jetting. Clear today, not next week.</p></div>
+          <div class="svc"><h3>Hot water</h3><p>Repairs and replacements: electric, gas, heat pump and solar.</p></div>
+          <div class="svc"><h3>Gas fitting</h3><p>Appliance installs, leak detection and compliance certificates.</p></div>
+          <div class="svc"><h3>Leaks &amp; taps</h3><p>Dripping taps, running toilets and hidden leaks found and fixed.</p></div>
+          <div class="svc"><h3>Bathroom renos</h3><p>Rough-in through to fit-off, working with your builder or tiler.</p></div>
+          <div class="svc"><h3>Emergencies</h3><p>Burst pipes and flooding, 24/7 across the South West.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap grid">
+        <div><b>60 min</b>Typical emergency response in Warrnambool</div>
+        <div><b>$0</b>Call-out fee when you go ahead with the job</div>
+        <div><b>12 mo</b>Workmanship guarantee on every job</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Areas we cover</h2>
+        <ul class="areas">
+          <li>Warrnambool</li><li>Port Fairy</li><li>Koroit</li><li>Allansford</li><li>Dennington</li><li>Woodford</li><li>Bushfield</li><li>Panmure</li><li>Terang</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="reviews" style="padding-top:0">
+      <div class="wrap">
+        <h2>What customers say</h2>
+        <p class="note">Example reviews for this concept. A real site would show your genuine Google reviews.</p>
+        <div class="grid">
+          <div class="r"><div class="stars">★★★★★</div><p>"Hot water died on a Sunday morning. They were here by 10 and had it sorted by lunch."</p><b>Example customer, Warrnambool</b></div>
+          <div class="r"><div class="stars">★★★★★</div><p>"Quoted upfront, turned up on time, cleaned up after. Exactly what you want."</p><b>Example customer, Port Fairy</b></div>
+          <div class="r"><div class="stars">★★★★★</div><p>"Found a leak two other plumbers missed. Saved us a fortune on the water bill."</p><b>Example customer, Koroit</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quote" style="background:#f4f5f7">
+      <div class="wrap quote">
+        <div>
+          <h2>Get a free quote</h2>
+          <p>Tell us what's going on and we'll get back to you within the hour during business hours. For emergencies, call us instead.</p>
+          <p><a class="btn btn-call" href="tel:+61355501234">📞 (03) 5550 1234</a></p>
+        </div>
+        <form onsubmit="event.preventDefault(); this.querySelector('p').textContent='Demo form: on a real site this would send straight to your phone.';">
+          <div><label for="t-name">Name</label><input id="t-name" required></div>
+          <div><label for="t-phone">Phone</label><input id="t-phone" type="tel" required></div>
+          <div><label for="t-job">Job type</label><select id="t-job"><option>Blocked drain</option><option>Hot water</option><option>Gas</option><option>Leak</option><option>Other</option></select></div>
+          <div><label for="t-msg">Details</label><textarea id="t-msg" rows="3"></textarea></div>
+          <button class="btn btn-call" type="submit">Send quote request</button>
+          <p class="note" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Saltbush Plumbing &amp; Gas (fictional) · Warrnambool VIC · Lic. 00000 · Concept design by <a href="../../index.html" style="color:#f28c28">Marshall Web Co.</a></div>
+  </footer>
+
+  <div class="callbar"><a class="btn btn-call" href="tel:+61355501234">📞 Call (03) 5550 1234</a></div>
+</body>
+</html>

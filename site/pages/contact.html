@@ -1,0 +1,51 @@
+<!-- {"title": "Get a Free Website Mockup | Marshall Web Co.", "description": "Request a free homepage mockup for your Warrnambool business. No obligation. If you don't love it, you don't pay.", "nav": "contact"} -->
+    <section class="page-head">
+      <div class="container">
+        <span class="eyebrow">Free mockup</span>
+        <h1>Let's design your homepage, free</h1>
+        <p class="lead">Tell us a bit about your business. We'll design a homepage mockup and send it to you, usually within a few days. No obligation.</p>
+      </div>
+    </section>
+
+    <section style="padding-top:20px">
+      <div class="container contact-grid">
+        <form class="card form" id="quote-form" action="https://formspree.io/f/{{formspreeId}}" method="POST" data-fallback-email="{{email}}">
+          <div class="form-row">
+            <div><label for="name">Your name *</label><input id="name" name="name" autocomplete="name" required></div>
+            <div><label for="business">Business name *</label><input id="business" name="business" autocomplete="organization" required></div>
+          </div>
+          <div class="form-row">
+            <div><label for="phone">Phone *</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email"></div>
+          </div>
+          <div class="form-row">
+            <div><label for="website">Current website (if any)</label><input id="website" name="website" placeholder="www.example.com.au"></div>
+            <div>
+              <label for="package">Package you're interested in</label>
+              <select id="package" name="package">
+                <option value="unsure">Not sure yet</option>
+                <option value="starter">Starter ($590 or $59/mo)</option>
+                <option value="growth">Growth ($1,290 or $99/mo)</option>
+                <option value="premium">Premium ($2,490 or $179/mo)</option>
+                <option value="gbp">Just Google Business Profile ($149)</option>
+              </select>
+            </div>
+          </div>
+          <div><label for="message">What does your business do, and what do you want from a website?</label><textarea id="message" name="message"></textarea></div>
+          <div class="hp" aria-hidden="true"><label for="gotcha">Leave this empty</label><input id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-go" type="submit">Send me my free mockup</button>
+          <p class="form-note">We'll only use your details to respond to this request. See our <a href="privacy.html">privacy policy</a>.</p>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <aside class="card">
+          <h3>Prefer to talk?</h3>
+          <ul class="contact-list">
+            <li><strong>Call or text</strong><a href="tel:{{phoneIntl}}">{{phone}}</a></li>
+            <li><strong>Email</strong><a href="mailto:{{email}}">{{email}}</a></li>
+            <li><strong>Based in</strong>{{town}}, VIC. Happy to meet in person anywhere in {{region}}.</li>
+            <li><strong>Reply time</strong>Within one business day.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
