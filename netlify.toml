@@ -1,0 +1,4 @@
+# Netlify settings: the website is plain HTML in /docs, so there's nothing to build.
+[build]
+  publish = "docs"
+  command = ""
