@@ -100,7 +100,7 @@
 
   // ---------- Data ----------
   function loadAll() {
-    return Promise.all([loadLeads(), loadProducts(), loadSettings(), loadClients(), loadRequests()]).then(function () { renderRequests(); renderOverview(); });
+    return Promise.all([loadLeads(), loadProducts(), loadSettings(), loadClients(), loadRequests(), loadDesigns(), loadInbox()]).then(function () { renderRequests(); renderDesigns(); renderInbox(); renderOverview(); openFromHash(); });
   }
 
   function loadLeads() {
@@ -263,16 +263,18 @@
           '<div class="sub">' + esc(c.business || "No business name") + " · joined " + new Date(c.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) + "</div>" +
           '<div class="contact">' + (c.email ? '<a href="mailto:' + esc(c.email) + '">✉️ ' + esc(c.email) + "</a>" : "") + (c.phone ? '<a href="tel:' + esc(c.phone.replace(/\s+/g, "")) + '">📞 ' + esc(c.phone) + "</a>" : "") + "</div>" +
         "</div>" +
-        '<button class="btn btn-primary btn-sm" data-add-site="' + c.id + '">+ Add website</button></div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-glass btn-sm" data-message-client="' + c.id + '">Message</button><button class="btn btn-primary btn-sm" data-add-site="' + c.id + '">+ Add website</button></div></div>' +
         (sites.length ? '<div class="client-sites">' + sites.map(function (s) {
           return '<div class="client-site"><div><b>' + esc(s.name) + '</b> <span class="status-pill ' + s.status + '">' + SITE_LABEL[s.status] + "</span></div>" +
-            '<button class="btn btn-glass btn-sm" data-edit-site="' + s.id + '">Edit</button></div>';
+            '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-glass btn-sm" data-design-site="' + s.id + '">New design</button><button class="btn btn-glass btn-sm" data-edit-site="' + s.id + '">Edit</button></div></div>';
         }).join("") + "</div>" : "") +
       "</article>";
     }).join("") : '<div class="glass panel empty"><b>' + (state.clients.length ? "No matches" : "No client accounts yet") + "</b>" +
       (state.clients.length ? "Try another search." : "When clients create an account at /account.html, they'll appear here.") + "</div>";
 
     $$("[data-add-site]").forEach(function (b) { b.addEventListener("click", function () { openSiteEditor(null, b.dataset.addSite); }); });
+    $$("[data-design-site]").forEach(function (b) { b.addEventListener("click", function () { openDesignDialog(b.dataset.designSite); }); });
+    $$("[data-message-client]").forEach(function (b) { b.addEventListener("click", function () { go("messages"); openThread(b.dataset.messageClient); }); });
     $$("[data-edit-site]").forEach(function (b) {
       b.addEventListener("click", function () {
         var site = state.sites.find(function (s) { return s.id === b.dataset.editSite; });
@@ -403,6 +405,116 @@
       renderRequests();
     });
   });
+
+  // ---------- Designs (site builder) ----------
+  var DESIGN_STATUS = { draft: ["Draft", "paused"], in_review: ["With client", "review"], approved: ["Approved", "live"], changes_requested: ["Changes requested", "open"] };
+
+  function loadDesigns() {
+    return sb.from("designs").select("id,site_id,client_id,name,status,client_feedback,sent_at,reviewed_at,updated_at").order("updated_at", { ascending: false }).then(function (res) {
+      if (res.error) { toast("Couldn't load designs: " + res.error.message, "err"); return; }
+      state.designs = res.data;
+    });
+  }
+
+  function clientLabel(id) { var c = state.clients.find(function (x) { return x.id === id; }); return c ? (c.full_name || c.email) : "Client"; }
+  function siteLabel(id) { var s = state.sites.find(function (x) { return x.id === id; }); return s ? s.name : "Website"; }
+
+  function renderDesigns() {
+    var list = state.designs || [];
+    $("#designs-list").innerHTML = list.length ? list.map(function (d) {
+      var st = DESIGN_STATUS[d.status];
+      return '<article class="glass design-item"><div><h3>' + esc(d.name) + ' <span class="status-pill ' + st[1] + '">' + st[0] + "</span></h3>" +
+        '<div class="sub">' + esc(clientLabel(d.client_id)) + " · " + esc(siteLabel(d.site_id)) + " · edited " + when(d.updated_at) + "</div>" +
+        (d.client_feedback ? '<div class="fb"><b>Client:</b> ' + esc(d.client_feedback) + "</div>" : "") + "</div>" +
+        '<div class="actions"><a class="btn btn-primary btn-sm" href="builder.html?id=' + d.id + '">Open builder</a><button class="btn btn-danger btn-sm" data-delete-design="' + d.id + '">Delete</button></div></article>';
+    }).join("") : '<div class="glass panel empty"><b>No designs yet</b>' + (state.sites.length ? 'Click "+ New design" to build your first client website.' : "First add a website to a client in Clients, then design it here.") + "</div>";
+    $$("[data-delete-design]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (!confirm("Delete this design? This can't be undone.")) return;
+        sb.from("designs").delete().eq("id", b.dataset.deleteDesign).then(function (res) {
+          if (res.error) return toast(res.error.message, "err");
+          loadDesigns().then(function () { renderDesigns(); toast("Design deleted"); });
+        });
+      });
+    });
+  }
+
+  var designDialog = $("#design-dialog");
+  var chosenTpl = "trades";
+  function openDesignDialog(siteId) {
+    if (!state.sites.length) { toast("Add a website to a client first (Clients → + Add website).", "err"); go("clients"); return; }
+    $("#d-site").innerHTML = state.sites.map(function (s) { return '<option value="' + s.id + '">' + esc(siteLabel(s.id)) + " · " + esc(clientLabel(s.client_id)) + "</option>"; }).join("");
+    if (siteId) $("#d-site").value = siteId;
+    designDialog.showModal();
+  }
+  $$("[data-new-design]").forEach(function (b) { b.addEventListener("click", function () { go("designs"); openDesignDialog(null); }); });
+  $("#d-cancel").addEventListener("click", function () { designDialog.close(); });
+  $$("#tpl-grid [data-tpl]").forEach(function (b) {
+    b.addEventListener("click", function () { chosenTpl = b.dataset.tpl; $$("#tpl-grid [data-tpl]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); });
+  });
+  $("#design-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var site = state.sites.find(function (s) { return s.id === $("#d-site").value; });
+    var client = state.clients.find(function (c) { return c.id === site.client_id; }) || {};
+    var content = window.MWCBuilder.template(chosenTpl, { business: client.business || site.name, phone: client.phone || "", email: client.email || "" });
+    sb.from("designs").insert({ site_id: site.id, client_id: site.client_id, name: $("#d-name").value.trim() || "Homepage", content: content }).select("id").single().then(function (res) {
+      if (res.error) return toast(res.error.message, "err");
+      window.location.href = "builder.html?id=" + res.data.id;
+    });
+  });
+
+  // ---------- Messages ----------
+  var thread = null, activeClient = null;
+  function loadInbox() {
+    return sb.from("messages").select("id,client_id,sender_id,body,created_at,read_at").order("created_at", { ascending: false }).limit(1000).then(function (res) {
+      if (res.error) return;
+      state.inbox = res.data;
+    });
+  }
+  function renderInbox() {
+    var me = state.me, byClient = {};
+    (state.inbox || []).forEach(function (m) {
+      var c = byClient[m.client_id] = byClient[m.client_id] || { last: m, unread: 0 };
+      if (m.sender_id !== me && !m.read_at) c.unread++;
+    });
+    var total = Object.keys(byClient).reduce(function (n, k) { return n + byClient[k].unread; }, 0);
+    $("#unread-count").textContent = total || "";
+    var clients = state.clients.slice().sort(function (a, b) {
+      var la = byClient[a.id] ? byClient[a.id].last.created_at : "", lb = byClient[b.id] ? byClient[b.id].last.created_at : "";
+      return la < lb ? 1 : la > lb ? -1 : 0;
+    });
+    $("#convo-list").innerHTML = clients.length ? clients.map(function (c) {
+      var info = byClient[c.id];
+      var name = c.full_name || c.email;
+      return '<button class="convo" data-convo="' + c.id + '" aria-current="' + (c.id === activeClient) + '"><span class="chat-avatar">' + esc(name.charAt(0).toUpperCase()) + '</span><span class="c-text"><b>' + esc(name) + "</b><span>" +
+        (info ? esc((info.last.sender_id === me ? "You: " : "") + info.last.body) : esc(c.business || "No messages yet")) + "</span></span>" + (info && info.unread ? '<span class="unread">' + info.unread + "</span>" : "") + "</button>";
+    }).join("") : '<div class="empty"><b>No clients yet</b>When clients sign up, you can chat with them here.</div>';
+    $$("[data-convo]").forEach(function (b) { b.addEventListener("click", function () { openThread(b.dataset.convo); }); });
+  }
+  function refreshInbox() { if (state.me) loadInbox().then(renderInbox); }
+  function openThread(clientId) {
+    var c = state.clients.find(function (x) { return x.id === clientId; });
+    if (!c) return;
+    activeClient = clientId;
+    if (thread) thread.destroy();
+    thread = new window.MWCChat.Thread({
+      sb: sb, root: $("#owner-thread"), clientId: clientId, meId: state.me,
+      otherName: c.full_name || c.email, subtitle: c.business || c.email,
+      emptyText: "Say hi! " + (c.full_name || "Your client").split(" ")[0] + " will see your message in their portal.",
+      onActivity: refreshInbox, onError: function (m) { toast(m, "err"); },
+    });
+    renderInbox();
+  }
+  // Keep unread badges current even when the Messages section isn't open
+  sb.channel("owner-inbox").on("postgres_changes", { event: "*", schema: "public", table: "messages" }, refreshInbox)
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "designs" }, function () { if (state.me) loadDesigns().then(renderDesigns); })
+    .subscribe();
+  setInterval(refreshInbox, window.MWC_POLL_MS || 20000);
+
+  function openFromHash() {
+    var view = (location.hash || "").slice(1);
+    if (view && $('.side-link[data-view="' + view + '"]')) go(view);
+  }
 
   // ---------- Products ----------
   function priceLabel(p) {

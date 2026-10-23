@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/owner.css">
+  <link rel="stylesheet" href="assets/css/builder.css">
 </head>
 <body class="owner">
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -96,6 +97,7 @@
       </a>
       <button class="side-link" data-view="sites" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg><span class="label">My websites</span><span class="short">Sites</span></button>
       <button class="side-link" data-view="requests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg><span class="label">Change requests</span><span class="short">Requests</span></button>
+      <button class="side-link" data-view="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg><span class="label">Messages</span><span class="short">Chat</span><span class="count" id="unread-count"></span></button>
       <button class="side-link" data-view="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="label">Profile</span><span class="short">Profile</span></button>
       <div class="spacer"></div>
       <div class="who">Signed in as<b id="who-email"></b></div>
@@ -127,6 +129,11 @@
         <div class="req-list" id="req-list"></div>
       </section>
 
+      <section class="view" data-view="messages" style="padding:0">
+        <div class="topbar"><h1>Messages</h1></div>
+        <div class="glass" id="client-thread" style="border-radius:22px"></div>
+      </section>
+
       <section class="view" data-view="profile" style="padding:0">
         <div class="topbar"><h1>Profile</h1><div class="actions"><button class="btn btn-glass btn-sm" data-signout>Sign out</button></div></div>
         <div class="settings-grid">
@@ -152,11 +159,38 @@
     </main>
   </div>
 
+  <!-- Design review -->
+  <div class="review-overlay" id="review" hidden>
+    <div class="glass review-bar">
+      <button class="icon-btn" type="button" id="review-close" aria-label="Close review">✕</button>
+      <h2 id="review-title">Your new design</h2>
+      <div class="devices" role="group" aria-label="Preview size">
+        <button type="button" aria-pressed="true" data-rdevice="desktop" title="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+        <button type="button" aria-pressed="false" data-rdevice="mobile" title="Phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></button>
+      </div>
+      <span id="review-actions" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-glass btn-sm" type="button" id="review-changes">Request changes</button>
+        <button class="btn btn-primary btn-sm" type="button" id="review-approve">Approve design</button>
+      </span>
+    </div>
+    <div class="review-stage"><div class="frame-wrap" id="review-wrap" data-device="desktop"><iframe id="review-frame" title="Design preview" sandbox="allow-same-origin allow-popups"></iframe></div></div>
+  </div>
+
+  <dialog class="editor" id="changes-dialog" aria-labelledby="changes-title" style="width:min(560px,94vw)">
+    <form class="editor-form" id="changes-form">
+      <h2 id="changes-title">What would you like changed?</h2>
+      <div><label for="changes-text">Your feedback</label><textarea id="changes-text" maxlength="4000" required placeholder="e.g. Can the headline mention Port Fairy? Swap the second photo for one of our new van."></textarea></div>
+      <div class="editor-actions"><span></span><div style="display:flex;gap:8px"><button type="button" class="btn btn-glass" id="changes-cancel">Cancel</button><button class="btn btn-primary" type="submit">Send feedback</button></div></div>
+    </form>
+  </dialog>
+
   <div class="toasts" id="toasts" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/render.js"></script>
+  <script src="assets/js/builder-render.js"></script>
+  <script src="assets/js/chat.js"></script>
   <script src="assets/js/account.js"></script>
 </body>
 </html>

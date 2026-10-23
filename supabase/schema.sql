@@ -248,3 +248,96 @@ grant select on public.profiles to authenticated;
 grant update (full_name, business, phone) on public.profiles to authenticated;
 grant select, insert, update, delete on public.sites to authenticated;
 grant select, insert, update, delete on public.change_requests to authenticated;
+
+-- ============================================================
+-- Site builder designs and client chat
+-- ============================================================
+
+create table public.designs (
+  id uuid primary key default gen_random_uuid(),
+  site_id uuid not null references public.sites (id) on delete cascade,
+  client_id uuid not null references public.profiles (id) on delete cascade,
+  name text not null default 'Homepage' check (char_length(name) between 1 and 120),
+  content jsonb not null default '{}'::jsonb,
+  status text not null default 'draft' check (status in ('draft', 'in_review', 'approved', 'changes_requested')),
+  client_feedback text not null default '' check (char_length(client_feedback) <= 4000),
+  sent_at timestamptz,
+  reviewed_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index designs_site_idx on public.designs (site_id);
+create index designs_client_idx on public.designs (client_id);
+create trigger designs_touch before update on public.designs
+  for each row execute function public.touch_updated_at();
+
+-- Clients may only record their decision on a design that's waiting for their review
+create or replace function private.guard_design_review()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if (select private.is_admin()) then
+    return new;
+  end if;
+  if old.status <> 'in_review'
+     or new.status not in ('approved', 'changes_requested')
+     or new.content is distinct from old.content
+     or new.name is distinct from old.name
+     or new.site_id is distinct from old.site_id
+     or new.client_id is distinct from old.client_id
+     or new.sent_at is distinct from old.sent_at then
+    raise exception 'Clients can only approve or request changes on a design under review';
+  end if;
+  new.reviewed_at = now();
+  return new;
+end;
+$$;
+create trigger designs_guard before update on public.designs
+  for each row execute function private.guard_design_review();
+
+alter table public.designs enable row level security;
+create policy "Clients read designs sent to them, admins read all" on public.designs
+  for select to authenticated using ((client_id = (select auth.uid()) and status <> 'draft') or (select private.is_admin()));
+create policy "Admins add designs" on public.designs
+  for insert to authenticated with check ((select private.is_admin()));
+create policy "Admins edit designs, clients review theirs" on public.designs
+  for update to authenticated
+  using ((select private.is_admin()) or (client_id = (select auth.uid()) and status = 'in_review'))
+  with check ((select private.is_admin()) or (client_id = (select auth.uid()) and status in ('approved', 'changes_requested')));
+create policy "Admins delete designs" on public.designs
+  for delete to authenticated using ((select private.is_admin()));
+revoke all on public.designs from anon, authenticated;
+grant select, insert, update, delete on public.designs to authenticated;
+
+-- Chat between the owner and each client (one conversation per client)
+create table public.messages (
+  id uuid primary key default gen_random_uuid(),
+  client_id uuid not null references public.profiles (id) on delete cascade,
+  sender_id uuid not null references auth.users (id) on delete cascade,
+  body text not null check (char_length(btrim(body)) between 1 and 4000),
+  created_at timestamptz not null default now(),
+  read_at timestamptz
+);
+create index messages_client_created_idx on public.messages (client_id, created_at);
+
+alter table public.messages enable row level security;
+create policy "Clients read their conversation, admins read all" on public.messages
+  for select to authenticated using (client_id = (select auth.uid()) or (select private.is_admin()));
+create policy "Clients and admins send messages as themselves" on public.messages
+  for insert to authenticated with check (
+    sender_id = (select auth.uid())
+    and read_at is null
+    and (client_id = (select auth.uid()) or (select private.is_admin()))
+  );
+create policy "Mark messages in your conversation as read" on public.messages
+  for update to authenticated
+  using (client_id = (select auth.uid()) or (select private.is_admin()))
+  with check (client_id = (select auth.uid()) or (select private.is_admin()));
+revoke all on public.messages from anon, authenticated;
+grant select, insert on public.messages to authenticated;
+grant update (read_at) on public.messages to authenticated;
+
+-- Live updates for chat and design reviews
+alter publication supabase_realtime add table public.messages, public.designs;

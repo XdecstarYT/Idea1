@@ -99,3 +99,8 @@ After that: 50% deposit to start, balance due on launch. Monthly plans: first mo
 - Client portal: their websites with a progress tracker (Mockup → Building → Your review → Live), mockup and live links, plan, price and next payment, notes from Declan, change requests with replies, profile and password.
 - Owner panel: new **Clients** (add and edit websites per client) and **Change requests** (reply and update status) sections.
 - Database: `profiles` (created automatically at sign-up), `sites`, `change_requests`, all with row level security.
+
+## Phase 9: Site builder + client chat ✅
+- **Site builder** (`/builder.html`): 13 section types (header, hero, services, about, stats, gallery, reviews, pricing, FAQ, hours & location, call to action, contact, footer), 4 starter templates, theme controls, click-to-edit live preview, device sizes, drag to reorder, undo/redo, autosave, export to HTML.
+- **Design review:** send a design to a client's account; they review it full-screen (desktop or phone view) and approve or request changes. Feedback shows in the builder.
+- **Chat:** real-time messaging between Declan and each client (owner panel → Messages, client portal → Messages), with unread badges and read receipts. "Chat with Declan" button on the public site.

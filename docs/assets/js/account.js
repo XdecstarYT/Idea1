@@ -24,7 +24,7 @@
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: "mwc-auth" },
   });
   var here = window.location.origin + window.location.pathname;
-  var state = { user: null, profile: null, sites: [], requests: [] };
+  var state = { user: null, profile: null, sites: [], requests: [], designs: [] };
   var recovering = false;
 
   function toast(message, kind) {
@@ -186,6 +186,8 @@
     window.scrollTo(0, 0);
   }
   $$(".side-link").forEach(function (l) { l.addEventListener("click", function () { go(l.dataset.view); }); });
+  var baseGo = go;
+  go = function (view) { baseGo(view); if (view === "messages") openChat(); };
 
   function openPortal() {
     $("#who-email").textContent = state.user.email;
@@ -194,10 +196,12 @@
       sb.from("profiles").select("*").eq("id", state.user.id).maybeSingle(),
       sb.from("sites").select("*").order("created_at"),
       sb.from("change_requests").select("*").order("created_at", { ascending: false }),
+      sb.from("designs").select("*").order("updated_at", { ascending: false }),
     ]).then(function (r) {
       state.profile = r[0].data || { full_name: "", business: "", phone: "" };
       state.sites = r[1].data || [];
       state.requests = r[2].data || [];
+      state.designs = r[3].data || [];
       var first = (state.profile.full_name || "").split(" ")[0];
       $("#greeting").innerHTML = "Hi" + (first ? ", " + esc(first) : "") + '<span class="serif">.</span>';
       $("#pf-name").value = state.profile.full_name;
@@ -205,6 +209,9 @@
       $("#pf-phone").value = state.profile.phone;
       renderSites();
       renderRequests();
+      refreshUnread();
+      watchLive();
+      if (new URLSearchParams(window.location.search).get("view") === "messages") go("messages");
     });
   }
 
@@ -241,6 +248,7 @@
             "<div>Next payment<b>" + next + "</b></div>" +
           "</div>" +
           (s.client_note ? '<div class="owner-note"><b>Note from Declan:</b> ' + esc(s.client_note) + "</div>" : "") +
+          designsFor(s.id) +
         "</article>"
       );
     }).join("");
@@ -250,6 +258,107 @@
         $("#rq-site").value = b.dataset.request;
         $("#rq-title").focus();
       });
+    });
+  }
+
+  // ---------- Design review ----------
+  var DESIGN_LABEL = { in_review: ["Waiting for your review", "review"], approved: ["Approved", "live"], changes_requested: ["Changes requested", "open"] };
+  function designsFor(siteId) {
+    var list = state.designs.filter(function (d) { return d.site_id === siteId; });
+    return list.map(function (d) {
+      if (d.status === "in_review") {
+        return '<div class="review-banner"><div><b>✨ "' + esc(d.name) + '" is ready for you to review</b><div class="muted" style="font-size:.9rem">Have a look, then approve it or tell Declan what to change.</div></div><button class="btn btn-primary btn-sm" data-review="' + d.id + '">Review design</button></div>';
+      }
+      var st = DESIGN_LABEL[d.status];
+      return '<div class="client-site" style="margin-top:12px"><div><b>' + esc(d.name) + '</b> <span class="status-pill ' + st[1] + '">' + st[0] + '</span></div><button class="btn btn-glass btn-sm" data-review="' + d.id + '">View</button></div>';
+    }).join("");
+  }
+
+  var reviewing = null;
+  $("#site-cards").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-review]");
+    if (b) openReview(b.dataset.review);
+  });
+  function openReview(id) {
+    reviewing = state.designs.find(function (d) { return d.id === id; });
+    if (!reviewing) return;
+    $("#review-title").textContent = reviewing.name;
+    $("#review-actions").hidden = reviewing.status !== "in_review";
+    $("#review-frame").srcdoc = window.MWCBuilder.renderSite(reviewing.content);
+    $("#review").hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function closeReview() { $("#review").hidden = true; document.body.style.overflow = ""; reviewing = null; }
+  $("#review-close").addEventListener("click", closeReview);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("#review").hidden && !$("#changes-dialog").open) closeReview(); });
+  $$("[data-rdevice]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      $$("[data-rdevice]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+      $("#review-wrap").dataset.device = b.dataset.rdevice;
+    });
+  });
+
+  function decide(status, feedback) {
+    var d = reviewing;
+    return sb.from("designs").update({ status: status, client_feedback: feedback || "" }).eq("id", d.id).then(function (res) {
+      if (res.error) { toast(res.error.message, "err"); return; }
+      d.status = status; d.client_feedback = feedback || "";
+      var note = status === "approved" ? "I've approved \"" + d.name + "\" 🎉" : "I've asked for changes to \"" + d.name + "\":\n" + feedback;
+      // Supabase queries only run once awaited, so .then() is required here
+      sb.from("messages").insert({ client_id: state.user.id, sender_id: state.user.id, body: note }).then(refreshUnread);
+      closeReview();
+      renderSites();
+      toast(status === "approved" ? "Approved! Declan will be in touch about going live." : "Feedback sent to Declan.");
+    });
+  }
+  $("#review-approve").addEventListener("click", function () {
+    if (confirm("Approve this design? Declan will be notified.")) decide("approved", "");
+  });
+  var changesDialog = $("#changes-dialog");
+  $("#review-changes").addEventListener("click", function () { changesDialog.showModal(); $("#changes-text").focus(); });
+  $("#changes-cancel").addEventListener("click", function () { changesDialog.close(); });
+  $("#changes-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = $("#changes-text").value.trim();
+    if (!text) return;
+    changesDialog.close();
+    decide("changes_requested", text).then(function () { $("#changes-text").value = ""; });
+  });
+
+  // ---------- Messages ----------
+  var thread = null;
+  function openChat() {
+    if (thread) { thread.load(); return; }
+    thread = new window.MWCChat.Thread({
+      sb: sb, root: $("#client-thread"), clientId: state.user.id, meId: state.user.id,
+      otherName: "Declan Marshall", subtitle: "Marshall Web Co. · usually replies within a day",
+      emptyText: "Questions about your website? Send Declan a message.",
+      onActivity: refreshUnread, onError: function (m) { toast(m, "err"); },
+    });
+  }
+  function refreshUnread() {
+    if (!state.user) return;
+    sb.from("messages").select("id", { count: "exact", head: true }).neq("sender_id", state.user.id).is("read_at", null).then(function (res) {
+      $("#unread-count").textContent = res.count || "";
+    });
+  }
+  var live = false;
+  function watchLive() {
+    if (live) return;
+    live = true;
+    sb.channel("client-live-" + state.user.id)
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages", filter: "client_id=eq." + state.user.id }, refreshUnread)
+      .on("postgres_changes", { event: "*", schema: "public", table: "designs", filter: "client_id=eq." + state.user.id }, reloadDesigns)
+      .subscribe();
+    setInterval(function () { refreshUnread(); reloadDesigns(); }, window.MWC_POLL_MS || 20000);
+  }
+  function reloadDesigns() {
+    if (!state.user || reviewing) return;
+    sb.from("designs").select("*").order("updated_at", { ascending: false }).then(function (res) {
+      if (res.error) return;
+      if (JSON.stringify(res.data) === JSON.stringify(state.designs)) return;
+      state.designs = res.data;
+      renderSites();
     });
   }
 

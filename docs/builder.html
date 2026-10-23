@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en-AU" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Site Builder | Marshall Web Co.</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
+  <script>document.documentElement.className = "js";</script>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/owner.css">
+  <link rel="stylesheet" href="assets/css/builder.css">
+</head>
+<body class="owner builder">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="loading-screen" id="loading"><div class="spinner"></div></div>
+
+  <div class="builder-gate" id="gate" hidden>
+    <div class="glass login-card">
+      <h1>Site <span class="serif">builder.</span></h1>
+      <p class="muted" id="gate-msg">Sign in as the owner to use the builder.</p>
+      <a class="btn btn-primary btn-lg btn-block" href="account.html">Sign in</a>
+    </div>
+  </div>
+
+  <div class="bld" id="bld" hidden>
+    <header class="glass bld-top">
+      <a class="icon-btn" href="owner.html#designs" title="Back to owner panel" aria-label="Back to owner panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+      <div class="grow">
+        <input class="bld-name" id="design-name" aria-label="Design name" maxlength="120">
+        <span class="status-pill" id="design-status"></span>
+        <span class="bld-for" id="design-for"></span>
+      </div>
+      <div class="devices" role="group" aria-label="Preview size">
+        <button type="button" aria-pressed="true" data-device="desktop" title="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+        <button type="button" aria-pressed="false" data-device="tablet" title="Tablet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M11 18h2"/></svg></button>
+        <button type="button" aria-pressed="false" data-device="mobile" title="Phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></button>
+      </div>
+      <button class="icon-btn" id="undo" title="Undo (Ctrl+Z)" aria-label="Undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button class="icon-btn" id="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+      <span class="save-state" id="save-state">Saved</span>
+      <button class="btn btn-glass btn-sm" id="open-preview">Preview ↗</button>
+      <button class="btn btn-glass btn-sm" id="export">Export HTML</button>
+      <button class="btn btn-primary btn-sm" id="send">Send to client</button>
+    </header>
+
+    <aside class="glass bld-left" aria-label="Sections and theme">
+      <div class="pane-tabs" role="group">
+        <button type="button" aria-pressed="true" data-pane-tab="sections">Sections</button>
+        <button type="button" aria-pressed="false" data-pane-tab="theme">Theme</button>
+      </div>
+      <div class="pane" data-pane-body="sections">
+        <ul class="block-list" id="block-list"></ul>
+        <button class="btn btn-glass btn-sm add-section" id="add-section">+ Add section</button>
+      </div>
+      <div class="pane" data-pane-body="theme" hidden>
+        <form class="insp" id="theme-form" onsubmit="return false"></form>
+      </div>
+    </aside>
+
+    <main class="bld-canvas" aria-label="Preview">
+      <div class="frame-wrap" id="frame-wrap" data-device="desktop"><iframe id="frame" title="Website preview"></iframe></div>
+    </main>
+
+    <aside class="glass bld-right" id="inspector" aria-label="Section settings"></aside>
+  </div>
+
+  <dialog class="editor" id="add-dialog" aria-labelledby="add-title" style="width:min(760px,94vw)">
+    <div class="editor-form">
+      <div class="panel-head" style="margin:0"><h2 id="add-title" style="margin:0">Add a section</h2><button class="icon-btn" type="button" data-close aria-label="Close">✕</button></div>
+      <div class="type-grid" id="type-grid"></div>
+    </div>
+  </dialog>
+
+  <dialog class="editor" id="send-dialog" aria-labelledby="send-title" style="width:min(560px,94vw)">
+    <form class="editor-form" id="send-form">
+      <h2 id="send-title">Send to client for review</h2>
+      <p class="muted" id="send-who" style="margin:0"></p>
+      <div><label for="send-note">Message to include (optional)</label><textarea id="send-note" maxlength="1000" placeholder="e.g. Here's your new homepage. Have a look on your phone and let me know what you think!"></textarea></div>
+      <p class="hint">They'll see it in their portal under "My websites", and get a chat message from you. You can keep editing after sending; they always see the latest version.</p>
+      <div class="editor-actions"><span></span><div style="display:flex;gap:8px"><button type="button" class="btn btn-glass" data-close>Cancel</button><button class="btn btn-primary" type="submit">Send for review</button></div></div>
+    </form>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/builder-render.js"></script>
+  <script src="assets/js/builder.js"></script>
+</body>
+</html>

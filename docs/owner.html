@@ -54,6 +54,8 @@
       <button class="side-link" data-view="leads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg><span class="label">Leads</span><span class="short">Leads</span><span class="count" id="new-count"></span></button>
       <button class="side-link" data-view="clients"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></svg><span class="label">Clients</span><span class="short">Clients</span></button>
       <button class="side-link" data-view="requests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5z"/></svg><span class="label">Change requests</span><span class="short">Requests</span><span class="count" id="open-count"></span></button>
+      <button class="side-link" data-view="designs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span class="label">Designs</span><span class="short">Designs</span></button>
+      <button class="side-link" data-view="messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg><span class="label">Messages</span><span class="short">Chat</span><span class="count" id="unread-count"></span></button>
       <button class="side-link" data-view="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg><span class="label">Products &amp; pricing</span><span class="short">Products</span></button>
       <button class="side-link" data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="label">Site settings</span><span class="short">Site</span></button>
       <button class="side-link" data-view="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="label">Account</span><span class="short">Account</span></button>
@@ -133,6 +135,25 @@
             </div>
           </div>
           <div class="req-list" id="owner-req-list"></div>
+        </div>
+      </section>
+
+      <!-- Designs -->
+      <section class="view" data-view="designs" style="padding:0">
+        <div class="topbar">
+          <h1>Designs</h1>
+          <div class="actions"><button class="btn btn-primary btn-sm" data-new-design>+ New design</button></div>
+        </div>
+        <p class="muted" style="margin-top:-12px">Build a client's website in the site builder, then send it to their account to review. They can approve it or ask for changes.</p>
+        <div class="designs-list" id="designs-list"></div>
+      </section>
+
+      <!-- Messages -->
+      <section class="view" data-view="messages" style="padding:0">
+        <div class="topbar"><h1>Messages</h1></div>
+        <div class="inbox">
+          <div class="glass convo-list" id="convo-list"></div>
+          <div class="glass" id="owner-thread" style="border-radius:22px"><div class="chat"><div class="chat-empty"><b>Pick a conversation</b>Choose a client on the left to chat.</div></div></div>
         </div>
       </section>
 
@@ -226,6 +247,28 @@
     </div>
   </dialog>
 
+  <!-- New design -->
+  <dialog class="editor" id="design-dialog" aria-labelledby="design-dialog-title" style="width:min(760px,94vw)">
+    <form class="editor-form" id="design-form">
+      <h2 id="design-dialog-title">New design</h2>
+      <div class="two">
+        <div><label for="d-site">Client website</label><select id="d-site" required></select></div>
+        <div><label for="d-name">Design name</label><input id="d-name" maxlength="120" value="Homepage"></div>
+      </div>
+      <div>
+        <span class="label">Start from</span>
+        <div class="tpl-grid" id="tpl-grid">
+          <button type="button" class="tpl-card" data-tpl="trades" aria-pressed="true"><div class="sw" style="background:linear-gradient(135deg,#10151f,#ff8a1f)"></div><b>Trades</b><span>Dark, bold, call-first</span></button>
+          <button type="button" class="tpl-card" data-tpl="cafe" aria-pressed="false"><div class="sw" style="background:linear-gradient(135deg,#24494d,#e0765a)"></div><b>Café</b><span>Menu, hours, gallery</span></button>
+          <button type="button" class="tpl-card" data-tpl="salon" aria-pressed="false"><div class="sw" style="background:linear-gradient(135deg,#3b2f3f,#f6dcd6)"></div><b>Salon</b><span>Elegant, booking-led</span></button>
+          <button type="button" class="tpl-card" data-tpl="blank" aria-pressed="false"><div class="sw" style="background:linear-gradient(135deg,#14213d,#2e9e5b)"></div><b>Blank</b><span>Start simple</span></button>
+        </div>
+        <p class="hint">The business name and contact details are filled in from the client's profile.</p>
+      </div>
+      <div class="editor-actions"><span></span><div style="display:flex;gap:8px"><button type="button" class="btn btn-glass" id="d-cancel">Cancel</button><button class="btn btn-primary" type="submit">Create &amp; open builder</button></div></div>
+    </form>
+  </dialog>
+
   <!-- Client website editor -->
   <dialog class="editor" id="site-editor" aria-labelledby="site-editor-title" style="width:min(640px,94vw)">
     <form class="editor-form" id="site-form">
@@ -256,6 +299,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/render.js"></script>
+  <script src="assets/js/builder-render.js"></script>
+  <script src="assets/js/chat.js"></script>
   <script src="assets/js/owner.js"></script>
 </body>
 </html>

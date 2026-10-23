@@ -12,7 +12,8 @@
 | [`docs/demos/`](docs/demos/) | Three concept sites (tradie, café, salon) to show prospects and use as templates |
 | [`site/`](site/) | The source for the agency website: `config.json` (your details), `data.json` (fallback prices), `pages/`, `layout.html` and `build.js` |
 | [`docs/account.html`](docs/account.html) | **Login & sign-up for everyone.** Clients get their portal; the owner is sent to the owner panel |
-| [`docs/owner.html`](docs/owner.html) | **The owner panel**: leads, clients, change requests, products, pricing and founding spots |
+| [`docs/owner.html`](docs/owner.html) | **The owner panel**: leads, clients, change requests, designs, messages, products, pricing and founding spots |
+| [`docs/builder.html`](docs/builder.html) | **The site builder**: design client websites section by section, then send them for review |
 | [`supabase/schema.sql`](supabase/schema.sql) | The database setup (Supabase project `marshall-web-co`, Sydney) |
 | [`MASTER_PROMPT.md`](MASTER_PROMPT.md) | The prompt this was all built from |
 
@@ -41,6 +42,8 @@ Everyone signs in at **/account.html** (the "Log in" link in the site's top menu
 - **Leads:** every free-mockup request lands here. Update status, add notes, export to CSV.
 - **Clients:** everyone with an account. Add a website to a client (status, mockup link, plan, price, next payment, a note) and it appears in their portal instantly.
 - **Change requests:** what clients have asked for. Reply and update the status; they see it in their portal.
+- **Designs:** build a client's website in the **site builder** (templates for trades, cafés and salons; 13 section types; theme colours, fonts and corners; desktop/tablet/phone preview; undo/redo; autosave). **Send to client** puts it in their portal for review; they approve it or request changes. **Export HTML** gives you a finished page to publish on Netlify.
+- **Messages:** live chat with each client. Unread badges, read receipts, and automatic messages when designs are sent, approved or need changes.
 - **Products & pricing:** edit prices, features and badges, or add new packages. **Changes go live on the website instantly**, with no rebuild needed.
 - **Site settings:** founding spots left, discount and the announcement bar.
 - **Account:** change your password.
