@@ -87,5 +87,5 @@ fs.writeFileSync(
     [...sitemap, ...demoUrls].map((u) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod></url>`).join("\n") +
     `\n</urlset>\n`
 );
-fs.writeFileSync(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /owner.html\nDisallow: /account.html\n\nSitemap: ${config.domain}/sitemap.xml\n`);
+fs.writeFileSync(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /owner.html\nDisallow: /account.html\nDisallow: /review.html\nDisallow: /builder.html\n\nSitemap: ${config.domain}/sitemap.xml\n`);
 console.log("built sitemap.xml, robots.txt");

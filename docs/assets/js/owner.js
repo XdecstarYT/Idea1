@@ -410,7 +410,7 @@
   var DESIGN_STATUS = { draft: ["Draft", "paused"], in_review: ["With client", "review"], approved: ["Approved", "live"], changes_requested: ["Changes requested", "open"] };
 
   function loadDesigns() {
-    return sb.from("designs").select("id,site_id,client_id,name,status,client_feedback,sent_at,reviewed_at,updated_at").order("updated_at", { ascending: false }).then(function (res) {
+    return sb.from("designs").select("id,site_id,client_id,name,status,client_feedback,sent_at,reviewed_at,updated_at,prospect_name,prospect_contact,prospect_email,share_token,shared,reviewer_name,theme:content->theme").order("updated_at", { ascending: false }).then(function (res) {
       if (res.error) { toast("Couldn't load designs: " + res.error.message, "err"); return; }
       state.designs = res.data;
     });
@@ -421,13 +421,37 @@
 
   function renderDesigns() {
     var list = state.designs || [];
+    $("#design-count").textContent = list.filter(function (d) { return d.status === "changes_requested"; }).length || "";
     $("#designs-list").innerHTML = list.length ? list.map(function (d) {
       var st = DESIGN_STATUS[d.status];
-      return '<article class="glass design-item"><div><h3>' + esc(d.name) + ' <span class="status-pill ' + st[1] + '">' + st[0] + "</span></h3>" +
-        '<div class="sub">' + esc(clientLabel(d.client_id)) + " · " + esc(siteLabel(d.site_id)) + " · edited " + when(d.updated_at) + "</div>" +
-        (d.client_feedback ? '<div class="fb"><b>Client:</b> ' + esc(d.client_feedback) + "</div>" : "") + "</div>" +
-        '<div class="actions"><a class="btn btn-primary btn-sm" href="builder.html?id=' + d.id + '">Open builder</a><button class="btn btn-danger btn-sm" data-delete-design="' + d.id + '">Delete</button></div></article>';
-    }).join("") : '<div class="glass panel empty"><b>No designs yet</b>' + (state.sites.length ? 'Click "+ New design" to build your first client website.' : "First add a website to a client in Clients, then design it here.") + "</div>";
+      var who = d.client_id ? esc(clientLabel(d.client_id)) + " · " + esc(siteLabel(d.site_id)) : "Prospect: " + esc(d.prospect_name || (d.theme && d.theme.business) || "no client yet");
+      var assign = !d.client_id && state.sites.length ? '<select class="btn-sm" data-assign="' + d.id + '" aria-label="Link to a client website" style="width:auto;padding:8px 10px"><option value="">Link to client…</option>' +
+        state.sites.map(function (s) { return '<option value="' + s.id + '">' + esc(siteLabel(s.id)) + " · " + esc(clientLabel(s.client_id)) + "</option>"; }).join("") + "</select>" : "";
+      return '<article class="glass design-item"><div><h3>' + esc(d.name) + ' <span class="status-pill ' + st[1] + '">' + st[0] + "</span>" + (d.shared ? ' <span class="tag-pill">🔗 Link on</span>' : "") + "</h3>" +
+        '<div class="sub">' + who + " · edited " + when(d.updated_at) + "</div>" +
+        (d.client_feedback ? '<div class="fb"><b>' + esc(d.reviewer_name || "Client") + ":</b> " + esc(d.client_feedback) + "</div>" : "") +
+        (d.status === "approved" && !d.client_feedback ? '<div class="fb"><b>Approved' + (d.reviewer_name ? " by " + esc(d.reviewer_name) : "") + "</b> " + (d.reviewed_at ? when(d.reviewed_at) : "") + "</div>" : "") + "</div>" +
+        '<div class="actions"><a class="btn btn-primary btn-sm" href="builder.html?id=' + d.id + '">Open builder</a>' +
+        '<button class="btn btn-glass btn-sm" data-share-design="' + d.id + '">Send / share</button>' +
+        (d.shared ? '<a class="btn btn-glass btn-sm" href="' + esc(window.MWCShare.reviewUrl(d)) + '" target="_blank" rel="noopener">View ↗</a>' : "") +
+        assign + '<button class="btn btn-danger btn-sm" data-delete-design="' + d.id + '">Delete</button></div></article>';
+    }).join("") : '<div class="glass panel empty"><b>No designs yet</b>Click "+ New design" to build a website for a client or a prospect.</div>';
+    $$("[data-share-design]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var d = state.designs.find(function (x) { return x.id === b.dataset.shareDesign; });
+        window.MWCShare.open({ sb: sb, design: d, toast: toast, onChange: renderDesigns });
+      });
+    });
+    $$("[data-assign]").forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var site = state.sites.find(function (s) { return s.id === sel.value; });
+        if (!site) return;
+        sb.from("designs").update({ site_id: site.id, client_id: site.client_id }).eq("id", sel.dataset.assign).then(function (res) {
+          if (res.error) return toast(res.error.message, "err");
+          loadDesigns().then(function () { renderDesigns(); toast("Linked. It now shows in " + clientLabel(site.client_id) + "'s portal once sent."); });
+        });
+      });
+    });
     $$("[data-delete-design]").forEach(function (b) {
       b.addEventListener("click", function () {
         if (!confirm("Delete this design? This can't be undone.")) return;
@@ -442,11 +466,13 @@
   var designDialog = $("#design-dialog");
   var chosenTpl = "trades";
   function openDesignDialog(siteId) {
-    if (!state.sites.length) { toast("Add a website to a client first (Clients → + Add website).", "err"); go("clients"); return; }
-    $("#d-site").innerHTML = state.sites.map(function (s) { return '<option value="' + s.id + '">' + esc(siteLabel(s.id)) + " · " + esc(clientLabel(s.client_id)) + "</option>"; }).join("");
-    if (siteId) $("#d-site").value = siteId;
+    $("#d-site").innerHTML = '<option value="">A prospect (no account yet, share by link)</option>' +
+      state.sites.map(function (s) { return '<option value="' + s.id + '">' + esc(siteLabel(s.id)) + " · " + esc(clientLabel(s.client_id)) + "</option>"; }).join("");
+    $("#d-site").value = siteId || "";
+    $("#d-prospect").hidden = !!$("#d-site").value;
     designDialog.showModal();
   }
+  $("#d-site").addEventListener("change", function () { $("#d-prospect").hidden = !!this.value; });
   $$("[data-new-design]").forEach(function (b) { b.addEventListener("click", function () { go("designs"); openDesignDialog(null); }); });
   $("#d-cancel").addEventListener("click", function () { designDialog.close(); });
   $$("#tpl-grid [data-tpl]").forEach(function (b) {
@@ -455,9 +481,15 @@
   $("#design-form").addEventListener("submit", function (e) {
     e.preventDefault();
     var site = state.sites.find(function (s) { return s.id === $("#d-site").value; });
-    var client = state.clients.find(function (c) { return c.id === site.client_id; }) || {};
+    var prospect = $("#d-pname").value.trim();
+    if (!site && !prospect) return toast("Add the business name for this prospect.", "err");
+    var client = site ? state.clients.find(function (c) { return c.id === site.client_id; }) || {} : { business: prospect, email: $("#d-pemail").value.trim() };
+    if (!site) site = { name: prospect };
     var create = function (content) {
-      sb.from("designs").insert({ site_id: site.id, client_id: site.client_id, name: $("#d-name").value.trim() || "Homepage", content: content }).select("id").single().then(function (res) {
+      var row = { name: $("#d-name").value.trim() || "Homepage", content: content };
+      if (site.id) { row.site_id = site.id; row.client_id = site.client_id; }
+      else { row.prospect_name = prospect; row.prospect_email = $("#d-pemail").value.trim(); }
+      sb.from("designs").insert(row).select("id").single().then(function (res) {
         if (res.error) return toast(res.error.message, "err");
         window.location.href = "builder.html?id=" + res.data.id;
       });

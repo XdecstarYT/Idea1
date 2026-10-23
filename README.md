@@ -44,6 +44,7 @@ Everyone signs in at **/account.html** (the "Log in" link in the site's top menu
 - **Clients:** everyone with an account. Add a website to a client (status, mockup link, plan, price, next payment, a note) and it appears in their portal instantly.
 - **Change requests:** what clients have asked for. Reply and update the status; they see it in their portal.
 - **Designs:** build a client's website in the **site builder** (templates for trades, cafés and salons; 13 section types; theme colours, fonts and corners; desktop/tablet/phone preview; undo/redo; autosave). **Send to client** puts it in their portal for review; they approve it or request changes. **Export HTML** gives you a finished page to publish on Netlify.
+- **Send / share:** any design can be shared by **private review link** (copy, email or text it). The person can view it full-screen and approve it or request changes with **no account needed**. Designs can be made for prospects who haven't signed up yet, then linked to their client account later.
 - **Messages:** live chat with each client. Unread badges, read receipts, and automatic messages when designs are sent, approved or need changes.
 - **Products & pricing:** edit prices, features and badges, or add new packages. **Changes go live on the website instantly**, with no rebuild needed.
 - **Site settings:** founding spots left, discount and the announcement bar.

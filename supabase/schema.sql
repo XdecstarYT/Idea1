@@ -341,3 +341,69 @@ grant update (read_at) on public.messages to authenticated;
 
 -- Live updates for chat and design reviews
 alter publication supabase_realtime add table public.messages, public.designs;
+
+-- ============================================================
+-- Designs for prospects, shared by private review link
+-- ============================================================
+
+alter table public.designs alter column site_id drop not null;
+alter table public.designs alter column client_id drop not null;
+alter table public.designs add column prospect_name text not null default '' check (char_length(prospect_name) <= 120);
+alter table public.designs add column prospect_contact text not null default '' check (char_length(prospect_contact) <= 120);
+alter table public.designs add column prospect_email text not null default '' check (char_length(prospect_email) <= 200);
+alter table public.designs add column share_token text not null unique default encode(extensions.gen_random_bytes(18), 'hex');
+alter table public.designs add column shared boolean not null default false;
+alter table public.designs add column reviewer_name text not null default '' check (char_length(reviewer_name) <= 120);
+
+-- The review guard (private.guard_design_review) also blocks clients from changing
+-- share_token, shared, prospect_name, prospect_contact and prospect_email.
+
+-- Anyone holding an active link can view that one design (intentionally callable without signing in)
+create or replace function public.get_shared_design(p_token text)
+returns table (name text, content jsonb, status text, prospect_name text, client_feedback text)
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select d.name, d.content, d.status, d.prospect_name, d.client_feedback
+  from public.designs d
+  where d.share_token = p_token and d.shared and p_token is not null and char_length(p_token) = 36;
+$$;
+
+-- ...and approve it or request changes while it's waiting for review
+create or replace function public.review_shared_design(p_token text, p_decision text, p_feedback text, p_name text)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  d_id uuid;
+begin
+  if p_decision not in ('approved', 'changes_requested') then
+    raise exception 'Invalid decision';
+  end if;
+  if p_decision = 'changes_requested' and char_length(btrim(coalesce(p_feedback, ''))) = 0 then
+    raise exception 'Please describe the changes';
+  end if;
+  select id into d_id from public.designs
+   where share_token = p_token and shared and status = 'in_review' and char_length(p_token) = 36
+   for update;
+  if d_id is null then
+    raise exception 'This design is not waiting for review';
+  end if;
+  update public.designs
+     set status = p_decision,
+         client_feedback = left(coalesce(p_feedback, ''), 4000),
+         reviewer_name = left(coalesce(p_name, ''), 120),
+         reviewed_at = now()
+   where id = d_id;
+  return p_decision;
+end;
+$$;
+
+revoke execute on function public.get_shared_design(text) from public;
+revoke execute on function public.review_shared_design(text, text, text, text) from public;
+grant execute on function public.get_shared_design(text) to anon, authenticated;
+grant execute on function public.review_shared_design(text, text, text, text) to anon, authenticated;

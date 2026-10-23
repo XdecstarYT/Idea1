@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en-AU" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Your Website Design | Marshall Web Co.</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
+  <script>document.documentElement.className = "js";</script>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/owner.css">
+  <link rel="stylesheet" href="assets/css/builder.css">
+  <style>
+    body.rv { overflow: hidden; height: 100vh; }
+    .rv-shell { display: grid; grid-template-rows: auto 1fr; height: 100vh; gap: 10px; padding: 10px; }
+    .rv-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 18px; flex-wrap: wrap; }
+    .rv-who { flex: 1; min-width: 180px; color: var(--muted); font-size: 0.86rem; }
+    .rv-who b { display: block; color: #fff; font-family: var(--font-display); font-size: 1.1rem; }
+    .rv-stage { display: flex; justify-content: center; min-height: 0; }
+    .rv-stage .frame-wrap { height: 100%; }
+    .rv-done { text-align: center; max-width: 520px; margin: auto; padding: 40px 20px; }
+    @media (max-width: 640px) { .rv-bar .devices { display: none; } .rv-bar .btn { flex: 1; } }
+  </style>
+</head>
+<body class="owner rv">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="loading-screen" id="loading"><div class="spinner"></div></div>
+
+  <div class="builder-gate" id="missing" hidden>
+    <div class="glass login-card">
+      <h1>Link <span class="serif">expired.</span></h1>
+      <p class="muted">This design link isn't active any more. Ask Declan for a new one.</p>
+      <a class="btn btn-primary btn-lg btn-block" href="mailto:decmar098@gmail.com">Email Declan</a>
+    </div>
+  </div>
+
+  <div class="rv-shell" id="shell" hidden>
+    <header class="glass rv-bar">
+      <a class="brand" href="index.html" target="_blank" rel="noopener" aria-label="Marshall Web Co.">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="rv-who"><b id="rv-title">Your new website</b><span id="rv-sub" style="display:block">Prepared by Declan at Marshall Web Co.</span></div>
+      <div class="devices" role="group" aria-label="Preview size">
+        <button type="button" aria-pressed="true" data-device="desktop" title="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+        <button type="button" aria-pressed="false" data-device="mobile" title="Phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></button>
+      </div>
+      <span id="rv-actions" style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-glass btn-sm" type="button" id="rv-changes">Request changes</button>
+        <button class="btn btn-primary btn-sm" type="button" id="rv-approve">Approve design</button>
+      </span>
+      <span class="status-pill" id="rv-status" hidden></span>
+    </header>
+    <div class="rv-stage"><div class="frame-wrap" id="rv-wrap" data-device="desktop"><iframe id="rv-frame" title="Website design preview" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div></div>
+  </div>
+
+  <dialog class="editor" id="rv-dialog" aria-labelledby="rv-dialog-title" style="width:min(560px,94vw)">
+    <form class="editor-form" id="rv-form">
+      <h2 id="rv-dialog-title">Your feedback</h2>
+      <div><label for="rv-name">Your name</label><input id="rv-name" maxlength="120" autocomplete="name"></div>
+      <div id="rv-feedback-wrap"><label for="rv-feedback">What would you like changed?</label><textarea id="rv-feedback" maxlength="4000" placeholder="e.g. Can the headline mention our new drop? Swap the hoodie photo for the pink one."></textarea></div>
+      <p class="login-error" id="rv-error" role="alert"></p>
+      <div class="editor-actions"><span></span><div style="display:flex;gap:8px"><button type="button" class="btn btn-glass" id="rv-cancel">Cancel</button><button class="btn btn-primary" type="submit" id="rv-submit">Send</button></div></div>
+    </form>
+  </dialog>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/builder-render.js"></script>
+  <script>
+    (function () {
+      var $ = function (s) { return document.querySelector(s); };
+      var cfg = window.MWC_CONFIG;
+      var token = new URLSearchParams(location.search).get("t") || "";
+      var design = null, decision = null;
+
+      function rpc(fn, args) {
+        return fetch(cfg.supabaseUrl + "/rest/v1/rpc/" + fn, {
+          method: "POST",
+          headers: { apikey: cfg.supabaseAnonKey, Authorization: "Bearer " + cfg.supabaseAnonKey, "Content-Type": "application/json" },
+          body: JSON.stringify(args),
+        }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.message || "Request failed"); return j; }); });
+      }
+      function show(id) { ["loading", "missing", "shell"].forEach(function (v) { document.getElementById(v).hidden = v !== id; }); }
+
+      var LABEL = { approved: ["Approved, thank you!", "live"], changes_requested: ["Feedback sent", "open"], in_review: ["Waiting for your review", "review"] };
+      function renderStatus() {
+        var waiting = design.status === "in_review";
+        $("#rv-actions").hidden = !waiting;
+        $("#rv-status").hidden = waiting;
+        var l = LABEL[design.status] || ["", ""];
+        $("#rv-status").className = "status-pill " + l[1];
+        $("#rv-status").textContent = l[0];
+      }
+
+      if (!/^[0-9a-f]{36}$/.test(token)) { show("missing"); return; }
+      rpc("get_shared_design", { p_token: token }).then(function (rows) {
+        design = rows && rows[0];
+        if (!design) { show("missing"); return; }
+        var business = (design.content.theme && design.content.theme.business) || design.prospect_name || "";
+        document.title = (business ? business + " · " : "") + "Website design | Marshall Web Co.";
+        $("#rv-title").textContent = design.name;
+        $("#rv-sub").textContent = (business ? "For " + business + " · " : "") + "Prepared by Declan at Marshall Web Co.";
+        $("#rv-frame").srcdoc = window.MWCBuilder.renderSite(design.content, { noindex: true });
+        renderStatus();
+        show("shell");
+      }).catch(function () { show("missing"); });
+
+      document.querySelectorAll("[data-device]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.querySelectorAll("[data-device]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+          $("#rv-wrap").dataset.device = b.dataset.device;
+        });
+      });
+
+      var dialog = $("#rv-dialog");
+      function ask(kind) {
+        decision = kind;
+        $("#rv-dialog-title").textContent = kind === "approved" ? "Approve this design?" : "What would you like changed?";
+        $("#rv-feedback-wrap").hidden = kind === "approved";
+        $("#rv-submit").textContent = kind === "approved" ? "Approve" : "Send feedback";
+        $("#rv-error").textContent = "";
+        dialog.showModal();
+        (kind === "approved" ? $("#rv-name") : $("#rv-feedback")).focus();
+      }
+      $("#rv-approve").addEventListener("click", function () { ask("approved"); });
+      $("#rv-changes").addEventListener("click", function () { ask("changes_requested"); });
+      $("#rv-cancel").addEventListener("click", function () { dialog.close(); });
+      $("#rv-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var feedback = decision === "approved" ? "" : $("#rv-feedback").value.trim();
+        if (decision !== "approved" && !feedback) { $("#rv-error").textContent = "Tell Declan what you'd like changed."; return; }
+        $("#rv-submit").disabled = true;
+        rpc("review_shared_design", { p_token: token, p_decision: decision, p_feedback: feedback, p_name: $("#rv-name").value.trim() }).then(function () {
+          design.status = decision;
+          renderStatus();
+          dialog.close();
+          var done = document.createElement("dialog");
+          done.className = "editor";
+          done.style.width = "min(520px,94vw)";
+          done.innerHTML = '<div class="rv-done"><div class="success-panel" style="padding:0"><div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div></div>' +
+            "<h2>" + (decision === "approved" ? "Approved! 🎉" : "Feedback sent") + "</h2><p class=\"muted\">" +
+            (decision === "approved" ? "Declan will be in touch about the next steps to get it live." : "Declan will make the changes and send you an updated version.") +
+            '</p><p class="muted" style="font-size:.9rem">Want to track progress and chat with Declan? <a href="account.html?mode=signup">Create a free client account →</a></p>' +
+            '<button class="btn btn-primary" type="button" onclick="this.closest(\'dialog\').close()">Back to the design</button></div>';
+          document.body.appendChild(done);
+          done.showModal();
+        }).catch(function (err) {
+          $("#rv-error").textContent = err.message || "Couldn't send. Please try again.";
+        }).then(function () { $("#rv-submit").disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>

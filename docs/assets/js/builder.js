@@ -37,9 +37,10 @@
         state.design = d.data;
         state.content = normalise(d.data.content);
         state.lastSnap = JSON.stringify(state.content);
+        var none = Promise.resolve({ data: null });
         return Promise.all([
-          sb.from("profiles").select("*").eq("id", d.data.client_id).maybeSingle(),
-          sb.from("sites").select("*").eq("id", d.data.site_id).maybeSingle(),
+          d.data.client_id ? sb.from("profiles").select("*").eq("id", d.data.client_id).maybeSingle() : none,
+          d.data.site_id ? sb.from("sites").select("*").eq("id", d.data.site_id).maybeSingle() : none,
         ]).then(function (r) {
           state.client = r[0].data || {};
           state.site = r[1].data || {};
@@ -59,7 +60,9 @@
   function start() {
     show("bld");
     $("#design-name").value = state.design.name;
-    $("#design-for").textContent = "For " + (state.client.full_name || state.client.email || "client") + " · " + (state.site.name || "website");
+    $("#design-for").textContent = state.design.client_id
+      ? "For " + (state.client.full_name || state.client.email || "client") + " · " + (state.site.name || "website")
+      : "For " + (state.design.prospect_name || "a prospect") + " · share by link";
     renderStatus();
     renderList();
     renderTheme();
@@ -399,7 +402,15 @@
   });
 
   var sendDialog = $("#send-dialog");
+  function shareLink() {
+    sendDialog.close();
+    save().then(function () {
+      window.MWCShare.open({ sb: sb, design: Object.assign(state.design, { content: state.content }), toast: toast, onChange: function () { renderStatus(); renderInspector(); } });
+    });
+  }
+  $("#share-instead").addEventListener("click", shareLink);
   $("#send").addEventListener("click", function () {
+    if (!state.design.client_id) { shareLink(); return; }
     $("#send-who").textContent = "To " + (state.client.full_name || state.client.email || "your client") + (state.client.email ? " (" + state.client.email + ")" : "");
     sendDialog.showModal();
   });
