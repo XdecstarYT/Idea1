@@ -265,6 +265,11 @@
         </div>
         <p class="hint">The business name and contact details are filled in from the client's profile.</p>
       </div>
+      <div>
+        <label for="d-import">Or import a design file (.json)</label>
+        <input id="d-import" type="file" accept=".json,application/json">
+        <p class="hint">Use this for designs prepared outside the builder, like a mockup Claude made for you. It replaces the template.</p>
+      </div>
       <div class="editor-actions"><span></span><div style="display:flex;gap:8px"><button type="button" class="btn btn-glass" id="d-cancel">Cancel</button><button class="btn btn-primary" type="submit">Create &amp; open builder</button></div></div>
     </form>
   </dialog>

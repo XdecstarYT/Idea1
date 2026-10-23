@@ -14,6 +14,7 @@
 | [`docs/account.html`](docs/account.html) | **Login & sign-up for everyone.** Clients get their portal; the owner is sent to the owner panel |
 | [`docs/owner.html`](docs/owner.html) | **The owner panel**: leads, clients, change requests, designs, messages, products, pricing and founding spots |
 | [`docs/builder.html`](docs/builder.html) | **The site builder**: design client websites section by section, then send them for review |
+| [`docs/mockups/`](docs/mockups/) | Client mockups to share by link (e.g. `/mockups/skockz/`). Each has a `design.json` you can import in **Designs → New design** once the client has an account. Source scripts are in `site/mockups/` |
 | [`supabase/schema.sql`](supabase/schema.sql) | The database setup (Supabase project `marshall-web-co`, Sydney) |
 | [`MASTER_PROMPT.md`](MASTER_PROMPT.md) | The prompt this was all built from |
 

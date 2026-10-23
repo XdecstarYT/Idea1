@@ -456,10 +456,20 @@
     e.preventDefault();
     var site = state.sites.find(function (s) { return s.id === $("#d-site").value; });
     var client = state.clients.find(function (c) { return c.id === site.client_id; }) || {};
-    var content = window.MWCBuilder.template(chosenTpl, { business: client.business || site.name, phone: client.phone || "", email: client.email || "" });
-    sb.from("designs").insert({ site_id: site.id, client_id: site.client_id, name: $("#d-name").value.trim() || "Homepage", content: content }).select("id").single().then(function (res) {
-      if (res.error) return toast(res.error.message, "err");
-      window.location.href = "builder.html?id=" + res.data.id;
+    var create = function (content) {
+      sb.from("designs").insert({ site_id: site.id, client_id: site.client_id, name: $("#d-name").value.trim() || "Homepage", content: content }).select("id").single().then(function (res) {
+        if (res.error) return toast(res.error.message, "err");
+        window.location.href = "builder.html?id=" + res.data.id;
+      });
+    };
+    var file = $("#d-import").files[0];
+    if (!file) { create(window.MWCBuilder.template(chosenTpl, { business: client.business || site.name, phone: client.phone || "", email: client.email || "" })); return; }
+    file.text().then(function (text) {
+      var content;
+      try { content = JSON.parse(text); } catch (err) { content = null; }
+      var known = content && Array.isArray(content.blocks) && content.blocks.every(function (b) { return b && window.MWCBuilder.BLOCKS[b.type]; });
+      if (!known) return toast("That file isn't a design from the site builder.", "err");
+      create(content);
     });
   });
 

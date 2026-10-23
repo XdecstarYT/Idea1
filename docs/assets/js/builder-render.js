@@ -32,6 +32,7 @@
     elegant: { label: "Elegant", head: "Cormorant Garamond", body: "Manrope", css: "Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;700" },
     bold: { label: "Bold", head: "Archivo", body: "Archivo", css: "Archivo:wght@400;500;700;800;900" },
     friendly: { label: "Friendly", head: "Nunito", body: "Nunito", css: "Nunito:wght@400;600;700;800;900" },
+    street: { label: "Street", head: "Bungee", body: "Inter", css: "Bungee&family=Inter:wght@400;500;600;700" },
   };
   var RADIUS = { sharp: "4px", soft: "14px", round: "26px" };
 
@@ -93,6 +94,46 @@
           (b.items || []).map(function (i) {
             return '<div class="card">' + (i.icon ? '<div class="ic">' + esc(i.icon) + "</div>" : "") + "<h3>" + esc(i.title) + "</h3><p>" + esc(i.text) + "</p>" + (i.price ? '<div class="price-tag">' + esc(i.price) + "</div>" : "") + "</div>";
           }).join("") + "</div></div></section>";
+      },
+    },
+    marquee: {
+      label: "Marquee", icon: "↔", desc: "Scrolling banner of short phrases",
+      fields: [
+        { key: "text", label: "Phrases (one per line)", type: "textarea" },
+        { key: "style", label: "Style", type: "select", options: [["brand", "Main colour"], ["dark", "Dark"], ["outline", "Outline"]] },
+      ],
+      defaults: function () { return { text: "Locally owned\nFree quotes\nFast service", style: "brand" }; },
+      render: function (b) {
+        var items = lines(b.text);
+        var run = items.map(function (x) { return "<span>" + esc(x) + "</span>"; }).join("");
+        return '<div class="mq mq-' + esc(b.style || "brand") + '" aria-label="' + esc(items.join(", ")) + '"><div class="mq-track" aria-hidden="true">' + run + run + run + run + "</div></div>";
+      },
+    },
+    products: {
+      label: "Products", icon: "🛍", desc: "Shop grid with photos, prices and links",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Heading", type: "text" },
+        { key: "intro", label: "Intro", type: "textarea" },
+        { key: "columns", label: "Cards per row", type: "select", options: [["4", "4"], ["3", "3"], ["2", "2"]] },
+        { key: "items", label: "Products", type: "list", item: [{ key: "image", label: "Photo (https link)", type: "image" }, { key: "name", label: "Name", type: "text" }, { key: "detail", label: "Short description", type: "textarea" }, { key: "price", label: "Price", type: "text" }, { key: "tag", label: "Tag (e.g. New, 1 of 1)", type: "text" }, { key: "link", label: "Shop link", type: "text" }] },
+        { key: "button", label: "Button below the grid", type: "text" },
+        { key: "buttonLink", label: "Button link", type: "text" },
+      ],
+      defaults: function () { return { eyebrow: "", heading: "Shop", intro: "", columns: "4", items: [{ image: "", name: "Product one", detail: "", price: "$20", tag: "New", link: "" }, { image: "", name: "Product two", detail: "", price: "$30", tag: "", link: "" }, { image: "", name: "Product three", detail: "", price: "$40", tag: "", link: "" }, { image: "", name: "Product four", detail: "", price: "$50", tag: "", link: "" }], button: "", buttonLink: "" }; },
+      render: function (b) {
+        return '<section class="sec" id="' + esc(b.anchor || "shop") + '"><div class="wrap">' +
+          (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + head(b.heading, b.intro) +
+          '<div class="pgrid c' + esc(b.columns || "4") + '">' + (b.items || []).map(function (i, n) {
+            var href = url(i.link, "");
+            var tagName = href ? "a" : "div";
+            return "<" + tagName + ' class="pcard"' + (href ? ' href="' + esc(href) + '"' : "") + '><div class="pimg">' +
+              (img(i.image) ? '<img src="' + esc(img(i.image)) + '" alt="' + esc(i.name) + '" loading="lazy">' : '<div class="ph" style="--h:' + (n * 61 % 360) + '">🛍</div>') +
+              (i.tag ? '<span class="ptag">' + esc(i.tag) + "</span>" : "") + '</div><div class="pbody"><h3>' + esc(i.name) + "</h3>" +
+              (i.detail ? "<p>" + esc(i.detail) + "</p>" : "") + '<div class="prow"><b>' + esc(i.price) + "</b>" + (href ? "<span>Shop →</span>" : "") + "</div></div></" + tagName + ">";
+          }).join("") + "</div>" +
+          (b.button ? '<div class="center-btn"><a class="btn btn-p btn-lg" href="' + esc(url(b.buttonLink)) + '">' + esc(b.button) + "</a></div>" : "") +
+          "</div></section>";
       },
     },
     about: {
@@ -200,7 +241,7 @@
       ],
       defaults: function (t) { return { heading: "Ready when you are", text: "Get in touch today for a free, no-obligation quote.", button: t.phone ? "Call " + t.phone : "Contact us", buttonLink: "" }; },
       render: function (b, t) {
-        return '<section class="cta"><div class="wrap"><h2>' + esc(b.heading) + "</h2>" + (b.text ? "<p>" + esc(b.text) + "</p>" : "") + (b.button ? '<a class="btn btn-inv btn-lg" href="' + esc(url(b.buttonLink, telLink(t.phone))) + '">' + esc(b.button) + "</a>" : "") + "</div></section>";
+        return '<section class="cta"' + (b.anchor ? ' id="' + esc(b.anchor) + '"' : "") + '><div class="wrap"><h2>' + esc(b.heading) + "</h2>" + (b.text ? "<p>" + esc(b.text) + "</p>" : "") + (b.button ? '<a class="btn btn-inv btn-lg" href="' + esc(url(b.buttonLink, telLink(t.phone))) + '">' + esc(b.button) + "</a>" : "") + "</div></section>";
       },
     },
     contact: {
@@ -265,6 +306,14 @@
     ".hours{width:100%;border-collapse:collapse}.hours td{padding:12px 0;border-bottom:1px solid var(--line)}.hours td:last-child{text-align:right;font-weight:600}.map{text-align:center}.map .pin{font-size:2.6rem}.map p{margin:10px 0 20px}",
     ".cta{background:linear-gradient(120deg,var(--a),color-mix(in srgb,var(--a) 60%,var(--p)));color:#fff;text-align:center;padding:84px 0}.cta h2{color:#fff}.cta p{opacity:.9;font-size:1.15rem;max-width:620px;margin:0 auto 26px}",
     ".contact-line{display:block;font-size:1.15rem;font-weight:700;text-decoration:none;margin-top:14px}.form{display:grid;gap:14px}.form label{display:grid;gap:6px;font-weight:600;font-size:.92rem}.form input,.form textarea{font:inherit;padding:12px 14px;border-radius:calc(var(--r)*.6);border:1px solid var(--line);background:var(--bg);color:var(--fg)}",
+    ".mq{overflow:hidden;padding:16px 0;font-family:var(--fh);font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}.mq-brand{background:var(--p);color:#fff}.mq-dark{background:var(--a);color:#fff}.mq-outline{border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--p)}",
+    ".mq-track{display:inline-flex;gap:46px;animation:mq 30s linear infinite}.mq-track span::after{content:'✦';margin-left:46px;opacity:.6}@keyframes mq{to{transform:translateX(-50%)}}@media(prefers-reduced-motion:reduce){.mq-track{animation:none}}",
+    ".pgrid{display:grid;gap:18px}.pgrid.c4{grid-template-columns:repeat(4,1fr)}.pgrid.c3{grid-template-columns:repeat(3,1fr)}.pgrid.c2{grid-template-columns:repeat(2,1fr)}@media(max-width:960px){.pgrid.c4,.pgrid.c3{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.pgrid{gap:12px}.pgrid.c2{grid-template-columns:1fr}}",
+    ".pcard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;color:inherit;transition:transform .25s,box-shadow .25s,border-color .25s}a.pcard:hover{transform:translateY(-4px);border-color:var(--p);box-shadow:0 18px 40px color-mix(in srgb,var(--p) 25%,transparent)}",
+    ".pimg{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg2)}.pimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s}a.pcard:hover .pimg img{transform:scale(1.05)}.pimg .ph{aspect-ratio:1;border-radius:0}",
+    ".ptag{position:absolute;top:12px;left:12px;background:var(--p);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:99px}",
+    ".pbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}.pbody h3{font-size:1.02rem;margin:0}.pbody p{margin:0;color:var(--muted);font-size:.9rem}.prow{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:center}.prow b{font-size:1.1rem}.prow span{color:var(--p);font-weight:700;font-size:.9rem}",
+    ".center-btn{text-align:center;margin-top:32px}@media(max-width:520px){.pbody{padding:12px}.pbody h3{font-size:.92rem}}",
     ".ftr{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}.ftr-in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.credit{opacity:.7}",
   ].join("");
 
@@ -283,10 +332,10 @@
     }).join("\n");
     if (!body) body = '<div style="padding:120px 20px;text-align:center;color:#888;font-family:system-ui">Add a section to get started.</div>';
     return "<!doctype html>\n<html lang=\"en-AU\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">" +
-      "<title>" + esc(t.business || "Website") + "</title>" + (t.description ? '<meta name="description" content="' + esc(t.description) + '">' : "") +
+      "<title>" + esc(t.business || "Website") + "</title>" + (opts.noindex ? '<meta name="robots" content="noindex">' : "") + (t.description ? '<meta name="description" content="' + esc(t.description) + '">' : "") +
       '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
       '<link href="https://fonts.googleapis.com/css2?family=' + f.css + '&display=swap" rel="stylesheet">' +
-      "<style>" + themeCss(t) + BASE_CSS + (opts.editable ? EDIT_CSS : "") + "</style></head><body id=\"top\">\n" + body + "\n" +
+      "<style>" + themeCss(t) + BASE_CSS + (opts.editable ? EDIT_CSS : "") + (opts.banner ? ".draft-bar{position:sticky;top:0;z-index:50;background:#d4ad3a;color:#1b1404;font:600 13px/1.4 system-ui;text-align:center;padding:8px 14px}.draft-bar~.hdr{top:36px}" : "") + "</style></head><body id=\"top\">\n" + (opts.banner ? '<div class="draft-bar">' + esc(opts.banner) + "</div>" : "") + body + "\n" +
       (opts.editable ? "<script>" + EDIT_JS + "</script>" : "") + "</body></html>";
   }
 
