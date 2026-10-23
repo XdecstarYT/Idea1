@@ -344,7 +344,6 @@ const design = {
         { text: "Instagram @skockz", link: "https://www.instagram.com/skockz" },
         { text: "Shipping", link: "#shipping" },
         { text: "Returns", link: "#returns" },
-        { text: "Current store", link: SHOP },
       ],
     }),
   ],

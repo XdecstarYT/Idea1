@@ -74,7 +74,7 @@
   }
   var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C1 8.4 3 4.5 6.8 4.5c2.1 0 3.5 1.1 5.2 3 1.7-1.9 3.1-3 5.2-3C21 4.5 23 8.4 21.6 11.7 19.5 16.4 12 21 12 21z"/></svg>';
   function productCard(i, n, soldText) {
-    var href = url(i.link, "");
+    var href = url(i.link, "") || i.name ? "#/p/" + handleOf(i) : "";
     var tag = href ? "a" : "div";
     return '<article class="pcard' + (i.sold ? " sold" : "") + '" data-g="' + esc(String(i.group || "").trim()) + '" data-n="' + priceNum(i.price) + '" data-i="' + n + '" data-p="' + productData(i) + '">' +
       "<" + tag + ' class="pcover"' + (href ? ' href="' + esc(href) + '"' : "") + '><div class="pimg">' +
@@ -378,7 +378,7 @@
           (b.more && b.moreLink ? '<a class="row-more" href="' + esc(url(b.moreLink)) + '">' + esc(b.more) + " <span aria-hidden=\"true\">›</span></a>" : "") + "</div>" +
           '<div class="rail-wrap"><button type="button" class="rail-btn prev" aria-label="Scroll left" hidden>‹</button><div class="rail ' + esc(b.shape || "square") + (b.numbered ? " top" : "") + '" tabindex="0" aria-label="' + esc(b.heading) + '">' +
           items.map(function (i, n) {
-            var href = url(i.link, ""), tag = href ? "a" : "div";
+            var href = "#/p/" + handleOf(i), tag = "a";
             return '<article class="rcard' + (i.sold ? " sold" : "") + '" data-p="' + productData(i) + '">' + (b.numbered ? '<span class="rnum" aria-hidden="true">' + (n + 1) + "</span>" : "") +
               "<" + tag + ' class="pcover rimg"' + (href ? ' href="' + esc(href) + '"' : "") + ">" + (img(i.image) ? '<img src="' + esc(img(i.image)) + '" alt="' + esc(i.name) + '" loading="lazy">' : '<div class="ph" style="--h:' + (n * 61 % 360) + '"></div>') +
               (i.tag ? '<span class="ptag">' + esc(i.tag) + "</span>" : "") + (i.sold ? '<span class="stamp">' + esc(b.soldText || "Sold") + "</span>" : "") +
