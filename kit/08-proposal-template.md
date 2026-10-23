@@ -48,4 +48,4 @@ Paste this into a Google Doc, fill it in, and **Download → PDF**. Keep it to 2
 ## Next step
 Reply "**Yes, let's go**" and I'll send the agreement to sign.
 
-[Your name] · [Mobile] · hello@marshallweb.com.au · ABN [ABN]
+Declan Marshall · decmar098@gmail.com · marshallwebz.netlify.app
