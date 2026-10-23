@@ -48,4 +48,4 @@ Always be honest about where you got the number. If they ask you not to call aga
 > "That's fair. I'm new, which is exactly why I do the **free mockup first**. You see the work before you spend a cent. And my first five clients get 40% off in exchange for an honest review, so I've got every reason to make it great."
 
 ### "Send me your prices."
-> "Sure. Packages start at $590 upfront, or $59 a month with nothing upfront. The full list is at **marshallweb.com.au/services**. What I'd suggest is a free mockup first, so you're comparing something real rather than a price list."
+> "Sure. Packages start at $590 upfront, or $59 a month with nothing upfront. The full list is at **marshallwebz.netlify.app/services.html**. What I'd suggest is a free mockup first, so you're comparing something real rather than a price list."

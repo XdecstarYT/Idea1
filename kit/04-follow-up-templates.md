@@ -14,7 +14,7 @@ Replace everything in `[BRACKETS]`.
 ```
 Declan Marshall
 Marshall Web Co. | Get found. Get called.
-decmar098@gmail.com | [website address once live]
+decmar098@gmail.com | marshallwebz.netlify.app
 Warrnambool, VIC
 
 Don't want to hear from me again? Just reply "unsubscribe" and I'll remove you.

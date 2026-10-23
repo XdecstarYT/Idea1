@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://xdecstaryt.github.io/Idea1/sitemap.xml
+Sitemap: https://marshallwebz.netlify.app/sitemap.xml
