@@ -7,9 +7,11 @@
 //   SENDER_NAME    shown as the sender (default "Declan · Marshall Web Co.")
 //   SITE_URL       your website (default https://marshallwebz.netlify.app)
 //
-// Body: { kind: "share" | "portal", designId, to?, name?, note? }
-//   share  → emails the private review link (review.html?t=…) to `to`
-//   portal → emails the client linked to the design, pointing them to their portal
+// Body: { kind: "share" | "portal" | "status", designId, to?, name?, note?, preview? }
+//   share   → emails the private review link (review.html?t=…) to `to`
+//   portal  → emails the client linked to the design, pointing them to their portal
+//   status  → { configured } — whether a Brevo key has been added
+//   preview: true → returns { subject, html } instead of sending (works before email is set up)
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
@@ -69,7 +71,10 @@ Deno.serve(async (req) => {
 
   let body: any;
   try { body = await req.json(); } catch { return json({ error: "bad_request" }, 400); }
+  const key = Deno.env.get("BREVO_API_KEY");
+  if (body.kind === "status") return json({ configured: !!key, sender: Deno.env.get("SENDER_EMAIL") || "decmar098@gmail.com" });
   const kind = body.kind === "portal" ? "portal" : "share";
+  const preview = body.preview === true;
   const { data: design } = await db.from("designs").select("id,name,content,client_id,prospect_name,share_token,shared").eq("id", body.designId).maybeSingle();
   if (!design) return json({ error: "design_not_found" }, 404);
 
@@ -80,11 +85,8 @@ Deno.serve(async (req) => {
     const { data: client } = await db.from("profiles").select("email,full_name").eq("id", design.client_id).maybeSingle();
     if (!client?.email) return json({ error: "client_has_no_email" }, 400);
     to = client.email; name = name || client.full_name || "";
-  } else if (!design.shared || !design.share_token) return json({ error: "link_not_shared" }, 400);
-  if (!EMAIL.test(to)) return json({ error: "bad_email" }, 400);
-
-  const key = Deno.env.get("BREVO_API_KEY");
-  if (!key) return json({ error: "not_configured" }, 503);
+  } else if (!preview && (!design.shared || !design.share_token)) return json({ error: "link_not_shared" }, 400);
+  if (!preview && !EMAIL.test(to)) return json({ error: "bad_email" }, 400);
 
   const first = name.split(/\s+/)[0] || "there";
   const fromName = Deno.env.get("SENDER_NAME") || "Declan · Marshall Web Co.";
@@ -96,6 +98,10 @@ Deno.serve(async (req) => {
   const subject = kind === "portal" ? `New design to review: ${design.name}` : `Your new website design: ${business}`;
   const text = `Hi ${first},\n\n${intro}\n\n${note ? note + "\n\n" : ""}${link}\n\n${kind === "portal" ? "Sign in to approve it or ask for changes." : "You can approve it or ask for changes right on that page."}\n\nCheers,\n${fromName}`;
 
+  const html = emailHtml({ first, business, intro, note, link, button: kind === "portal" ? "Open my portal" : "View your new website", image: coverImage(design.content), from: fromName.split(" ·")[0], footnote: kind === "portal" ? "Your portal also shows your website's progress and lets you message me directly." : "It works on your phone too. You can approve it or ask for changes right on that page, no account needed." });
+  if (preview) return json({ subject, html, to });
+  if (!key) return json({ error: "not_configured" }, 503);
+
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: { "api-key": key, "Content-Type": "application/json", Accept: "application/json" },
@@ -104,7 +110,7 @@ Deno.serve(async (req) => {
       to: [{ email: to, name: name || undefined }],
       replyTo: { email: Deno.env.get("SENDER_EMAIL") || "decmar098@gmail.com", name: fromName },
       subject,
-      htmlContent: emailHtml({ first, business, intro, note, link, button: kind === "portal" ? "Open my portal" : "View your new website", image: coverImage(design.content), from: fromName.split(" ·")[0], footnote: kind === "portal" ? "Your portal also shows your website's progress and lets you message me directly." : "It works on your phone too. You can approve it or ask for changes right on that page, no account needed." }),
+      htmlContent: html,
       textContent: text,
     }),
   });
