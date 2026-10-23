@@ -2,18 +2,19 @@
 <html lang="en-AU" class="no-js">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Website Packages & Pricing | Marshall Web Co.</title>
-  <meta name="description" content="Website packages for Warrnambool businesses from $590, or from $59/month with nothing upfront. Google Business Profile setup, care plans and add-ons.">
+  <meta name="description" content="Website packages for Warrnambool businesses, paid upfront or from $0 upfront monthly. Google Business Profile setup, care plans and add-ons.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://marshallwebz.netlify.app/services.html">
-  <meta name="theme-color" content="#14213D">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
   <script>document.documentElement.className = "js";</script>
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Marshall Web Co.">
   <meta property="og:title" content="Website Packages & Pricing | Marshall Web Co.">
-  <meta property="og:description" content="Website packages for Warrnambool businesses from $590, or from $59/month with nothing upfront. Google Business Profile setup, care plans and add-ons.">
+  <meta property="og:description" content="Website packages for Warrnambool businesses, paid upfront or from $0 upfront monthly. Google Business Profile setup, care plans and add-ons.">
   <meta property="og:url" content="https://marshallwebz.netlify.app/services.html">
   <meta property="og:image" content="https://marshallwebz.netlify.app/assets/img/og-image.png">
   <meta property="og:locale" content="en_AU">
@@ -22,7 +23,7 @@
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 
   <script type="application/ld+json">
@@ -38,36 +39,37 @@
     "image": "https://marshallwebz.netlify.app/assets/img/og-image.png",
     "logo": "https://marshallwebz.netlify.app/assets/img/logo.svg",
     "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Warrnambool",
-      "addressRegion": "VIC",
-      "addressCountry": "AU"
-    },
+    "founder": { "@type": "Person", "name": "Declan Marshall" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Warrnambool", "addressRegion": "VIC", "addressCountry": "AU" },
     "areaServed": ["Warrnambool", "Port Fairy", "Koroit", "Allansford", "Terang", "Camperdown", "Mortlake", "Hamilton", "Portland", "Timboon", "Port Campbell"]
   }
   </script>
 </head>
 <body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="announce">Founding client offer: <b>40% off</b> for our first 5 clients. 5 spots left. <a href="contact.html">Claim yours →</a></div>
+
+  <div class="announce" data-founding data-announce-bar>
+    <span data-announcement>Founding client offer: 40% off for our first 5 clients.</span> <b><span data-seats-left>5</span> spots left.</b> <a href="contact.html">Claim yours →</a>
+  </div>
 
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="nav-shell glass">
       <a class="brand" href="index.html" aria-label="Marshall Web Co. home">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="#14213D"/><path d="M1.5 15h45" stroke="#C9A227" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="15.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="21.5" cy="8.5" r="2" fill="#C9A227"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">WEB CO.</span></span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
       <nav class="nav" id="site-nav" aria-label="Main">
-        <a href="index.html">Home</a>
-        <a href="services.html" aria-current="page">Packages</a>
-        <a href="portfolio.html">Work</a>
-        <a href="about.html">About</a>
-        <a class="btn btn-go btn-sm" href="contact.html">Get a free mockup</a>
+          <a href="index.html">Home</a>
+          <a href="services.html" aria-current="page">Pricing</a>
+          <a href="portfolio.html">Work</a>
+          <a href="about.html">About</a>
+        <a class="btn btn-primary btn-sm" href="contact.html">Free mockup</a>
       </nav>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
     </div>
   </header>
 
@@ -75,9 +77,9 @@
     <section class="page-head center">
       <div class="container">
         <span class="eyebrow">Packages &amp; pricing</span>
-        <h1 style="margin-left:auto;margin-right:auto">Clear prices. <span class="serif">No surprises.</span></h1>
+        <h1>Clear prices. <span class="serif">No surprises.</span></h1>
         <p class="lead">Every package starts with a free homepage mockup, so you see it before you spend a cent. Pay upfront, or start with $0.</p>
-        <div class="toggle" role="group" aria-label="Payment option" id="price-toggle" style="margin-top:14px">
+        <div class="toggle glass" role="group" aria-label="Payment option" data-price-toggle style="margin-top:22px">
           <button type="button" aria-pressed="false" data-mode="upfront">Pay upfront</button>
           <button type="button" aria-pressed="true" data-mode="monthly">$0 upfront<span class="save">Popular</span></button>
         </div>
@@ -86,67 +88,18 @@
 
     <section style="padding-top:0">
       <div class="container">
-        <div class="pricing" style="margin-top:10px">
-          <div class="price-card">
-            <h3>Starter</h3>
-            <p class="for">For sole traders who need a professional presence, fast.</p>
-            <div class="price" data-upfront="$590" data-monthly="$59<small>/mo</small>">$59<small>/mo</small></div>
-            <div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp; care included">$0 upfront · hosting &amp; care included</div>
-            <ul>
-              <li>1 long-scrolling page</li>
-              <li>Mobile-first, fast-loading design</li>
-              <li>Tap-to-call button &amp; contact form</li>
-              <li>Google Map &amp; opening hours</li>
-              <li>Basic on-page SEO</li>
-              <li>Live in 7 days</li>
-            </ul>
-            <a class="btn btn-ghost" href="contact.html?package=starter">Start with Starter</a>
-          </div>
-          <div class="price-card featured">
-            <span class="badge">Most popular</span>
-            <h3>Growth</h3>
-            <p class="for">For established businesses that want more calls from Google.</p>
-            <div class="price" data-upfront="$1,290" data-monthly="$99<small>/mo</small>">$99<small>/mo</small></div>
-            <div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp; care included">$0 upfront · hosting &amp; care included</div>
-            <ul>
-              <li>Up to 5 pages</li>
-              <li>Everything in Starter</li>
-              <li>Google Business Profile setup</li>
-              <li>Photo gallery &amp; reviews section</li>
-              <li>All the words written for you</li>
-              <li>Pages for each town you cover</li>
-              <li>Live in 14 days</li>
-            </ul>
-            <a class="btn btn-go" href="contact.html?package=growth">Choose Growth</a>
-          </div>
-          <div class="price-card">
-            <h3>Premium</h3>
-            <p class="for">For businesses that take bookings or quotes online.</p>
-            <div class="price" data-upfront="$2,490" data-monthly="$179<small>/mo</small>">$179<small>/mo</small></div>
-            <div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp; care included">$0 upfront · hosting &amp; care included</div>
-            <ul>
-              <li>Up to 10 pages</li>
-              <li>Everything in Growth</li>
-              <li>Online booking or quote system</li>
-              <li>Logo tidy-up</li>
-              <li>Blog or news section</li>
-              <li>Priority support</li>
-              <li>Live in 21 days</li>
-            </ul>
-            <a class="btn btn-ghost" href="contact.html?package=premium">Go Premium</a>
-          </div>
-        </div>
-        <p class="center fine" style="margin-top:26px">$0-upfront plans include hosting and care, with a 12-month minimum term, then month to month. Prices in AUD. No GST is charged.</p>
+        <div class="pricing" data-render="packages" style="margin-top:10px"><div class="glass price-card"><h3>Starter</h3><p class="for">For sole traders who need a professional presence, fast.</p><div class="price" data-upfront="$590" data-monthly="$59&lt;small&gt;/mo&lt;/small&gt;">$59<small>/mo</small></div><div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp;amp; care included">$0 upfront · hosting &amp; care included</div><p class="delivery">Live in 7 days</p><ul><li>1 long-scrolling page</li><li>Tap-to-call &amp; contact form</li><li>Google Map &amp; basic SEO</li><li>Mobile-first, fast-loading design</li></ul><a class="btn btn-glass btn-block" href="contact.html?package=starter">Choose Starter</a></div><div class="glass price-card featured"><span class="ring-glow" aria-hidden="true"></span><span class="badge">Most popular</span><h3>Growth</h3><p class="for">For established businesses that want more calls from Google.</p><div class="price" data-upfront="$1,290" data-monthly="$99&lt;small&gt;/mo&lt;/small&gt;">$99<small>/mo</small></div><div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp;amp; care included">$0 upfront · hosting &amp; care included</div><p class="delivery">Live in 14 days</p><ul><li>Up to 5 pages</li><li>Google Business Profile setup</li><li>Gallery &amp; reviews section</li><li>We write all the words</li><li>Pages for each town you cover</li></ul><a class="btn btn-go btn-block" href="contact.html?package=growth">Choose Growth</a></div><div class="glass price-card"><h3>Premium</h3><p class="for">For businesses that take bookings or quotes online.</p><div class="price" data-upfront="$2,490" data-monthly="$179&lt;small&gt;/mo&lt;/small&gt;">$179<small>/mo</small></div><div class="price-alt" data-upfront="One-off · hosting from $29/mo" data-monthly="$0 upfront · hosting &amp;amp; care included">$0 upfront · hosting &amp; care included</div><p class="delivery">Live in 21 days</p><ul><li>Up to 10 pages</li><li>Online booking or quote system</li><li>Logo tidy-up</li><li>Blog or news section</li><li>Everything in Growth</li></ul><a class="btn btn-glass btn-block" href="contact.html?package=premium">Choose Premium</a></div></div>
+        <p class="center fine" style="margin-top:28px">$0-upfront plans include hosting and care, with a 12-month minimum term, then month to month. Prices in AUD. No GST is charged.</p>
       </div>
     </section>
 
-    <section class="section-white">
+    <section>
       <div class="container">
         <div class="section-head reveal">
           <span class="eyebrow">Compare</span>
-          <h2>What's in <span class="serif">each package</span></h2>
+          <h2>What's in <span class="serif">each package.</span></h2>
         </div>
-        <div class="table-wrap reveal">
+        <div class="glass table-wrap reveal">
           <table>
             <thead><tr><th>Feature</th><th class="c">Starter</th><th class="c">Growth</th><th class="c">Premium</th></tr></thead>
             <tbody>
@@ -162,7 +115,6 @@
               <tr><td>Online booking or quotes</td><td class="c dash">–</td><td class="c dash">–</td><td class="c yes">✓</td></tr>
               <tr><td>Logo tidy-up</td><td class="c dash">–</td><td class="c dash">–</td><td class="c yes">✓</td></tr>
               <tr><td>Revision rounds</td><td class="c">2</td><td class="c">2</td><td class="c">2</td></tr>
-              <tr><td>Typical turnaround</td><td class="c">7 days</td><td class="c">14 days</td><td class="c">21 days</td></tr>
             </tbody>
           </table>
         </div>
@@ -176,76 +128,58 @@
             <span class="eyebrow">Care plans</span>
             <h2>Paid upfront? <span class="serif">We'll look after it.</span></h2>
           </div>
-          <p class="lead">Optional for upfront clients. Already included on $0-upfront plans. No lock-in: cancel with 30 days' notice.</p>
+          <p class="lead">Optional for upfront clients, already included on $0-upfront plans. No lock-in: cancel with 30 days' notice.</p>
         </div>
-        <div class="grid grid-2 reveal">
-          <div class="price-card">
-            <h3>Basic Care</h3>
-            <div class="price">$29<small>/mo</small></div>
-            <ul style="margin-top:14px"><li>Fast, secure hosting with SSL</li><li>Daily backups &amp; uptime monitoring</li><li>30 minutes of changes each month</li><li>Email &amp; message support</li></ul>
-          </div>
-          <div class="price-card">
-            <h3>Plus Care</h3>
-            <div class="price">$59<small>/mo</small></div>
-            <ul style="margin-top:14px"><li>Everything in Basic</li><li>1 hour of changes each month</li><li>A monthly Google Business Profile post</li><li>Simple monthly report: visits, calls, enquiries</li></ul>
-          </div>
+        <div class="grid grid-2 reveal" data-render="care"><div class="glass price-card"><h3>Basic Care</h3><p class="for">Hosting and peace of mind.</p><div class="price">$29<small>/mo</small></div><ul><li>Fast, secure hosting with SSL</li><li>Daily backups &amp; uptime monitoring</li><li>30 minutes of changes each month</li></ul></div><div class="glass price-card"><h3>Plus Care</h3><p class="for">Hosting plus ongoing growth.</p><div class="price">$59<small>/mo</small></div><ul><li>Everything in Basic</li><li>1 hour of changes each month</li><li>Monthly Google Business post</li><li>Simple monthly report</li></ul></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Add-ons</span>
+          <h2>Extras when <span class="serif">you need them.</span></h2>
+        </div>
+        <div class="glass table-wrap reveal">
+          <table>
+            <thead><tr><th>Add-on</th><th>What you get</th><th>Price</th></tr></thead>
+            <tbody data-render="addons"><tr><td><b>Google Business Profile</b></td><td>Set up or fix your listing so you show on Google Maps.</td><td>$149</td></tr><tr><td><b>Extra page</b></td><td>One more page, written and designed.</td><td>$99</td></tr><tr><td><b>Simple logo</b></td><td>A clean, professional logo in all the formats you need.</td><td>$149</td></tr><tr><td><b>Review QR card</b></td><td>Printable card that links straight to your Google reviews.</td><td>$49</td></tr><tr><td><b>Online booking setup</b></td><td>Connect a booking system to your site.</td><td>$199</td></tr><tr><td><b>Monthly local SEO</b></td><td>Ongoing work to climb Google for local searches.</td><td>$149/mo</td></tr></tbody>
+          </table>
         </div>
       </div>
     </section>
 
-    <section class="section-white">
+    <section data-founding>
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">Add-ons</span>
-          <h2>Extras when <span class="serif">you need them</span></h2>
-        </div>
-        <div class="table-wrap reveal">
-          <table>
-            <thead><tr><th>Add-on</th><th>What you get</th><th>Price</th></tr></thead>
-            <tbody>
-              <tr><td><b>Google Business Profile</b></td><td>Set up or fix your listing so you show on Google Maps</td><td>$149</td></tr>
-              <tr><td><b>Extra page</b></td><td>One more page, written and designed</td><td>$99</td></tr>
-              <tr><td><b>Simple logo</b></td><td>A clean, professional logo in all the formats you need</td><td>$149</td></tr>
-              <tr><td><b>Review QR card</b></td><td>Printable card for your counter or van that links straight to your Google reviews</td><td>$49</td></tr>
-              <tr><td><b>Online booking setup</b></td><td>Connect a booking system to your site</td><td>$199</td></tr>
-              <tr><td><b>Monthly local SEO</b></td><td>Ongoing work to climb Google for local searches</td><td>$149/mo</td></tr>
-            </tbody>
-          </table>
+        <div class="glass offer reveal">
+          <div>
+            <span class="eyebrow">Founding client offer</span>
+            <h2><span data-discount>40</span>% off any package.</h2>
+            <p>For our first 5 clients only, in exchange for an honest testimonial and permission to feature your site in our portfolio.</p>
+            <a class="btn btn-primary btn-lg" href="contact.html">Claim a founding spot</a>
+          </div>
+          <div class="seats-wrap"><div class="seats" aria-hidden="true" data-seat-icons><i></i><i></i><i></i><i></i><i></i></div><div class="seats-count"><span data-seats-left>5</span> of 5 spots left</div></div>
         </div>
       </div>
     </section>
 
     <section>
       <div class="container">
-        <div class="offer reveal">
-          <div>
-            <span class="eyebrow">Founding client offer</span>
-            <h2>40% off any package</h2>
-            <p>For our first 5 clients only, in exchange for an honest testimonial and permission to feature your site in our portfolio.</p>
-            <a class="btn btn-go btn-lg" href="contact.html">Claim a founding spot</a>
-          </div>
-          <div class="seats-wrap"><div class="seats" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="seats-count">5 of 5 spots left</div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-white" style="padding-top:80px">
-      <div class="container">
-        <div class="section-head center reveal"><h2>How payment <span class="serif">works</span></h2></div>
-        <div class="grid grid-3 reveal">
-          <div class="card"><h3>1 · Free mockup</h3><p>I design your homepage first. You only go ahead if you love it.</p></div>
-          <div class="card"><h3>2 · Upfront plans</h3><p>50% deposit to start, the rest when your site goes live. Bank transfer or card.</p></div>
-          <div class="card"><h3>3 · Monthly plans</h3><p>Nothing upfront. Your first monthly payment is due when your site goes live.</p></div>
+        <div class="section-head center reveal"><span class="eyebrow">Payment</span><h2>How payment <span class="serif">works.</span></h2></div>
+        <div class="grid grid-3">
+          <div class="glass card reveal"><h3>1 · Free mockup</h3><p>I design your homepage first. You only go ahead if you love it.</p></div>
+          <div class="glass card reveal" style="--d:80ms"><h3>2 · Upfront plans</h3><p>50% deposit to start, the rest when your site goes live. Bank transfer or card.</p></div>
+          <div class="glass card reveal" style="--d:160ms"><h3>3 · Monthly plans</h3><p>Nothing upfront. Your first monthly payment is due when your site goes live.</p></div>
         </div>
       </div>
     </section>
 
     <section class="cta-band">
       <div class="container">
-        <div class="dark-card reveal">
+        <div class="glass reveal">
           <h2>Not sure which <span class="serif">fits?</span></h2>
-          <p class="lead" style="margin:0 auto">Tell me about your business and I'll recommend one honestly, even if it's the cheapest.</p>
-          <div class="hero-ctas"><a class="btn btn-go btn-lg" href="contact.html">Get a free mockup</a><a class="btn btn-light btn-lg" href="mailto:decmar098@gmail.com">Email me</a></div>
+          <p class="lead">Tell me about your business and I'll recommend one honestly, even if it's the cheapest.</p>
+          <div class="hero-ctas"><a class="btn btn-primary btn-lg" href="contact.html">Get a free mockup</a><a class="btn btn-glass btn-lg" href="mailto:decmar098@gmail.com">Email me</a></div>
         </div>
       </div>
     </section>
@@ -255,13 +189,14 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-cta">
-        <h3>Ready to see your new website?</h3>
-        <a class="btn btn-go btn-lg" href="contact.html">Get my free mockup</a>
+        <h3>Ready to see your<br><span class="serif">new website?</span></h3>
+        <a class="btn btn-primary btn-lg" href="contact.html">Get my free mockup
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="footer-grid">
         <div>
           <a class="brand" href="index.html" aria-label="Marshall Web Co. home">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="#1D2D52" stroke="#C9A227" stroke-opacity=".5"/><path d="M1.5 15h45" stroke="#C9A227" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="15.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="21.5" cy="8.5" r="2" fill="#C9A227"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">WEB CO.</span></span>
           </a>
           <p>Websites for Warrnambool and South West Victoria businesses. Get found. Get called.</p>
@@ -275,7 +210,7 @@
           </ul>
         </div>
         <div>
-          <h4>Pages</h4>
+          <h4>Explore</h4>
           <ul>
             <li><a href="services.html">Packages &amp; pricing</a></li>
             <li><a href="portfolio.html">Our work</a></li>
@@ -287,16 +222,18 @@
       </div>
       <div class="footer-bottom">
         <span>&copy; <span id="year">2026</span> Marshall Web Co.</span>
-        <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+        <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="owner.html">Owner login</a></span>
       </div>
     </div>
   </footer>
 
-  <div class="callbar">
-    <a class="btn btn-navy" href="mailto:decmar098@gmail.com">Email me</a>
-    <a class="btn btn-go" href="contact.html">Free mockup</a>
+  <div class="callbar glass">
+    <a class="btn btn-glass" href="mailto:decmar098@gmail.com">Email</a>
+    <a class="btn btn-primary" href="contact.html">Free mockup</a>
   </div>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/render.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

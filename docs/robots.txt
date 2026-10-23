@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /owner.html
 
 Sitemap: https://marshallwebz.netlify.app/sitemap.xml

@@ -2,18 +2,19 @@
 <html lang="en-AU" class="no-js">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Our Work | Marshall Web Co.</title>
-  <meta name="description" content="Live concept websites by Marshall Web Co. for tradies, cafés and salons. Try the instant quote, live opening hours and online booking demos.">
+  <meta name="description" content="Fully working concept websites by Marshall Web Co. for tradies, cafés and salons. Try the instant quote, live opening hours and online booking.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://marshallwebz.netlify.app/portfolio.html">
-  <meta name="theme-color" content="#14213D">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
   <script>document.documentElement.className = "js";</script>
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Marshall Web Co.">
   <meta property="og:title" content="Our Work | Marshall Web Co.">
-  <meta property="og:description" content="Live concept websites by Marshall Web Co. for tradies, cafés and salons. Try the instant quote, live opening hours and online booking demos.">
+  <meta property="og:description" content="Fully working concept websites by Marshall Web Co. for tradies, cafés and salons. Try the instant quote, live opening hours and online booking.">
   <meta property="og:url" content="https://marshallwebz.netlify.app/portfolio.html">
   <meta property="og:image" content="https://marshallwebz.netlify.app/assets/img/og-image.png">
   <meta property="og:locale" content="en_AU">
@@ -22,7 +23,7 @@
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 
   <script type="application/ld+json">
@@ -38,36 +39,37 @@
     "image": "https://marshallwebz.netlify.app/assets/img/og-image.png",
     "logo": "https://marshallwebz.netlify.app/assets/img/logo.svg",
     "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Warrnambool",
-      "addressRegion": "VIC",
-      "addressCountry": "AU"
-    },
+    "founder": { "@type": "Person", "name": "Declan Marshall" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Warrnambool", "addressRegion": "VIC", "addressCountry": "AU" },
     "areaServed": ["Warrnambool", "Port Fairy", "Koroit", "Allansford", "Terang", "Camperdown", "Mortlake", "Hamilton", "Portland", "Timboon", "Port Campbell"]
   }
   </script>
 </head>
 <body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="announce">Founding client offer: <b>40% off</b> for our first 5 clients. 5 spots left. <a href="contact.html">Claim yours →</a></div>
+
+  <div class="announce" data-founding data-announce-bar>
+    <span data-announcement>Founding client offer: 40% off for our first 5 clients.</span> <b><span data-seats-left>5</span> spots left.</b> <a href="contact.html">Claim yours →</a>
+  </div>
 
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="nav-shell glass">
       <a class="brand" href="index.html" aria-label="Marshall Web Co. home">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="#14213D"/><path d="M1.5 15h45" stroke="#C9A227" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="15.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="21.5" cy="8.5" r="2" fill="#C9A227"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">WEB CO.</span></span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
       <nav class="nav" id="site-nav" aria-label="Main">
-        <a href="index.html">Home</a>
-        <a href="services.html">Packages</a>
-        <a href="portfolio.html" aria-current="page">Work</a>
-        <a href="about.html">About</a>
-        <a class="btn btn-go btn-sm" href="contact.html">Get a free mockup</a>
+          <a href="index.html">Home</a>
+          <a href="services.html">Pricing</a>
+          <a href="portfolio.html" aria-current="page">Work</a>
+          <a href="about.html">About</a>
+        <a class="btn btn-primary btn-sm" href="contact.html">Free mockup</a>
       </nav>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
     </div>
   </header>
 
@@ -76,68 +78,48 @@
       <div class="container">
         <span class="eyebrow">Our work</span>
         <h1>Don't just look. <span class="serif">Try them.</span></h1>
-        <p class="lead">These are fully working <strong>concept sites</strong> for made-up businesses, built to show what's possible. Tap the buttons, try the quote form, make a booking. Client work will appear here as our founding clients go live.</p>
+        <p class="lead">Fully working <strong>concept sites</strong> for made-up businesses, built to show what's possible. Tap the buttons, get a quote, make a booking. Client work appears here as our founding clients go live.</p>
       </div>
     </section>
 
     <section style="padding-top:0">
-      <div class="container work">
-        <a class="work-card reveal" href="demos/tradie/">
-          <div class="work-shot"><img src="assets/img/work/tradie-desktop.jpg" width="1440" height="900" alt="Saltbush Plumbing concept website" loading="lazy"><span class="tag">Concept</span></div>
-          <div class="work-body">
-            <span class="meta">Trades</span>
-            <h3>Saltbush Plumbing &amp; Gas</h3>
-            <p>Built for someone searching "plumber near me" at 7am with water on the floor. Every part of the page pushes toward a call or a quote.</p>
-            <ul class="feature-chips"><li>3-tap instant quote</li><li>Sticky call button</li><li>"From" pricing</li><li>Service areas</li></ul>
-            <span class="text-link">Try the live demo →</span>
-          </div>
-        </a>
-        <a class="work-card reveal" href="demos/cafe/">
-          <div class="work-shot"><img src="assets/img/work/cafe-desktop.jpg" width="1440" height="900" alt="Salt and Swell Café concept website" loading="lazy"><span class="tag">Concept</span></div>
-          <div class="work-body">
-            <span class="meta">Hospitality</span>
-            <h3>Salt &amp; Swell Café</h3>
-            <p>Built for tourists and locals deciding where to eat in the next ten minutes: are you open, what's on the menu, how do I get there?</p>
-            <ul class="feature-chips"><li>Live "open now" sign</li><li>Menu tabs</li><li>Today's hours highlighted</li><li>One-tap directions</li></ul>
-            <span class="text-link">Try the live demo →</span>
-          </div>
-        </a>
-        <a class="work-card reveal" href="demos/salon/">
-          <div class="work-shot"><img src="assets/img/work/salon-desktop.jpg" width="1440" height="900" alt="Fern Lane Hair and Beauty concept website" loading="lazy"><span class="tag">Concept</span></div>
-          <div class="work-body">
-            <span class="meta">Hair &amp; beauty</span>
-            <h3>Fern Lane Hair &amp; Beauty</h3>
-            <p>Built to fill the appointment book at 10pm, when clients are on the couch and the salon phone isn't answered.</p>
-            <ul class="feature-chips"><li>Step-by-step booking</li><li>Price list tabs</li><li>Gift vouchers</li><li>Floating book button</li></ul>
-            <span class="text-link">Try the live demo →</span>
-          </div>
-        </a>
+      <div class="container">
+        <div class="row-head reveal">
+          <h3>Concept sites</h3>
+          <div class="row-arrows"><button type="button" data-row="p-row" data-dir="-1" aria-label="Scroll left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" data-row="p-row" data-dir="1" aria-label="Scroll right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button></div>
+        </div>
+        <div class="row reveal" id="p-row">
+          <a class="tile-card" href="demos/tradie/"><img src="assets/img/work/tradie-desktop.jpg" width="1440" height="900" alt="" loading="lazy"><span class="badge-n">Concept</span><div class="info"><div class="meta"><span class="match">Trades</span><span>Instant quote</span></div><h4>Saltbush Plumbing &amp; Gas</h4><p>Built for someone searching "plumber near me" at 7am with water on the floor.</p></div></a>
+          <a class="tile-card" href="demos/cafe/"><img src="assets/img/work/cafe-desktop.jpg" width="1440" height="900" alt="" loading="lazy"><span class="badge-n">Concept</span><div class="info"><div class="meta"><span class="match">Hospitality</span><span>Live hours</span></div><h4>Salt &amp; Swell Café</h4><p>Are you open, what's on the menu, how do I get there? Answered in seconds.</p></div></a>
+          <a class="tile-card" href="demos/salon/"><img src="assets/img/work/salon-desktop.jpg" width="1440" height="900" alt="" loading="lazy"><span class="badge-n">Concept</span><div class="info"><div class="meta"><span class="match">Hair &amp; beauty</span><span>Online booking</span></div><h4>Fern Lane Hair &amp; Beauty</h4><p>Fills the appointment book at 10pm, when the salon phone isn't answered.</p></div></a>
+          <a class="tile-card placeholder" href="contact.html"><div><b>Your business here</b><span class="muted">Claim a founding spot →</span></div></a>
+        </div>
       </div>
     </section>
 
-    <section class="section-white">
+    <section>
       <div class="container">
         <div class="section-head center reveal">
           <span class="eyebrow">Every site includes</span>
-          <h2>The details that <span class="serif">win customers</span></h2>
+          <h2>The details that <span class="serif">win customers.</span></h2>
         </div>
-        <div class="grid grid-3 reveal">
-          <div class="card"><h3>⚡ Fast on phones</h3><p>Lightweight, hand-built pages that load in a couple of seconds, even on country 4G.</p></div>
-          <div class="card"><h3>📞 One-tap contact</h3><p>Call, quote and booking buttons exactly where thumbs expect them.</p></div>
-          <div class="card"><h3>📍 Found locally</h3><p>Set up for Google, including the towns you serve and your Google Business Profile.</p></div>
-          <div class="card"><h3>⭐ Trust up front</h3><p>Reviews, licences, guarantees and real photos, right where people decide.</p></div>
-          <div class="card"><h3>♿ Accessible</h3><p>Readable text, strong contrast and keyboard-friendly, so nobody gets left out.</p></div>
-          <div class="card"><h3>🔒 Secure &amp; backed up</h3><p>HTTPS, monitoring and backups, so it just keeps working.</p></div>
+        <div class="grid grid-3">
+          <div class="glass card reveal"><div class="icon gold">⚡</div><h3>Fast on phones</h3><p>Lightweight, hand-built pages that load in a couple of seconds, even on country 4G.</p></div>
+          <div class="glass card reveal" style="--d:80ms"><div class="icon gold">📞</div><h3>One-tap contact</h3><p>Call, quote and booking buttons exactly where thumbs expect them.</p></div>
+          <div class="glass card reveal" style="--d:160ms"><div class="icon gold">📍</div><h3>Found locally</h3><p>Set up for Google, including your towns and your Google Business Profile.</p></div>
+          <div class="glass card reveal"><div class="icon gold">⭐</div><h3>Trust up front</h3><p>Reviews, licences, guarantees and real photos, right where people decide.</p></div>
+          <div class="glass card reveal" style="--d:80ms"><div class="icon gold">♿</div><h3>Accessible</h3><p>Readable text, strong contrast and keyboard-friendly, so nobody gets left out.</p></div>
+          <div class="glass card reveal" style="--d:160ms"><div class="icon gold">🔒</div><h3>Secure &amp; backed up</h3><p>HTTPS, monitoring and backups, so it just keeps working.</p></div>
         </div>
       </div>
     </section>
 
     <section class="cta-band">
       <div class="container">
-        <div class="dark-card reveal">
+        <div class="glass reveal">
           <h2>Want one for <span class="serif">your business?</span></h2>
-          <p class="lead" style="margin:0 auto">I'll design your homepage for free. If you don't love it, you don't pay.</p>
-          <div class="hero-ctas"><a class="btn btn-go btn-lg" href="contact.html">Get my free mockup</a></div>
+          <p class="lead">I'll design your homepage for free. If you don't love it, you don't pay.</p>
+          <div class="hero-ctas"><a class="btn btn-primary btn-lg" href="contact.html">Get my free mockup</a></div>
         </div>
       </div>
     </section>
@@ -147,13 +129,14 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-cta">
-        <h3>Ready to see your new website?</h3>
-        <a class="btn btn-go btn-lg" href="contact.html">Get my free mockup</a>
+        <h3>Ready to see your<br><span class="serif">new website?</span></h3>
+        <a class="btn btn-primary btn-lg" href="contact.html">Get my free mockup
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="footer-grid">
         <div>
           <a class="brand" href="index.html" aria-label="Marshall Web Co. home">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="#1D2D52" stroke="#C9A227" stroke-opacity=".5"/><path d="M1.5 15h45" stroke="#C9A227" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="15.5" cy="8.5" r="2" fill="#C9A227"/><circle cx="21.5" cy="8.5" r="2" fill="#C9A227"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">WEB CO.</span></span>
           </a>
           <p>Websites for Warrnambool and South West Victoria businesses. Get found. Get called.</p>
@@ -167,7 +150,7 @@
           </ul>
         </div>
         <div>
-          <h4>Pages</h4>
+          <h4>Explore</h4>
           <ul>
             <li><a href="services.html">Packages &amp; pricing</a></li>
             <li><a href="portfolio.html">Our work</a></li>
@@ -179,16 +162,18 @@
       </div>
       <div class="footer-bottom">
         <span>&copy; <span id="year">2026</span> Marshall Web Co.</span>
-        <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+        <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="owner.html">Owner login</a></span>
       </div>
     </div>
   </footer>
 
-  <div class="callbar">
-    <a class="btn btn-navy" href="mailto:decmar098@gmail.com">Email me</a>
-    <a class="btn btn-go" href="contact.html">Free mockup</a>
+  <div class="callbar glass">
+    <a class="btn btn-glass" href="mailto:decmar098@gmail.com">Email</a>
+    <a class="btn btn-primary" href="contact.html">Free mockup</a>
   </div>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/render.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

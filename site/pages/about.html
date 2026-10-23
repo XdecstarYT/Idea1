@@ -9,12 +9,13 @@
 
     <section style="padding-top:0">
       <div class="container founder">
-        <div class="avatar-card reveal">
+        <div class="glass avatar-card reveal">
+          <span class="big-m" aria-hidden="true">M</span>
           <div class="initials">DM</div>
           <div><div class="name">{{owner}}</div><div class="role">Founder · {{town}}</div></div>
         </div>
         <div class="reveal">
-          <h2>Why I <span class="serif">started</span></h2>
+          <h2>Why I <span class="serif">started.</span></h2>
           <p>Drive down any street in {{town}} and you'll find great businesses: plumbers who turn up on time, cafés with the best coffee on the coast, salons booked out by word of mouth. Then search for them on Google, and half of them barely exist online.</p>
           <p>Big agencies charge thousands and talk in jargon. DIY website builders eat up your evenings. I sit in the middle: a proper, professional website at a price that makes sense for a small business, built by someone local who actually gets back to you.</p>
           <p>Hi, I'm {{owner}}. Yes, the Marshall in Marshall Web Co. is me. I'll be the one you talk to, the one who builds your site, and the one you message when you need a change.</p>
@@ -23,31 +24,28 @@
       </div>
     </section>
 
-    <section class="section-white">
+    <section>
       <div class="container">
-        <div class="section-head center reveal">
-          <span class="eyebrow">How I work</span>
-          <h2>Four <span class="serif">promises</span></h2>
-        </div>
-        <div class="grid grid-2 reveal">
-          <div class="card"><h3>Straight talk</h3><p>No jargon, no upselling stuff you don't need. If your current site is fine, I'll tell you.</p></div>
-          <div class="card"><h3>Results first</h3><p>Success means calls, bookings and enquiries, not "impressions" or "engagement".</p></div>
-          <div class="card"><h3>Local and reachable</h3><p>Based in {{town}}. Happy to meet at your shop, on site or over a coffee.</p></div>
-          <div class="card"><h3>You see it first</h3><p>Every project starts with a free homepage mockup. You only pay if you love it.</p></div>
+        <div class="section-head center reveal"><span class="eyebrow">How I work</span><h2>Four <span class="serif">promises.</span></h2></div>
+        <div class="grid grid-2">
+          <div class="glass card reveal"><h3>Straight talk</h3><p>No jargon, no upselling stuff you don't need. If your current site is fine, I'll tell you.</p></div>
+          <div class="glass card reveal" style="--d:80ms"><h3>Results first</h3><p>Success means calls, bookings and enquiries, not "impressions" or "engagement".</p></div>
+          <div class="glass card reveal"><h3>Local and reachable</h3><p>Based in {{town}}. Happy to meet at your shop, on site or over a coffee.</p></div>
+          <div class="glass card reveal" style="--d:80ms"><h3>You see it first</h3><p>Every project starts with a free homepage mockup. You only pay if you love it.</p></div>
         </div>
       </div>
     </section>
 
-    <section>
+    <section data-founding>
       <div class="container">
-        <div class="offer reveal">
+        <div class="glass offer reveal">
           <div>
             <span class="eyebrow">Honest about being new</span>
-            <h2>Be one of our founding clients</h2>
-            <p>I'm a new business, so I'm offering 40% off to my first 5 clients in exchange for honest feedback and a testimonial. You get a great deal; I get to prove myself.</p>
-            <a class="btn btn-go btn-lg" href="contact.html">Claim a founding spot</a>
+            <h2>Be one of our founding clients.</h2>
+            <p>I'm offering <span data-discount>{{foundingDiscount}}</span>% off to my first 5 clients in exchange for honest feedback and a testimonial. You get a great deal; I get to prove myself.</p>
+            <a class="btn btn-primary btn-lg" href="contact.html">Claim a founding spot</a>
           </div>
-          <div class="seats-wrap"><div class="seats" aria-hidden="true">{{seatIcons}}</div><div class="seats-count">{{foundingSeatsLeft}} of 5 spots left</div></div>
+          <div class="seats-wrap"><div class="seats" aria-hidden="true" data-seat-icons>{{seatIcons}}</div><div class="seats-count"><span data-seats-left>{{foundingSeatsLeft}}</span> of 5 spots left</div></div>
         </div>
       </div>
     </section>

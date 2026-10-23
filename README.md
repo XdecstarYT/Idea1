@@ -10,7 +10,9 @@
 | [`kit/`](kit/) | **The sales and operations kit.** Start with [`kit/13-setup-checklist.md`](kit/13-setup-checklist.md), then follow [`kit/12-30-day-launch-plan.md`](kit/12-30-day-launch-plan.md) |
 | [`docs/`](docs/) | **The live website** (this folder is what gets published) |
 | [`docs/demos/`](docs/demos/) | Three concept sites (tradie, café, salon) to show prospects and use as templates |
-| [`site/`](site/) | The source for the agency website: `config.json` (your details), `pages/`, `layout.html` and `build.js` |
+| [`site/`](site/) | The source for the agency website: `config.json` (your details), `data.json` (fallback prices), `pages/`, `layout.html` and `build.js` |
+| [`docs/owner.html`](docs/owner.html) | **The owner panel**: sign in to manage leads, products, pricing and founding spots |
+| [`supabase/schema.sql`](supabase/schema.sql) | The database setup (Supabase project `marshall-web-co`, Sydney) |
 | [`MASTER_PROMPT.md`](MASTER_PROMPT.md) | The prompt this was all built from |
 
 ## The kit
@@ -28,6 +30,16 @@
 12. [30-day launch plan](kit/12-30-day-launch-plan.md)
 13. [Setup checklist](kit/13-setup-checklist.md)
 
+## Owner panel
+Go to **/owner.html** on the live site (there's also an "Owner login" link in the footer) and sign in with your owner account.
+
+- **Leads:** every free-mockup request lands here. Update status, add notes, export to CSV.
+- **Products & pricing:** edit prices, features and badges, or add new packages. **Changes go live on the website instantly**, with no rebuild needed.
+- **Site settings:** founding spots left, discount and the announcement bar.
+- **Account:** change your password.
+
+The data lives in Supabase. Security is enforced by the database itself: visitors can only read prices and submit leads; only accounts listed in the `admins` table can see leads or change anything.
+
 ## Updating the website
 1. Change your details in `site/config.json`, or edit a page in `site/pages/`.
 2. Run `node site/build.js` to rebuild the pages in `docs/`.
@@ -36,4 +48,4 @@
 Or just ask Claude: *"Update my phone number to 0412 345 678 and rebuild the site."*
 
 ## Details still to add
-In `site/config.json`: `phone` and `abn` are left empty, so the site hides them until you fill them in. `formspreeId` is still a placeholder (until it's set, the contact form opens the visitor's email app instead). Update `domain` if you buy marshallweb.com.au. See [setup checklist](kit/13-setup-checklist.md), step 3.
+In `site/config.json`: `phone` and `abn` are left empty, so the site hides them until you fill them in. Update `domain` if you buy marshallweb.com.au. See [setup checklist](kit/13-setup-checklist.md), step 3.

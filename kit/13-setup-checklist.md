@@ -40,12 +40,10 @@ Then rebuild the site: `node site/build.js` (or ask Claude to do it), commit and
 2. Connect your GitHub repository, with **no build command** and the output folder set to **`docs`**.
 3. You'll get a free address like `marshallweb.pages.dev` or `marshallweb.netlify.app`.
 
-## 5. Make the contact form work (free)
-1. Sign up at **formspree.io** (the free plan allows 50 submissions a month).
-2. Create a new form and copy its ID (the part after `/f/`, e.g. `xyzabcd`).
-3. Put it in `formspreeId` in `site/config.json`, rebuild and push.
-4. Test it: fill in your own form and check your email.
-*(Until you do this, the form opens the visitor's email app instead, so it still works.)*
+## 5. Contact form ✅ (done)
+The free mockup form saves straight into your **owner panel** (`/owner.html` → Leads). Nothing to set up.
+- Test it: fill in your own form, then check it appears under Leads.
+- Check the owner panel daily. New leads show a red badge.
 
 ## 6. Get found yourself (free)
 - [ ] **Google Business Profile** for Marshall Web Co. (business.google.com) → choose "service area business" and list Warrnambool and nearby towns. Hide your home address.

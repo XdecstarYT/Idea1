@@ -87,3 +87,9 @@ After that: 50% deposit to start, balance due on launch. Monthly plans: first mo
 
 ## Phase 6: 30-day launch plan ✅
 `kit/12-30-day-launch-plan.md`: Mon 26 Oct to Tue 24 Nov 2026.
+
+## Phase 7: Premium redesign + owner panel ✅
+- Cinematic dark design with frosted "liquid glass" panels, scroll-driven product showcase, Netflix-style rows and Top 5, Apple-style typography.
+- **Supabase backend** (project `marshall-web-co`, Sydney): products & pricing, site settings and leads, protected by row level security.
+- **Owner panel** at `/owner.html`: leads inbox (status, notes, CSV export), product & price editor with live preview, founding spots and announcement settings, password change.
+- Website prices and founding spots update live from the owner panel.
