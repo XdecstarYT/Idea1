@@ -408,6 +408,8 @@
     { key: "font", label: "Font style", type: "select", options: Object.keys(B.FONTS).map(function (k) { return [k, B.FONTS[k].label]; }) },
     { key: "radius", label: "Corners", type: "select", options: [["sharp", "Sharp"], ["soft", "Soft"], ["round", "Round"]] },
     { key: "look", label: "Look", type: "select", options: [["standard", "Standard"], ["cinema", "Cinema (deep blacks, glass header)"]] },
+    { key: "perks", label: "Product page perks (one per line)", type: "textarea", hint: "Shown on every product page, e.g. Free shipping over $50" },
+    { key: "shipping", label: "Shipping & returns (product pages)", type: "textarea" },
     { key: "store", label: "Online store link (for the shopping bag)", type: "text", hint: "A Shopify store address, e.g. https://yourstore.com. Products with bag options can then be added to a bag and checked out there." },
   ];
   function renderTheme() {
@@ -567,8 +569,15 @@
         renderStatus(); renderInspector();
         sendDialog.close();
         var msg = "I've sent you a new design to review: \"" + state.design.name + "\". Open My websites → Review design to take a look." + (note ? "\n\n" + note : "");
+        var who = state.client.full_name || "Your client";
+        var wantEmail = $("#send-email").checked;
         sb.from("messages").insert({ client_id: state.design.client_id, sender_id: state.me.id, body: msg }).then(function () {
-          toast("Sent! " + (state.client.full_name || "Your client") + " can review it now.");
+          if (!wantEmail) return toast("Sent! " + who + " can review it now.");
+          return window.MWCShare.send(sb, { kind: "portal", designId: designId, note: note }).then(function () {
+            toast("Sent and emailed! " + who + " can review it now.");
+          }, function (err) {
+            toast("Sent to their portal, but the email didn't go: " + err.message, "err");
+          });
         });
       });
     });

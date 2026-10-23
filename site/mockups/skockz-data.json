@@ -57,6 +57,9 @@
     "1.00",
     true
    ]
+  ],
+  "options": [
+   "Design"
   ]
  },
  "skockz-sets-all-four-1-of-1": {
@@ -74,6 +77,9 @@
     "130.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-set-05-redback-1-of-1": {
@@ -92,6 +98,9 @@
     "40.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-set-04-bluebottle-1-of-1": {
@@ -109,6 +118,9 @@
     "40.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-set-03-galah-1-of-1": {
@@ -127,6 +139,9 @@
     "40.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-set-02-goblin-1-of-1": {
@@ -143,6 +158,9 @@
     "30.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-set-01-nugget-1-of-1": {
@@ -159,6 +177,9 @@
     "30.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-case-003-narwhal-1-of-1": {
@@ -173,6 +194,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-015-crush-1-of-1": {
@@ -187,6 +211,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-014-alloy-1-of-1": {
@@ -201,6 +228,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-013-thrash-1-of-1": {
@@ -215,6 +245,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-010-mirage-1-of-1": {
@@ -230,6 +263,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-012-patina-1-of-1": {
@@ -246,6 +282,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-011-bloom-1-of-1": {
@@ -262,6 +301,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-009-glacier-1-of-1": {
@@ -277,6 +319,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-008-oracle-1-of-1": {
@@ -291,6 +336,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-007-furnace-1-of-1": {
@@ -305,6 +353,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-006-plasma-1-of-1": {
@@ -319,6 +370,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-005-sulfur-1-of-1": {
@@ -333,6 +387,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-case-002-eclipse-1-of-1": {
@@ -347,6 +404,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-case-001-cobalt-1-of-1": {
@@ -361,6 +421,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-008-hazard-1-of-1": {
@@ -377,6 +440,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-007-riptide-1-of-1": {
@@ -392,6 +458,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-003-oxide-1-of-1": {
@@ -406,6 +475,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-006-tarnish-1-of-1": {
@@ -422,6 +494,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-002-midas-1-of-1": {
@@ -436,6 +511,9 @@
     "25.00",
     true
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-005-shard-1-of-1": {
@@ -451,6 +529,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-004-emerald-1-of-1": {
@@ -466,6 +547,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-tray-001-flare-1-of-1": {
@@ -481,6 +565,9 @@
     "20.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-003-venom-1-of-1": {
@@ -497,6 +584,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-002-scorch-1-of-1": {
@@ -513,6 +603,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockster-001-blizzard-1-of-1": {
@@ -529,6 +622,9 @@
     "25.00",
     false
    ]
+  ],
+  "options": [
+   "Title"
   ]
  },
  "skockz-skateboarding-socks-limited-edition": {
@@ -552,6 +648,10 @@
     "15.00",
     true
    ]
+  ],
+  "options": [
+   "Colourway",
+   "Packaging"
   ]
  },
  "mini-skocksters-keychain": {
@@ -660,6 +760,10 @@
     "15.00",
     true
    ]
+  ],
+  "options": [
+   "Colour",
+   "Resin Glaze"
   ]
  },
  "skockz-signature-hoodie": {
@@ -696,6 +800,9 @@
     "110.00",
     true
    ]
+  ],
+  "options": [
+   "Size"
   ]
  },
  "clay-skockz-logo": {
@@ -1032,6 +1139,11 @@
     "15.00",
     true
    ]
+  ],
+  "options": [
+   "Piece Body",
+   "Colour",
+   "Resin Glaze"
   ]
  },
  "stickers": {
@@ -1110,6 +1222,9 @@
     "1.00",
     true
    ]
+  ],
+  "options": [
+   "Design"
   ]
  }
 }

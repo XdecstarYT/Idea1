@@ -24,11 +24,14 @@
         '<div><label for="share-email">Their email</label><input id="share-email" type="email" maxlength="200" placeholder="name@business.com"></div></div>' +
         '<div><label for="share-link">Private review link</label><div style="display:flex;gap:8px"><input id="share-link" readonly><button type="button" class="btn btn-glass btn-sm" id="share-copy">Copy</button></div>' +
         '<p class="hint">Anyone with this link can view the design and approve it or request changes. No account needed.</p></div>' +
+        '<div><label for="share-note">Personal note in the email (optional)</label><textarea id="share-note" maxlength="1500" rows="3" placeholder="e.g. Great chatting on the phone today. Here\'s the redesign I mentioned."></textarea></div>' +
         '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-          '<a class="btn btn-primary" id="share-email-btn" href="#">✉️ Email it</a>' +
+          '<button type="button" class="btn btn-primary" id="share-send">✉️ Send email</button>' +
+          '<a class="btn btn-glass" id="share-email-btn" href="#">Use my email app</a>' +
           '<a class="btn btn-glass" id="share-sms-btn" href="#">💬 Text it</a>' +
           '<a class="btn btn-glass" id="share-open" href="#" target="_blank" rel="noopener">Open link ↗</a>' +
         "</div>" +
+        '<p class="hint" id="share-sent" role="status" style="margin:0"></p>' +
         '<div class="editor-actions"><button type="button" class="btn btn-danger btn-sm" id="share-stop">Stop sharing</button><span class="hint" id="share-state"></span></div>' +
       "</form>";
     document.body.appendChild(dialog);
@@ -45,6 +48,14 @@
     $("share-name").value = d.prospect_contact || "";
     $("share-email").value = d.prospect_email || "";
     $("share-state").textContent = "Activating link…";
+    $("share-note").value = "";
+    $("share-sent").textContent = "";
+    $("share-send").disabled = false;
+    // Show when this design was last emailed
+    opts.sb.from("design_emails").select("to_email,status,created_at").eq("design_id", d.id).eq("kind", "share").order("created_at", { ascending: false }).limit(1).then(function (res) {
+      var last = res.data && res.data[0];
+      if (last && !$("share-sent").textContent) $("share-sent").textContent = (last.status === "sent" ? "Last emailed to " : "Last email failed to ") + last.to_email + " · " + new Date(last.created_at).toLocaleString("en-AU", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+    });
 
     function refreshLinks() {
       var link = reviewUrl(d);
@@ -61,12 +72,36 @@
     var changes = { shared: true };
     // A draft goes out for review; after requested changes, sharing again starts a new review round
     if (d.status === "draft" || d.status === "changes_requested") { changes.status = "in_review"; changes.sent_at = new Date().toISOString(); changes.client_feedback = ""; }
-    opts.sb.from("designs").update(changes).eq("id", d.id).then(function (res) {
-      if (res.error) { $("share-state").textContent = "Couldn't activate the link: " + res.error.message; return; }
+    var activated = opts.sb.from("designs").update(changes).eq("id", d.id).then(function (res) {
+      if (res.error) { $("share-state").textContent = "Couldn't activate the link: " + res.error.message; return false; }
       Object.assign(d, changes);
       $("share-state").textContent = "Link is live · status: " + (d.status === "in_review" ? "waiting for review" : d.status.replace("_", " "));
       if (opts.onChange) opts.onChange(d);
+      return true;
     });
+
+    // Send the email from the server (Brevo). If that isn't set up yet, fall back to the email app.
+    $("share-send").onclick = function () {
+      var to = $("share-email").value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(to)) { $("share-sent").textContent = "Add their email address first."; $("share-email").focus(); return; }
+      var btn = $("share-send");
+      btn.disabled = true;
+      $("share-sent").textContent = "Sending…";
+      activated.then(function (ok) {
+        if (ok === false) throw new Error("The link isn't active, so there's nothing to send yet.");
+        return send(opts.sb, { kind: "share", designId: d.id, to: to, name: $("share-name").value.trim(), note: $("share-note").value.trim() });
+      }).then(function () {
+        $("share-sent").textContent = "✓ Email sent to " + to + ". They'll get a button that opens the design.";
+        if (opts.toast) opts.toast("Email sent to " + to);
+        var c = { prospect_contact: $("share-name").value.trim(), prospect_email: to };
+        opts.sb.from("designs").update(c).eq("id", d.id).then(function (res) { if (!res.error) { Object.assign(d, c); if (opts.onChange) opts.onChange(d); } });
+      }).catch(function (err) {
+        if (err.code === "not_configured") {
+          $("share-sent").textContent = "Automatic email isn't switched on yet (see the README). Opening your email app instead.";
+          window.location.href = $("share-email-btn").href;
+        } else $("share-sent").textContent = "Couldn't send: " + err.message;
+      }).then(function () { btn.disabled = false; });
+    };
 
     var saveTimer;
     dialog.oninput = function (e) {
@@ -99,5 +134,19 @@
     dialog.showModal();
   }
 
-  window.MWCShare = { open: open, reviewUrl: reviewUrl, esc: esc };
+  // Calls the send-email function. Resolves on success; rejects with an Error that has a .code
+  var MESSAGES = { not_configured: "Automatic email isn't switched on yet.", bad_email: "That email address doesn't look right.", client_has_no_email: "This client has no email address on their account.", link_not_shared: "The link isn't active.", owner_only: "Only the owner can send emails.", not_signed_in: "You're signed out. Sign in again." };
+  function send(sb, body) {
+    return sb.functions.invoke("send-email", { body: body }).then(function (res) {
+      if (!res.error) return res.data;
+      var ctx = res.error.context;
+      return (ctx && ctx.json ? ctx.json() : Promise.resolve({})).catch(function () { return {}; }).then(function (j) {
+        var e = new Error(MESSAGES[j.error] || j.detail || res.error.message || "The email service didn't respond.");
+        e.code = j.error || "failed";
+        throw e;
+      });
+    });
+  }
+
+  window.MWCShare = { open: open, reviewUrl: reviewUrl, send: send, esc: esc };
 })();

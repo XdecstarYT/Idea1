@@ -48,22 +48,28 @@
     { key: "sold", label: "Sold / claimed", type: "toggle" },
     { key: "description", label: "Full description (quick view)", type: "textarea" },
     { key: "images", label: "More photos (one https link per line)", type: "textarea" },
-    { key: "variant", label: "Bag options", type: "textarea", hint: "Shopify variant ID for the Add to bag button, or one option per line: Size M = 1234567890 = 110" },
+    { key: "variant", label: "Bag options", type: "textarea", hint: "Shopify variant ID for the Add to bag button, or one option per line: M = 1234567890 = 110. Add \"= sold\" to show an option as sold out. For several choices, write them like Red / Large." },
+    { key: "options", label: "Option names (e.g. Colour / Size)", type: "text" },
   ];
   function priceNum(v) { var m = String(v || "").replace(/,/g, "").match(/\d+(\.\d+)?/); return m ? +m[0] : 0; }
-  // Bag options: "1234" or lines of "Label = 1234 = price"
+  // Bag options: "1234" or lines of "Label = 1234 = price" (add "= sold" when that option has sold out)
   function variants(i) {
     return lines(i.variant).map(function (l) {
       var parts = l.split("=").map(function (x) { return x.trim(); });
-      if (parts.length === 1) return /^\d+$/.test(parts[0]) ? ["", parts[0], priceNum(i.price)] : null;
-      return /^\d+$/.test(parts[1]) ? [parts[0], parts[1], parts[2] ? priceNum(parts[2]) : priceNum(i.price)] : null;
+      if (parts.length === 1) return /^\d+$/.test(parts[0]) ? ["", parts[0], priceNum(i.price), false] : null;
+      return /^\d+$/.test(parts[1]) ? [parts[0], parts[1], parts[2] ? priceNum(parts[2]) : priceNum(i.price), /^sold/i.test(parts[3] || "")] : null;
     }).filter(Boolean);
+  }
+  function handleOf(i) {
+    var m = String(i.link || "").match(/\/products\/([^/?#]+)/);
+    return String(m ? m[1] : i.name || "").toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "product";
   }
   function productData(i) {
     return esc(JSON.stringify({
       id: url(i.link, "") || i.name, name: i.name || "", price: i.price || "", n: priceNum(i.price), tag: i.tag || "", group: String(i.group || "").trim(),
       image: img(i.image), images: lines(i.images).map(img).filter(Boolean), detail: i.detail || "", description: i.description || "",
-      link: url(i.link, ""), sold: !!i.sold, variants: i.sold ? [] : variants(i),
+      link: url(i.link, ""), sold: !!i.sold, variants: i.sold ? [] : variants(i), slug: handleOf(i),
+      options: String(i.options || "").split("/").map(function (x) { return x.trim(); }).filter(Boolean),
     }));
   }
   var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C1 8.4 3 4.5 6.8 4.5c2.1 0 3.5 1.1 5.2 3 1.7-1.9 3.1-3 5.2-3C21 4.5 23 8.4 21.6 11.7 19.5 16.4 12 21 12 21z"/></svg>';
@@ -574,7 +580,7 @@
     "img{max-width:100%;display:block}a{color:inherit}h1,h2,h3{font-family:var(--fh);line-height:1.08;letter-spacing:-.02em;margin:0 0 .5em}h1{font-size:clamp(2.3rem,6vw,4.2rem)}h2{font-size:clamp(1.8rem,4vw,2.8rem)}h3{font-size:1.2rem}",
     ".wrap{max-width:1140px;margin:0 auto;padding:0 22px}.narrow{max-width:780px}.lead{font-size:1.15rem;color:var(--muted)}.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--p);margin-bottom:14px}",
     ".btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:var(--r);font-weight:700;text-decoration:none;border:2px solid transparent;transition:transform .15s;font-family:var(--fb);font-size:1rem;cursor:pointer}.btn:hover{transform:translateY(-2px)}.btn-lg{padding:16px 28px;font-size:1.05rem}",
-    ".btn-p{background:var(--p);color:#fff}.btn-o{border-color:currentColor;color:var(--fg)}.btn-inv{background:#fff;color:var(--a)}",
+    ".btn-p{background:var(--p);color:#fff}.btn-o{border-color:currentColor;color:var(--fg);background:transparent}.btn-inv{background:#fff;color:var(--a)}",
     ".hdr{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px}",
     "[hidden]{display:none!important}.logo{font-family:var(--fh);font-weight:800;font-size:1.25rem;text-decoration:none}.menu{display:flex;gap:22px}.menu a{position:relative;text-decoration:none;font-weight:600;color:var(--muted);transition:color .2s}.menu a:hover,.menu a.on{color:var(--fg)}.menu a.on::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--p)}",
     ".hdr-end{display:flex;align-items:center;gap:10px}.nav-t{position:absolute;opacity:0;pointer-events:none}.burger,.drawer{display:none}",
@@ -684,6 +690,20 @@
     ".ov-search{background:color-mix(in srgb,var(--bg) 94%,transparent)}.ov-search .ov-box{width:min(1100px,100%);background:none;border:0;box-shadow:none}.srch-in{width:100%;font:inherit;font-size:clamp(1.4rem,3vw,2.2rem);font-family:var(--fh);padding:18px 60px 18px 22px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);color:var(--fg)}.srch-in:focus{outline:2px solid var(--p)}",
     ".toast{position:fixed;left:50%;bottom:24px;z-index:120;transform:translate(-50%,30px);opacity:0;background:var(--fg);color:var(--bg);font-weight:700;padding:12px 20px;border-radius:99px;box-shadow:0 20px 50px rgba(0,0,0,.4);transition:opacity .3s,transform .3s;max-width:calc(100vw - 32px)}.toast.on{opacity:1;transform:translate(-50%,0)}",
     ".totop{position:fixed;right:18px;bottom:18px;z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:1.2rem;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s}.totop.on{opacity:1;pointer-events:auto;transform:none}.totop:hover{background:var(--p);color:#fff}",
+    // Product pages
+    "body.pp-on>:not(.hdr):not(.mq):not(.ftr):not(.pp-page):not(.draft-bar):not(.ov-layer):not(.toast):not(.totop):not(script){display:none}.pp-page{padding:28px 0 90px}",
+    ".crumbs{display:flex;align-items:center;gap:14px;font-size:.88rem;color:var(--muted);margin-bottom:22px}.pp-back{font:inherit;font-weight:700;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 16px;cursor:pointer}.pp-back:hover{border-color:var(--p)}",
+    ".pp-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start}.pp-gallery{position:sticky;top:90px}.pp-main{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;background:var(--bg2);box-shadow:0 30px 80px rgba(0,0,0,.35)}.pp-main img{width:100%;height:100%;object-fit:cover;animation:fade .35s}",
+    ".pp-main .stamp{font-size:1.6rem}.pp-main.gone img{filter:grayscale(1) brightness(.55)}.pp-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:rgba(0,0,0,.5);color:#fff;font-size:1.8rem;cursor:pointer;opacity:0;transition:opacity .2s}.pp-main:hover .pp-nav{opacity:1}.pp-nav.prev{left:12px}.pp-nav.next{right:12px}@media(hover:none){.pp-nav{opacity:1}}",
+    ".pp-thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.pp-thumbs .qv-thumb{width:76px;height:76px}",
+    ".pp-info{display:flex;flex-direction:column;gap:12px}.pp-info>.qv-tag,.pp-info>.qv-group{align-self:flex-start}.pp-info h1{font-size:clamp(2rem,4.4vw,3.4rem);margin:4px 0 0}.pp-price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.pp-price b{font-family:var(--fh);font-size:2rem;color:var(--p)}.pp-stock{font-size:.85rem;font-weight:700;color:#4ade80}.pp-stock::before{content:'\\25CF  '}.pp-stock.no{color:var(--muted)}.pp-stock:empty{display:none}",
+    ".pp-lead{margin:0;color:var(--muted);font-size:1.05rem}.pp-opt-name{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:8px}.pp-opt-name b{color:var(--fg)}.pp-vals{display:flex;flex-wrap:wrap;gap:8px}",
+    ".pp-val{font:inherit;font-weight:700;font-size:.92rem;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;transition:border-color .2s,background .2s}.pp-val:hover{border-color:var(--p)}.pp-val.on{border-color:var(--p);background:color-mix(in srgb,var(--p) 22%,var(--card))}.pp-val.out{opacity:.45;text-decoration:line-through}",
+    ".pp-qty{display:flex;align-items:center;gap:14px;font-size:.85rem;font-weight:700;color:var(--muted)}.pp-qty .qty{font-size:1rem;color:var(--fg);gap:12px}.pp-qty .qty button{width:36px;height:36px}",
+    ".pp-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}.pp-actions .btn{flex:1 1 auto}.pp-actions .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.pp-actions .pp-add,.pp-actions .pp-buy{flex:1 1 40%}",
+    ".pp-perks{list-style:none;padding:16px 18px;margin:6px 0 0;border:1px solid var(--line);border-radius:var(--r);background:var(--card);display:grid;gap:8px;font-size:.92rem}.pp-perks li::before{content:'\\2713';color:var(--p);font-weight:900;margin-right:10px}",
+    ".pp-info .faq p{color:var(--muted)}.pp-more{margin-top:64px}.pp-more h2{font-size:clamp(1.2rem,2.2vw,1.6rem)}.pp-more .qv-like-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}",
+    ".pp-bar{display:none}@media(max-width:860px){.pp-grid{grid-template-columns:1fr;gap:24px}.pp-gallery{position:static}.pp-page{padding-bottom:110px}.pp-bar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--line)}.pp-bar>div{flex:1;min-width:0}.pp-bar b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95rem}.pp-bar span{color:var(--p);font-weight:800}body.pp-on .totop{bottom:86px}}",
     // Cinema look: deeper blacks, glass header that turns solid, bigger type and glowing cards
     ".cine{--bg:#09090c;--bg2:#121218;--card:#17171f;--line:rgba(255,255,255,.08)}.cine .hdr{background:linear-gradient(180deg,rgba(0,0,0,.8),rgba(0,0,0,0));border-bottom-color:transparent;backdrop-filter:none;transition:background .4s,border-color .4s}.cine .hdr.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom-color:var(--line)}",
     ".cine main>.bb:first-child{margin-top:-71px}.cine .sec{padding:76px 0}.cine .sec-head h2,.cine .phead h1{letter-spacing:-.01em}.cine .card,.cine .pcard{box-shadow:none}.cine .pcard:hover{box-shadow:0 24px 60px color-mix(in srgb,var(--p) 28%,transparent)}",
@@ -697,7 +717,7 @@
 
   // Runs on published pages (it's turned into a string, so it can't use anything from this file):
   // page switching, anchor links, the mobile menu, filters and sorting, scroll-in animation, product rows,
-  // billboards, countdowns, product quick view, My List, the shopping bag and search.
+  // billboards, countdowns, product pages, My List, the shopping bag and search.
   function siteScript() {
     var d = document, h = d.documentElement, body = d.body, base = d.title;
     var $$ = function (sel, root) { return [].slice.call((root || d).querySelectorAll(sel)); };
@@ -706,13 +726,24 @@
     var store = (body.getAttribute("data-store") || "").replace(/\/+$/, "");
     var key = "mwc:" + (body.getAttribute("data-site") || "site");
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var site = {};
+    try { site = JSON.parse(d.getElementById("site-data").textContent); } catch (e) { /* none */ }
     function escH(v) { return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 
     // ----- Saved state (falls back to memory where storage is blocked, e.g. in a preview frame)
     var mem = {};
     function load(k) { try { var v = localStorage.getItem(key + ":" + k); if (v) return JSON.parse(v); } catch (e) { /* blocked */ } return mem[k] || []; }
     function save(k, v) { mem[k] = v; try { localStorage.setItem(key + ":" + k, JSON.stringify(v)); } catch (e) { /* blocked */ } }
-    var fav = load("list"), bag = load("bag");
+    var fav = load("list"), bag = load("bag"), seen = load("seen");
+    // Product pages are drawn into this page when you open one
+    var ppage = d.createElement("main");
+    ppage.className = "page pp-page";
+    ppage.setAttribute("data-page", "__product");
+    ppage.hidden = true;
+    var lastMain = pages[pages.length - 1] || d.querySelector(".ftr");
+    if (pages.length) lastMain.parentNode.insertBefore(ppage, lastMain.nextSibling);
+    else if (lastMain) lastMain.parentNode.insertBefore(ppage, lastMain);
+    else body.appendChild(ppage);
 
     // ----- Pages and anchors
     function cur() { return pages.filter(function (p) { return !p.hidden; })[0] || null; }
@@ -724,8 +755,11 @@
     }
     function show(p, push, hash) {
       pages.forEach(function (x) { x.hidden = x !== p; });
+      ppage.hidden = p !== ppage;
+      body.classList.toggle("pp-on", p === ppage);
+      if (p !== ppage) ppage.innerHTML = "";
       mark(p);
-      var t = p.getAttribute("data-title");
+      var t = p ? p.getAttribute("data-title") : "";
       d.title = t ? t + " · " + base : base;
       if (push) { try { history.pushState(null, "", hash); } catch (e) { /* not allowed in some frames */ } }
       rails();
@@ -737,8 +771,15 @@
       closeAll();
       if (!hash || hash === "#" || hash === "#top") { scrollTo({ top: 0, behavior: "smooth" }); return; }
       if (hash.indexOf("#/") === 0) {
-        if (!pages.length) return;
         var parts = hash.slice(2).split("/");
+        if (parts[0] === "p" && parts[1]) {
+          var pr = bySlug[decodeURIComponent(parts[1])];
+          if (pr) {
+            if (ppage.hidden) cameFrom = { hash: cur() ? "#/" + cur().getAttribute("data-page") : "#top", y: scrollY || 0 };
+            productPage(pr); show(ppage, push, hash); top(); return;
+          }
+        }
+        if (!pages.length) { if (!ppage.hidden) { show(null, push, hash); top(); } return; }
         var p = pages.filter(function (x) { return x.getAttribute("data-page") === parts[0]; })[0] || pages[0];
         var changed = p !== cur();
         show(p, push && changed, hash);
@@ -750,6 +791,7 @@
       if (!el) return;
       var pg = el.closest("main[data-page]");
       if (pg && pg.hidden) { show(pg, push, "#/" + pg.getAttribute("data-page")); top(); }
+      else if (!pg && !ppage.hidden && !pages.length) show(null, push, "#top");
       el.scrollIntoView({ behavior: "smooth" });
     }
     // Inside a preview frame, open outside links in a new tab instead of inside the frame
@@ -764,6 +806,13 @@
       go(a.getAttribute("href"), true);
     });
     addEventListener("popstate", function () { go(location.hash || (pages[0] ? "#/" + pages[0].getAttribute("data-page") : "#top"), false); });
+    // "Back" from a product page returns to where you were (without touching the browser history of a page this is shown inside)
+    var cameFrom = null;
+    function back() {
+      var to = cameFrom || { hash: pages[0] ? "#/" + pages[0].getAttribute("data-page") : "#top", y: 0 };
+      go(to.hash, true);
+      setTimeout(function () { try { scrollTo({ top: to.y, behavior: "instant" }); } catch (e) { scrollTo(0, to.y); } }, 0);
+    }
 
     // ----- Filters and sorting
     d.addEventListener("click", function (e) {
@@ -844,11 +893,16 @@
     if (clocks.length) { tick(); setInterval(tick, 1000); }
 
     // ----- Products: an index of every product on the site, from the cards
-    var index = {}, order = [];
+    var index = {}, order = [], bySlug = {};
     $$("[data-p]").forEach(function (el) {
       var p;
       try { p = JSON.parse(el.getAttribute("data-p")); } catch (e) { return; }
-      if (!index[p.id]) { index[p.id] = p; order.push(p.id); }
+      if (!index[p.id]) {
+        var slug = p.slug || "product", n = 2;
+        while (bySlug[slug]) slug = (p.slug || "product") + "-" + n++;
+        p.slug = slug;
+        index[p.id] = p; bySlug[slug] = p; order.push(p.id);
+      }
     });
     function product(el) { var c = el.closest("[data-p]"); if (!c) return null; try { return index[JSON.parse(c.getAttribute("data-p")).id]; } catch (e) { return null; } }
 
@@ -897,55 +951,144 @@
     }
     // Bag: [{ id, v (variant id), label, n (price), qty }]
     function bagCount() { return bag.reduce(function (n, x) { return n + x.qty; }, 0); }
-    function addToBag(p, v) {
+    function addToBag(p, v, qty, quiet) {
+      qty = qty || 1;
       var line = bag.filter(function (x) { return x.v === v[1]; })[0];
-      var oneOff = /1\s*of\s*1/i.test(p.tag);
-      if (line) { if (oneOff) { toast("There's only one of these, and it's already in your bag"); return; } line.qty++; }
-      else bag.push({ id: p.id, v: v[1], label: v[0], n: v[2] || p.n, qty: 1 });
+      var single = oneOff(p);
+      if (line) { if (single) { if (!quiet) toast("There's only one of these, and it's already in your bag"); return; } line.qty = Math.min(20, line.qty + qty); }
+      else bag.push({ id: p.id, v: v[1], label: single ? "" : v[0], n: v[2] || p.n, qty: single ? 1 : qty });
       save("bag", bag);
       counts();
-      toast("Added to bag: " + p.name + (v[0] ? " (" + v[0] + ")" : ""));
+      if (!quiet) toast("Added to bag: " + p.name + (v[0] && !single ? " (" + v[0] + ")" : ""));
     }
     function counts() {
       $$('[data-count="list"]').forEach(function (c) { c.textContent = fav.length || ""; });
       $$('[data-count="bag"]').forEach(function (c) { var n = bagCount(); c.textContent = n || ""; });
       $$(".fav").forEach(function (b) { var p = product(b); var on = !!p && isFav(p.id); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
     }
-    function money(n) { return "$" + (Math.round(n * 100) / 100).toFixed(n % 1 ? 2 : 0); }
     function mini(p, extra) {
-      return '<div class="mini"><button type="button" class="mini-img" data-qv="' + escH(p.id) + '">' + (p.image ? '<img src="' + escH(p.image) + '" alt="">' : "") + "</button>" +
-        '<div class="mini-txt"><button type="button" class="mini-name" data-qv="' + escH(p.id) + '">' + escH(p.name) + "</button><span>" + escH(extra || p.price) + "</span></div>";
+      return '<div class="mini"><button type="button" class="mini-img" data-pp="' + escH(p.slug) + '">' + (p.image ? '<img src="' + escH(p.image) + '" alt="">' : "") + "</button>" +
+        '<div class="mini-txt"><button type="button" class="mini-name" data-pp="' + escH(p.slug) + '">' + escH(p.name) + "</button><span>" + escH(extra || p.price) + "</span></div>";
     }
 
-    function quickView(p) {
+    function money(n) { return "$" + (Math.round(n * 100) / 100).toFixed(n % 1 ? 2 : 0); }
+    function oneOff(p) { return /1\s*of\s*1/i.test(p.tag); }
+    function checkoutUrl() { return store + "/cart/" + bag.map(function (x) { return x.v + ":" + x.qty; }).join(","); }
+    function gotoCheckout() {
+      var link = checkoutUrl();
+      if (window.top !== window) window.open(link, "_blank", "noopener"); else location.href = link;
+    }
+    function cardsHtml(list) {
+      return '<div class="qv-like-grid">' + list.map(function (x) {
+        return '<button type="button" class="qv-card' + (x.sold ? " sold" : "") + '" data-pp="' + escH(x.slug) + '">' + (x.image ? '<img src="' + escH(x.image) + '" alt="" loading="lazy">' : "") + "<b>" + escH(x.name) + "</b><span>" + escH(x.sold ? "Claimed" : x.price) + "</span></button>";
+      }).join("") + "</div>";
+    }
+    function all() { return order.map(function (id) { return index[id]; }); }
+
+    // A full product page: gallery, options, bag, details, related and recently viewed
+    function productPage(p) {
       var pics = [p.image].concat(p.images || []).filter(Boolean).filter(function (x, i, a) { return a.indexOf(x) === i; });
-      var opts = p.variants || [];
-      var like = order.map(function (id) { return index[id]; }).filter(function (x) { return x.id !== p.id && x.group === p.group && !x.sold; }).slice(0, 4);
-      if (like.length < 4) like = like.concat(order.map(function (id) { return index[id]; }).filter(function (x) { return x.id !== p.id && !x.sold && like.indexOf(x) < 0; }).slice(0, 4 - like.length));
-      open('<div class="qv"><div class="qv-media"><div class="qv-main">' + (pics[0] ? '<img src="' + escH(pics[0]) + '" alt="' + escH(p.name) + '">' : "") + (p.sold ? '<span class="stamp">Gone</span>' : "") + "</div>" +
-        (pics.length > 1 ? '<div class="qv-thumbs">' + pics.map(function (x, i) { return '<button type="button" class="qv-thumb' + (i ? "" : " on") + '" data-src="' + escH(x) + '" aria-label="Photo ' + (i + 1) + '"><img src="' + escH(x) + '" alt=""></button>'; }).join("") + "</div>" : "") + "</div>" +
-        '<div class="qv-info">' + (p.tag ? '<span class="qv-tag">' + escH(p.tag) + "</span>" : "") + (p.group ? '<span class="qv-group">' + escH(p.group) + "</span>" : "") +
-        "<h2>" + escH(p.name) + '</h2><div class="qv-price">' + escH(p.price) + (p.sold ? ' <em>Claimed</em>' : "") + "</div>" +
-        '<p class="qv-desc">' + escH(p.description || p.detail) + "</p>" +
-        (opts.length > 1 ? '<div class="qv-opts" role="radiogroup" aria-label="Options">' + opts.map(function (v, i) { return '<button type="button" class="qv-opt' + (i ? "" : " on") + '" data-i="' + i + '" role="radio" aria-checked="' + !i + '">' + escH(v[0]) + "</button>"; }).join("") + "</div>" : "") +
-        '<div class="qv-actions">' +
-          (p.sold ? '<p class="qv-gone">This one’s been claimed. Its page stays up so you can see what you missed.</p>' :
-            store && opts.length ? '<button type="button" class="btn btn-p btn-lg qv-add">Add to bag</button>' : "") +
-          (p.link ? '<a class="btn btn-grey btn-lg" href="' + escH(p.link) + '" target="_blank" rel="noopener">' + (p.sold ? "See it on the store" : opts.length ? "View on store" : "Choose options") + " ↗</a>" : "") +
-          '<button type="button" class="btn btn-grey btn-lg qv-fav" aria-pressed="' + isFav(p.id) + '">' + (isFav(p.id) ? "✓ In My List" : "+ My List") + "</button>" +
-        "</div></div></div>" +
-        (like.length ? '<div class="qv-like"><h3>More like this</h3><div class="qv-like-grid">' + like.map(function (x) {
-          return '<button type="button" class="qv-card" data-qv="' + escH(x.id) + '">' + (x.image ? '<img src="' + escH(x.image) + '" alt="" loading="lazy">' : "") + "<b>" + escH(x.name) + "</b><span>" + escH(x.price) + "</span></button>";
-        }).join("") + "</div></div>" : ""), "qv");
-      var box = layer.querySelector(".ov-box"), sel = 0;
-      box.addEventListener("click", function (e) {
+      var vs = p.variants || [];
+      var named = vs.length > 1 || (vs[0] && / \/ /.test(vs[0][0]));
+      var axes = named ? Math.max.apply(null, vs.map(function (v) { return v[0].split(" / ").length; })) : 0;
+      var names = p.options && p.options.length === axes ? p.options : vs.length && axes === 1 ? [p.options[0] || "Option"] : [];
+      for (var k = names.length; k < axes; k++) names.push("Option " + (k + 1));
+      var parts = vs.map(function (v) { return v[0].split(" / ").map(function (x) { return x.trim(); }); });
+      var first = vs.filter(function (v) { return !v[3]; })[0] || vs[0];
+      var pick = first ? first[0].split(" / ").map(function (x) { return x.trim(); }) : [];
+      seen = [p.id].concat(seen.filter(function (x) { return x !== p.id; })).slice(0, 12);
+      save("seen", seen);
+      var like = all().filter(function (x) { return x.id !== p.id && x.group === p.group && !x.sold; });
+      like = like.concat(all().filter(function (x) { return x.id !== p.id && !x.sold && like.indexOf(x) < 0; })).slice(0, 8);
+      var recent = seen.slice(1).map(function (id) { return index[id]; }).filter(Boolean).slice(0, 8);
+      var detailRows = [["Category", p.group], ["Edition", p.tag], ["Serial", oneOff(p) && vs[0] && vs[0][0] ? vs[0][0] : ""]].filter(function (r) { return r[1]; });
+      var shipping = String(site.shipping || "").split(/\n\s*\n/).filter(Boolean).map(function (x) { return "<p>" + escH(x).replace(/\n/g, "<br>") + "</p>"; }).join("");
+      var opts = names.map(function (name, ax) {
+        var vals = [];
+        parts.forEach(function (pt) { if (pt[ax] && vals.indexOf(pt[ax]) < 0) vals.push(pt[ax]); });
+        return '<div class="pp-opt"><div class="pp-opt-name">' + escH(name) + ': <b data-optv="' + ax + '"></b></div><div class="pp-vals">' +
+          vals.map(function (v) { return '<button type="button" class="pp-val" data-ax="' + ax + '" data-v="' + escH(v) + '">' + escH(v.replace(/\s*\(\+\$\d+(\.\d+)?\)/, "")) + "</button>"; }).join("") + "</div></div>";
+      }).join("");
+      ppage.innerHTML = '<div class="wrap pp">' +
+        '<nav class="crumbs" aria-label="Breadcrumb"><button type="button" class="pp-back">‹ Back</button><span>' + (p.group ? escH(p.group) + " › " : "") + escH(p.name) + "</span></nav>" +
+        '<div class="pp-grid"><div class="pp-gallery"><div class="pp-main' + (p.sold ? " gone" : "") + '">' + (pics[0] ? '<img src="' + escH(pics[0]) + '" alt="' + escH(p.name) + '">' : "") + (p.sold ? '<span class="stamp">Claimed</span>' : "") +
+          (pics.length > 1 ? '<button type="button" class="pp-nav prev" aria-label="Previous photo">‹</button><button type="button" class="pp-nav next" aria-label="Next photo">›</button>' : "") + "</div>" +
+          (pics.length > 1 ? '<div class="pp-thumbs">' + pics.map(function (x, i) { return '<button type="button" class="qv-thumb' + (i ? "" : " on") + '" data-src="' + escH(x) + '" aria-label="Photo ' + (i + 1) + '"><img src="' + escH(x) + '" alt=""></button>'; }).join("") + "</div>" : "") + "</div>" +
+        '<div class="pp-info">' + (p.tag ? '<span class="qv-tag">' + escH(p.tag) + "</span>" : "") + (p.group ? '<span class="qv-group">' + escH(p.group) + "</span>" : "") +
+          "<h1>" + escH(p.name) + '</h1><div class="pp-price"><b class="pp-amt">' + escH(p.price) + '</b><span class="pp-stock"></span></div>' +
+          (p.detail ? '<p class="pp-lead">' + escH(p.detail) + "</p>" : "") + opts +
+          (!p.sold && vs.length && !oneOff(p) ? '<div class="pp-qty"><span>Quantity</span><div class="qty"><button type="button" data-pq="-1" aria-label="One less">−</button><span class="pp-n">1</span><button type="button" data-pq="1" aria-label="One more">+</button></div></div>' : "") +
+          '<div class="pp-actions">' +
+            (p.sold ? '<p class="qv-gone">This one’s been claimed. Its page stays up so you can see what you missed.</p>' :
+              store && vs.length ? '<button type="button" class="btn btn-p btn-lg pp-add">Add to bag</button><button type="button" class="btn btn-o btn-lg pp-buy">Buy now</button>' :
+              p.link ? '<a class="btn btn-p btn-lg" href="' + escH(p.link) + '" target="_blank" rel="noopener">Buy it here ↗</a>' : "") +
+            '<button type="button" class="btn btn-grey btn-lg pp-fav" aria-pressed="' + isFav(p.id) + '">' + (isFav(p.id) ? "✓ In My List" : "+ My List") + "</button>" +
+            '<button type="button" class="btn btn-grey btn-lg pp-share" aria-label="Share">Share</button></div>' +
+          (site.perks && site.perks.length ? '<ul class="pp-perks">' + site.perks.map(function (x) { return "<li>" + escH(x) + "</li>"; }).join("") + "</ul>" : "") +
+          '<details class="faq" open><summary>Description</summary><p>' + escH(p.description || p.detail || "") + "</p></details>" +
+          (detailRows.length ? '<details class="faq"><summary>Details</summary><table class="kv">' + detailRows.map(function (r) { return "<tr><td>" + escH(r[0]) + "</td><td>" + escH(r[1]) + "</td></tr>"; }).join("") + "</table></details>" : "") +
+          (shipping ? '<details class="faq"><summary>Shipping & returns</summary>' + shipping + "</details>" : "") +
+        "</div></div>" +
+        (like.length ? '<section class="pp-more"><h2>More like this</h2>' + cardsHtml(like) + "</section>" : "") +
+        (recent.length ? '<section class="pp-more"><h2>Recently viewed</h2>' + cardsHtml(recent) + "</section>" : "") +
+        "</div>" +
+        (!p.sold && store && vs.length ? '<div class="pp-bar"><div><b>' + escH(p.name) + '</b><span class="pp-amt">' + escH(p.price) + '</span></div><button type="button" class="btn btn-p pp-add">Add to bag</button></div>' : "");
+
+      var qty = 1, photo = 0;
+      function chosen() {
+        if (!vs.length) return null;
+        if (!named) return vs[0];
+        return vs.filter(function (v, i) { return parts[i].every(function (x, ax) { return x === pick[ax]; }); })[0] || null;
+      }
+      function refresh() {
+        var v = chosen();
+        names.forEach(function (n2, ax) {
+          var label = ppage.querySelector('[data-optv="' + ax + '"]');
+          if (label) label.textContent = pick[ax] || "";
+          [].forEach.call(ppage.querySelectorAll('.pp-val[data-ax="' + ax + '"]'), function (b) {
+            var val = b.getAttribute("data-v");
+            var test = pick.slice(); test[ax] = val;
+            var ok = vs.some(function (vv, i) { return !vv[3] && parts[i].every(function (x, a2) { return x === test[a2]; }); });
+            b.classList.toggle("on", val === pick[ax]);
+            b.classList.toggle("out", !ok);
+          });
+        });
+        var price = v ? money(v[2]) : p.price, out = !v || v[3];
+        [].forEach.call(ppage.querySelectorAll(".pp-amt"), function (x) { x.textContent = vs.length > 1 ? price : p.price; });
+        var stock = ppage.querySelector(".pp-stock");
+        stock.textContent = p.sold ? "Claimed" : !vs.length ? "" : out ? "Sold out in this option" : oneOff(p) ? "Only one exists · available now" : "In stock";
+        stock.className = "pp-stock" + (p.sold || out ? " no" : "");
+        [].forEach.call(ppage.querySelectorAll(".pp-add,.pp-buy"), function (b) { b.disabled = out; });
+      }
+      function setPhoto(i) {
+        photo = (i + pics.length) % pics.length;
+        ppage.querySelector(".pp-main img").src = pics[photo];
+        [].forEach.call(ppage.querySelectorAll(".qv-thumb"), function (x, n) { x.classList.toggle("on", n === photo); });
+      }
+      ppage.onclick = function (e) {
         var t = e.target.closest("button");
         if (!t) return;
-        if (t.classList.contains("qv-thumb")) { box.querySelector(".qv-main img").src = t.getAttribute("data-src"); $$(".qv-thumb", box).forEach(function (x) { x.classList.toggle("on", x === t); }); }
-        else if (t.classList.contains("qv-opt")) { sel = +t.getAttribute("data-i"); $$(".qv-opt", box).forEach(function (x) { x.classList.toggle("on", x === t); x.setAttribute("aria-checked", x === t); }); }
-        else if (t.classList.contains("qv-add")) addToBag(p, opts[sel]);
-        else if (t.classList.contains("qv-fav")) { toggleFav(p.id); t.textContent = isFav(p.id) ? "✓ In My List" : "+ My List"; t.setAttribute("aria-pressed", isFav(p.id)); }
-      });
+        if (t.classList.contains("pp-back")) back();
+        else if (t.classList.contains("qv-thumb")) setPhoto([].indexOf.call(ppage.querySelectorAll(".qv-thumb"), t));
+        else if (t.classList.contains("pp-nav")) setPhoto(photo + (t.classList.contains("next") ? 1 : -1));
+        else if (t.classList.contains("pp-val")) { pick[+t.getAttribute("data-ax")] = t.getAttribute("data-v"); refresh(); }
+        else if (t.hasAttribute("data-pq")) { qty = Math.max(1, Math.min(20, qty + +t.getAttribute("data-pq"))); ppage.querySelector(".pp-n").textContent = qty; }
+        else if (t.classList.contains("pp-add")) { var v = chosen(); if (v && !v[3]) addToBag(p, v, qty); }
+        else if (t.classList.contains("pp-buy")) { var v2 = chosen(); if (v2 && !v2[3]) { addToBag(p, v2, qty, true); gotoCheckout(); } }
+        else if (t.classList.contains("pp-fav")) { toggleFav(p.id); t.textContent = isFav(p.id) ? "✓ In My List" : "+ My List"; t.setAttribute("aria-pressed", isFav(p.id)); }
+        else if (t.classList.contains("pp-share")) {
+          var link = location.href.split("#")[0] + "#/p/" + p.slug;
+          if (navigator.share) navigator.share({ title: p.name, url: link }).catch(function () {});
+          else if (navigator.clipboard) navigator.clipboard.writeText(link).then(function () { toast("Link copied"); }, function () { toast(link); });
+          else toast(link);
+        }
+      };
+      var main = ppage.querySelector(".pp-main"), sx = null;
+      main.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      main.addEventListener("touchend", function (e) { if (sx === null || pics.length < 2) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) setPhoto(photo + (dx < 0 ? 1 : -1)); sx = null; });
+      ppage.setAttribute("data-title", p.name);
+      refresh();
+      counts();
     }
 
     function openList() {
@@ -960,12 +1103,12 @@
         var p = index[x.id];
         if (!p) return "";
         total += x.n * x.qty;
-        var one = /1\s*of\s*1/i.test(p.tag);
+        var one = oneOff(p);
         return '<div class="sheet-row">' + mini(p, (x.label ? x.label + " · " : "") + money(x.n)) +
           '<div class="qty">' + (one ? "<span>1 of 1</span>" : '<button type="button" data-q="' + i + '" data-d="-1" aria-label="One less">−</button><span>' + x.qty + '</span><button type="button" data-q="' + i + '" data-d="1" aria-label="One more">+</button>') + "</div>" +
           '<button type="button" class="sheet-rm" data-rm="' + i + '" aria-label="Remove ' + escH(p.name) + '">&times;</button></div>';
       }).join("");
-      var link = store + "/cart/" + bag.map(function (x) { return x.v + ":" + x.qty; }).join(",");
+      var link = checkoutUrl();
       open("<h2>Your bag</h2>" + (bag.length ? '<div class="sheet-list">' + rows + '</div><div class="sheet-foot"><div class="sheet-total"><span>Subtotal</span><b>' + money(total) + '</b></div><p class="small">Shipping and any discounts are worked out at checkout. Free over $50 in Australia.</p>' +
         '<a class="btn btn-p btn-lg btn-block" href="' + escH(link) + '" target="_blank" rel="noopener">Checkout securely ↗</a></div>' : '<p class="sheet-empty">Your bag is empty. One-of-ones go fast.</p>'), "sheet");
     }
@@ -976,9 +1119,7 @@
         var q = input.value.trim().toLowerCase();
         var list = order.map(function (id) { return index[id]; }).filter(function (p) { return !q || (p.name + " " + p.group + " " + p.tag + " " + p.detail + " " + p.description).toLowerCase().indexOf(q) >= 0; });
         if (!q) list = list.filter(function (p) { return !p.sold; });
-        res.innerHTML = (q ? "<h3>" + list.length + " result" + (list.length === 1 ? "" : "s") + "</h3>" : "<h3>Available now</h3>") + (list.length ? '<div class="qv-like-grid">' + list.slice(0, 40).map(function (x) {
-          return '<button type="button" class="qv-card' + (x.sold ? " sold" : "") + '" data-qv="' + escH(x.id) + '">' + (x.image ? '<img src="' + escH(x.image) + '" alt="" loading="lazy">' : "") + "<b>" + escH(x.name) + "</b><span>" + escH(x.sold ? "Claimed" : x.price) + "</span></button>";
-        }).join("") + "</div>" : '<p class="sheet-empty">Nothing matches that. Try "pink", "tray" or "socks".</p>');
+        res.innerHTML = (q ? "<h3>" + list.length + " result" + (list.length === 1 ? "" : "s") + "</h3>" : "<h3>Available now</h3>") + (list.length ? cardsHtml(list.slice(0, 40)) : '<p class="sheet-empty">Nothing matches that. Try "pink", "tray" or "socks".</p>');
       }
       input.addEventListener("input", run);
       run();
@@ -991,15 +1132,15 @@
       if (opener) { var k = opener.getAttribute("data-open"); if (k === "search") openSearch(); else if (k === "list") openList(); else openBag(); return; }
       var favBtn = t.closest(".fav");
       if (favBtn) { var fp = product(favBtn); if (fp) toggleFav(fp.id); return; }
-      var qv = t.closest("[data-qv]");
-      if (qv && index[qv.getAttribute("data-qv")]) { quickView(index[qv.getAttribute("data-qv")]); return; }
+      var pp = t.closest("[data-pp]");
+      if (pp && bySlug[pp.getAttribute("data-pp")]) { go("#/p/" + pp.getAttribute("data-pp"), true); return; }
       if (t.closest("[data-unfav]")) { toggleFav(t.closest("[data-unfav]").getAttribute("data-unfav")); openList(); return; }
       var q = t.closest("[data-q]");
       if (q) { var line = bag[+q.getAttribute("data-q")]; line.qty = Math.max(1, Math.min(20, line.qty + +q.getAttribute("data-d"))); save("bag", bag); counts(); openBag(); return; }
       if (t.closest("[data-rm]")) { bag.splice(+t.closest("[data-rm]").getAttribute("data-rm"), 1); save("bag", bag); counts(); openBag(); return; }
-      // Clicking a product card opens the quick view (ctrl/cmd-click still opens the store page)
+      // Clicking a product card opens its product page on this site
       var cover = t.closest(".pcover");
-      if (cover && !e.metaKey && !e.ctrlKey && !e.shiftKey) { var cp = product(cover); if (cp) { e.preventDefault(); quickView(cp); } }
+      if (cover && !e.metaKey && !e.ctrlKey && !e.shiftKey) { var cp = product(cover); if (cp) { e.preventDefault(); go("#/p/" + cp.slug, true); } }
     });
     if (!order.length) $$(".hdr-tools").forEach(function (x) { x.hidden = true; });
     counts();
@@ -1078,6 +1219,7 @@
       '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
       '<link href="https://fonts.googleapis.com/css2?family=' + f.css + '&display=swap" rel="stylesheet">' +
       "<style>" + themeCss(t) + BASE_CSS + (opts.editable ? EDIT_CSS : "") + (opts.banner ? ".draft-bar{position:sticky;top:0;z-index:60;background:#d4ad3a;color:#1b1404;font:600 13px/1.4 system-ui;text-align:center;padding:8px 14px}.draft-bar~.hdr{top:36px}" : "") + "</style></head><body id=\"top\"" + (t.look === "cinema" ? ' class="cine"' : "") + ' data-site="' + esc(slugify(t.business) || "site") + '"' + (/^https:\/\/[^\s"'<>]+$/i.test(t.store || "") ? ' data-store="' + esc(t.store) + '"' : "") + ">\n" + (opts.banner ? '<div class="draft-bar">' + esc(opts.banner) + "</div>" : "") + body + "\n" +
+      (opts.editable ? "" : '<script type="application/json" id="site-data">' + JSON.stringify({ perks: lines(t.perks), shipping: String(t.shipping || "") }).replace(/</g, "\\u003c") + "</script>") +
       "<script>" + (opts.editable ? EDIT_JS : SITE_JS) + "</script></body></html>";
   }
 

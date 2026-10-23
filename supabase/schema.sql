@@ -407,3 +407,20 @@ revoke execute on function public.get_shared_design(text) from public;
 revoke execute on function public.review_shared_design(text, text, text, text) from public;
 grant execute on function public.get_shared_design(text) to anon, authenticated;
 grant execute on function public.review_shared_design(text, text, text, text) to anon, authenticated;
+
+-- ---------- Design emails (sent by the send-email edge function) ----------
+create table if not exists public.design_emails (
+  id uuid primary key default gen_random_uuid(),
+  design_id uuid references public.designs(id) on delete cascade,
+  kind text not null check (kind in ('share','portal')),
+  to_email text not null,
+  to_name text,
+  status text not null default 'sent' check (status in ('sent','failed')),
+  error text,
+  provider_id text,
+  sent_by uuid,
+  created_at timestamptz not null default now()
+);
+alter table public.design_emails enable row level security;
+create policy "owner reads email log" on public.design_emails for select to authenticated using (private.is_admin());
+create index if not exists design_emails_design_idx on public.design_emails (design_id, created_at desc);

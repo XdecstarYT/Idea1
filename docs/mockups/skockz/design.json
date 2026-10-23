@@ -11,7 +11,9 @@
     "font": "street",
     "radius": "soft",
     "look": "cinema",
-    "store": "https://skockz.store"
+    "store": "https://skockz.store",
+    "perks": "Free sticker sheet in every order\nFree pickup in Warrnambool\nFree shipping over $50 in Australia\nSecure checkout with Shop Pay, cards and wallets",
+    "shipping": "Everything ships from Warrnambool, Victoria. Australia standard $11, express $15, free over $50. International $20. Local pickup is free.\n\nClay pieces are made after you order, so allow 3–5 business days before they're posted. You'll get tracking by email.\n\nFaulty or damaged? Email sskockzz@gmail.com within 30 days for a replacement, repair or refund. Pieces made just for you can't be returned for change of mind. Your rights under Australian Consumer Law always apply."
   },
   "shared": [
     {
@@ -82,7 +84,7 @@
               "heading": "012 PATINA",
               "text": "Mint green and copper, named for the green copper turns as it ages. 14 of 15 SKOCKSTERS are gone. This is the one that's left.",
               "button": "Claim it: $25",
-              "buttonLink": "https://skockz.store/products/skockster-012-patina-1-of-1",
+              "buttonLink": "#/p/skockster-012-patina-1-of-1",
               "button2": "See the run",
               "button2Link": "#row-the-skockster-run-001-015",
               "tag": "012/001"
@@ -106,7 +108,7 @@
               "button": "Shop the sets",
               "buttonLink": "#/sets",
               "button2": "Take all four",
-              "button2Link": "https://skockz.store/products/skockz-sets-all-four-1-of-1",
+              "button2Link": "#/p/skockz-sets-all-four-1-of-1",
               "tag": "Save $20"
             }
           ]
@@ -131,7 +133,7 @@
               "sold": false,
               "description": "Serial 012/001. There is exactly one of these on Earth and this page is it. PATINA is named for the green that copper turns as it ages — and it wears both. A mint-green body, a wide black visor pulled low across the eyes, round copper ears, a copper nose, copper talons, and a row of copper plates running down its spine into the tail. A deep teal core and a single cream fang finish it.",
               "images": "https://skockz.store/cdn/shop/files/skockster-012-patina-back.png?v=1790393787&width=900\nhttps://skockz.store/cdn/shop/files/skockster-012-patina-simplified.jpg?v=1790744891&width=900",
-              "variant": "52768502350104"
+              "variant": "012/001 = 52768502350104"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-002-midas-premium.png?v=1787902573&width=900",
@@ -144,7 +146,7 @@
               "sold": false,
               "description": "Serial 002/001. One tray, one photo, one owner. Gold clay dish with a sculpted face — bulging eyes, gritted teeth and a tongue lolling over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52581375639832"
+              "variant": "002/001 = 52581375639832"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_31_2026_at_12_38_27_PM.png?v=1788143937&width=900",
@@ -157,7 +159,7 @@
               "sold": false,
               "description": "Serial 003/001. One tray, one photo, one owner. Deep green clay dish with a pale blue snout, a matching blue tongue over the lip and dark green studs pressed into the rim. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52584910094616"
+              "variant": "003/001 = 52584910094616"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-005-sulfur-premium.png?v=1789297429&width=900",
@@ -170,7 +172,7 @@
               "sold": false,
               "description": "Serial 005/001. One tray, one photo, one owner. Yellow clay disc with a scalloped edge and four brown studs across the brow, white eyes with amber centres, a black snout, and a mouth of gritted teeth with a soft yellow tongue pushed out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674773942552"
+              "variant": "005/001 = 52674773942552"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-006-plasma-premium.png?v=1789297437&width=900",
@@ -183,7 +185,7 @@
               "sold": false,
               "description": "Serial 006/001. One tray, one photo, one owner. Deep magenta clay disc with hot pink brows, pale pink eyes on magenta centres, a black snout, two pink fangs and a fat red tongue rolling out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674775154968"
+              "variant": "006/001 = 52674775154968"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-007-furnace-premium.png?v=1789297456&width=900",
@@ -196,7 +198,7 @@
               "sold": false,
               "description": "Serial 007/001. One tray, one photo, one owner. Red clay disc, flecked and textured, with two bulging white eyes on red centres, a pair of black nostrils rimmed in red, a row of gritted gold teeth and a long red tongue hanging out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674777973016"
+              "variant": "007/001 = 52674777973016"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-008-oracle-premium.png?v=1789297465&width=900",
@@ -209,7 +211,7 @@
               "sold": false,
               "description": "Serial 008/001. One tray, one photo, one owner. Lavender clay disc with deep magenta brows and a spiralled third eye set into the forehead, turquoise at its centre. White eyes on violet pupils, two black nostril dots, and a purple tongue pushed out under a wide black mouth. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674779578648"
+              "variant": "008/001 = 52674779578648"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-001-cobalt.jpg?v=1790835439&width=900",
@@ -222,7 +224,7 @@
               "sold": false,
               "description": "Serial C01/001. One case, one photo, one owner. COBALT is a teal-green clay body under a cobalt blue visor — two heavy curved horns, four teal fangs around a black mouth, and a fat blue tongue rolling out over the lip. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line. Built around a full-size lighter — the big ones, not minis.",
               "images": "",
-              "variant": "52671818596632"
+              "variant": "C01/001 = 52671818596632"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-002-eclipse.jpg?v=1790835439&width=900",
@@ -235,7 +237,7 @@
               "sold": false,
               "description": "Serial C02/001. One case, one photo, one owner. ECLIPSE is a deep violet clay body under a purple visor — two magenta horns, black eyes, and a heavy open mouth rimmed in violet. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line. Built around a full-size lighter — the big ones, not minis.",
               "images": "",
-              "variant": "52671819809048"
+              "variant": "C02/001 = 52671819809048"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-003-narwhal.jpg?v=1790835426&width=900",
@@ -248,7 +250,7 @@
               "sold": false,
               "description": "Serial C03/001. One case, one photo, one owner. NARWHAL is a pale ocean-blue clay body under a heavy navy brow, with one blue horn on top, big white eyes glancing sideways, two black nostrils and the biggest pout in the crew. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line.",
               "images": "",
-              "variant": "52794887766296"
+              "variant": "C03/001 = 52794887766296"
             }
           ]
         },
@@ -416,7 +418,7 @@
               "sold": false,
               "description": "Serial 012/001. There is exactly one of these on Earth and this page is it. PATINA is named for the green that copper turns as it ages — and it wears both. A mint-green body, a wide black visor pulled low across the eyes, round copper ears, a copper nose, copper talons, and a row of copper plates running down its spine into the tail. A deep teal core and a single cream fang finish it.",
               "images": "https://skockz.store/cdn/shop/files/skockster-012-patina-back.png?v=1790393787&width=900\nhttps://skockz.store/cdn/shop/files/skockster-012-patina-simplified.jpg?v=1790744891&width=900",
-              "variant": "52768502350104"
+              "variant": "012/001 = 52768502350104"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockster-013-thrash-premium.png?v=1790477076&width=900",
@@ -492,7 +494,7 @@
               "sold": false,
               "description": "Set 02. One SKOCKSTER and the worry stone made to match it, plus 3 stickers you pick, sold together. There is exactly one of this set and this page is it. GOBLIN is the green one. A glitter-olive body, a bright green star visor pulled low across the eyes, two curved green horns, a green nose, a single white fang and a round lime core, with green arms and four green studs lined up across its feet. Three greens on one piece.",
               "images": "https://skockz.store/cdn/shop/files/set-s02-goblin-skockster.png?v=1791698732&width=900\nhttps://skockz.store/cdn/shop/files/set-s02-goblin-worry-stone.png?v=1791700572&width=900",
-              "variant": "52850166563096"
+              "variant": "S02/001 = 52850166563096"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
@@ -505,7 +507,7 @@
               "sold": false,
               "description": "Set 03. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same pinks, plus three stickers you pick, sold together. It's the first set with more than two pieces. There is exactly one of it and this page is it. GALAH is the pink one, named after the pink cockatoo.",
               "images": "https://skockz.store/cdn/shop/files/set-s03-galah-skockster.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-worry-stone.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-logo-sko.png?v=1791876482&width=900",
-              "variant": "52870723698968"
+              "variant": "S03/001 = 52870723698968"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
@@ -518,7 +520,7 @@
               "sold": false,
               "description": "Set 04. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same blues, plus three stickers you pick, sold together. There is exactly one of it and this page is it. BLUEBOTTLE is the blue one, named after the jellyfish that washes up on every Aussie beach come summer. It has a glossy cobalt body, a wide black star visor pulled low across the eyes, a pale-blue nose and a single white fang.",
               "images": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-skockster.png?v=1792192132&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-worry-stone.png?v=1792192131&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-sko.png?v=1792192132&width=900",
-              "variant": "52915015385368"
+              "variant": "S04/001 = 52915015385368"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
@@ -531,7 +533,7 @@
               "sold": false,
               "description": "Set 05. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same reds, plus three stickers you pick, sold together. There is exactly one of it and this page is it. REDBACK is the red one, named after the spider every Aussie kid gets told to check the shed for. It has a glossy red body, a crimson star visor pulled low across the eyes and a gold nose.",
               "images": "https://skockz.store/cdn/shop/files/set-s05-redback-worry-stone.png?v=1792552349&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-worry-stone-back.png?v=1792552350&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-sko.png?v=1792552350&width=900",
-              "variant": "52967214743832"
+              "variant": "S05/001 = 52967214743832"
             }
           ]
         },
@@ -547,61 +549,66 @@
               "description": "ON SALE NOW — SOCKS ONLY, $15. All 100 pairs are here in Warrnambool. Only 40 are going out without a can, and this is them. The $25 collectible can option follows in a few days, once every can has been numbered by hand. Designed in Warrnambool · Made to Shred. The first SKOCKZ sock run — 100 pairs, one colourway, one size. Black and charcoal grey, ribbed leg, contrast cuff, heel and toe, with the SKOCKSTER up the side.",
               "images": "https://skockz.store/cdn/shop/files/IMG_3743_02b73d39-3127-47fc-8ef0-9bff6b269cac.png?v=1789980137&width=900\nhttps://skockz.store/cdn/shop/files/skockz-socks-can-classic-black.png?v=1787093563&width=900\nhttps://skockz.store/cdn/shop/files/skockz-socks-classic-black.png?v=1787007313&width=900",
               "link": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition",
+              "variant": "Classic Black / With Collectible Can = 52331535958296 = 25 = sold\nClassic Black / Socks Only (No Can) = 52503090233624 = 15",
+              "options": "Colourway / Packaging",
               "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=900",
               "name": "Skateboarding Socks",
               "detail": "Bamboo crew socks, one run of 100. AU 8–12.",
               "price": "From $15",
               "tag": "Just landed",
-              "group": "Wear",
-              "variant": "Socks Only (No Can) = 52503090233624 = 15"
+              "group": "Wear"
             },
             {
               "description": "PRE-ORDER — SHIPS FROM NOVEMBER 2026. This hoodie is made in one small batch, not held in stock. Order now and yours is reserved from that run. You'll get an email at every step, and a full refund on request any time before it ships. Free pickup in Warrnambool once it lands. Size guide & how to measure → The pocket is a skateboard. An actual one. Most hoodies give you one kangaroo pouch and call it a day.",
               "images": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882&width=900\nhttps://skockz.store/cdn/shop/files/skockz-hoodie-front-worn.jpg?v=1786867518&width=900\nhttps://skockz.store/cdn/shop/files/skockz-hoodie-front-full-length.jpg?v=1786869114&width=900",
               "link": "https://skockz.store/products/skockz-signature-hoodie",
+              "variant": "S = 52320133808408 = 110\nM = 52331543920920 = 110\nL = 52331543953688 = 110\nXL = 52331543986456 = 110",
+              "options": "Size",
               "image": "https://skockz.store/cdn/shop/files/Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422&width=900",
               "name": "Signature Hoodie",
               "detail": "Puff print. One small batch, ships from November 2026.",
               "price": "$110",
               "tag": "Pre-order",
-              "group": "Wear",
-              "variant": "Size S = 52320133808408 = 110\nSize M = 52331543920920 = 110\nSize L = 52331543953688 = 110\nSize XL = 52331543986456 = 110"
+              "group": "Wear"
             },
             {
               "description": "Yours is the only one. There will never be another. Every Mini SKOCKSTER is rolled, shaped and assembled by hand from polymer clay — no moulds, no casts, no production line. Two identical ones have never come off the desk, and never will. Yours doesn't exist yet. It gets made after you order, in the colour and ear shape you pick, then clipped to its keyring and sent from Warrnambool. 1 of 1 — always.",
               "images": "https://skockz.store/cdn/shop/files/dark-IMG_3050.jpg?v=1786412014&width=900\nhttps://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_26_2026_at_03_32_58_PM.png?v=1787722389&width=900\nhttps://skockz.store/cdn/shop/files/dark-resin-2968_c27c14c6-9606-46e5-9858-a2092efeecd4.jpg?v=1786412014&width=900",
               "link": "https://skockz.store/products/mini-skocksters-keychain",
+              "variant": "Gleaming Gold / Resin Coated (+$5) = 52390494372120 = 20\nGleaming Gold / No Resin = 52460800508184 = 15 = sold\nGnarly Green / Resin Coated (+$5) = 52390495387928 = 20\nGnarly Green / No Resin = 52460800639256 = 15\nMenace Mono / Resin Coated (+$5) = 52390495322392 = 20\nMenace Mono / No Resin = 52460800573720 = 15\nBogan Brown / Resin Coated (+$5) = 52390495486232 = 20\nBogan Brown / No Resin = 52460800737560 = 15 = sold\nBail Blue / Resin Coated (+$5) = 52390495289624 = 20\nBail Blue / No Resin = 52460800540952 = 15\nOllie Orange / Resin Coated (+$5) = 52390495420696 = 20\nOllie Orange / No Resin = 52460800672024 = 15\nPunchy Pink / Resin Coated (+$5) = 52390495453464 = 20\nPunchy Pink / No Resin = 52460800704792 = 15\nSmooth Scarlett / Resin Coated (+$5) = 52462975254808 = 20\nSmooth Scarlett / No Resin = 52462975287576 = 15",
+              "options": "Colour / Resin Glaze",
               "image": "https://skockz.store/cdn/shop/files/dark-IMG_3061.jpg?v=1786412014&width=900",
               "name": "Mini SKOCKSTERS Keychain",
               "detail": "Rolled and shaped by hand. Yours is the only one.",
               "price": "From $15",
               "tag": "Made to order",
-              "group": "Keychains",
-              "variant": ""
+              "group": "Keychains"
             },
             {
               "description": "The SKOCKZ logo. In clay. On your keys. Hand-assembled polymer clay keychain featuring the iconic SKOCKZ aesthetic. Choose between the bold SZ monogram or the full SKOCKZ logo with ears — both available in any colour to match your vibe. Add an optional UV resin glaze for extra protection and shine, or take it raw. A compact statement for skaters who carry the brand everywhere. Made in Warrnambool.",
               "images": "https://skockz.store/cdn/shop/files/5E1E4C99-2207-457C-8EBD-67BED56A4A29.jpg?v=1785156580&width=900\nhttps://skockz.store/cdn/shop/files/skockz-keychain-body.jpg?v=1783740730&width=900\nhttps://skockz.store/cdn/shop/files/IMG_2855.heic?v=1783666022&width=900",
               "link": "https://skockz.store/products/clay-skockz-logo",
+              "variant": "SKOCKZ / Red / No Resin = 52388060430616 = 10\nS / Red / No Resin = 52388060561688 = 10\nSZ / Red / No Resin = 52388060692760 = 10\nSKOCKZ / Orange / No Resin = 52388524163352 = 10\nS / Orange / No Resin = 52388524294424 = 10\nSZ / Orange / No Resin = 52388524425496 = 10\nSKOCKZ / Yellow / No Resin = 52388524556568 = 10\nS / Yellow / No Resin = 52388524687640 = 10\nSZ / Yellow / No Resin = 52388524818712 = 10\nSKOCKZ / Green / No Resin = 52388524949784 = 10\nS / Green / No Resin = 52388525080856 = 10\nSZ / Green / No Resin = 52388525211928 = 10\nSKOCKZ / Blue / No Resin = 52388525343000 = 10\nS / Blue / No Resin = 52388525474072 = 10\nSZ / Blue / No Resin = 52388525605144 = 10\nSKOCKZ / Pink / No Resin = 52388525736216 = 10\nS / Pink / No Resin = 52388525867288 = 10\nSZ / Pink / No Resin = 52388525998360 = 10\nSKOCKZ / Purple / No Resin = 52388526129432 = 10\nS / Purple / No Resin = 52388526260504 = 10\nSZ / Purple / No Resin = 52388526391576 = 10\nSKOCKZ / Brown / No Resin = 52388526522648 = 10\nS / Brown / No Resin = 52388526653720 = 10\nSZ / Brown / No Resin = 52388526784792 = 10\nSKOCKZ / Grey / No Resin = 52388526915864 = 10\nS / Grey / No Resin = 52388527046936 = 10\nSZ / Grey / No Resin = 52388527178008 = 10\nSKOCKZ / Red / Resin Coated (+$5) = 52462919319832 = 15\nS / Red / Resin Coated (+$5) = 52462919352600 = 15\nSZ / Red / Resin Coated (+$5) = 52462919385368 = 15\nSKOCKZ / Orange / Resin Coated (+$5) = 52462919418136 = 15\nS / Orange / Resin Coated (+$5) = 52462919450904 = 15\nSZ / Orange / Resin Coated (+$5) = 52462919483672 = 15\nSKOCKZ / Yellow / Resin Coated (+$5) = 52462919516440 = 15\nS / Yellow / Resin Coated (+$5) = 52462919549208 = 15\nSZ / Yellow / Resin Coated (+$5) = 52462919581976 = 15\nSKOCKZ / Green / Resin Coated (+$5) = 52462919614744 = 15\nS / Green / Resin Coated (+$5) = 52462919647512 = 15\nSZ / Green / Resin Coated (+$5) = 52462919680280 = 15\nSKOCKZ / Blue / Resin Coated (+$5) = 52462919713048 = 15\nS / Blue / Resin Coated (+$5) = 52462919745816 = 15\nSZ / Blue / Resin Coated (+$5) = 52462919778584 = 15\nSKOCKZ / Pink / Resin Coated (+$5) = 52462919811352 = 15\nS / Pink / Resin Coated (+$5) = 52462919844120 = 15\nSZ / Pink / Resin Coated (+$5) = 52462919876888 = 15\nSKOCKZ / Purple / Resin Coated (+$5) = 52462919909656 = 15\nS / Purple / Resin Coated (+$5) = 52462919942424 = 15\nSZ / Purple / Resin Coated (+$5) = 52462919975192 = 15\nSKOCKZ / Brown / Resin Coated (+$5) = 52462920007960 = 15\nS / Brown / Resin Coated (+$5) = 52462920040728 = 15\nSZ / Brown / Resin Coated (+$5) = 52462920073496 = 15\nSKOCKZ / Grey / Resin Coated (+$5) = 52462920106264 = 15\nS / Grey / Resin Coated (+$5) = 52462920139032 = 15\nSZ / Grey / Resin Coated (+$5) = 52462920171800 = 15",
+              "options": "Piece Body / Colour / Resin Glaze",
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543&width=900",
               "name": "LOGO Keychain",
               "detail": "SZ monogram or the full logo, in any colour.",
               "price": "From $10",
               "tag": "",
-              "group": "Keychains",
-              "variant": ""
+              "group": "Keychains"
             },
             {
               "description": "Stick it everywhere. SKOCKZ stickers with a premium glossy finish — featuring the mascots, logos, and graphics from the full SKOCKZ range. Every order automatically includes a free sticker sheet. Grab extra sheets for just $1 each. Premium glossy finish SKOCKZ mascots + brand graphics 1 free sheet included with every SKOCKZ order Additional sheets $1 each Perfect for boards, helmets, laptops, water bottles Stick it. Shred it.",
               "images": "https://skockz.store/cdn/shop/files/2F4CDC52-B9FD-44F5-881B-1B9633FA949D.jpg?v=1784263643&width=900\nhttps://skockz.store/cdn/shop/files/FDC43649-803C-43A0-9F14-59A950B77BEA.jpg?v=1784263643&width=900\nhttps://skockz.store/cdn/shop/files/skockz-sticker-skockz-logo-art.jpg?v=1792738049&width=900",
               "link": "https://skockz.store/products/stickers",
+              "variant": "SKOCKZ Logo = 52320134005016 = 1\nPointy Purpy = 52335983264024 = 1\nSKOCKZ Duo = 52335983296792 = 1\nBerry Blob = 52335983329560 = 1\nLizard Kickflip = 52335983362328 = 1\nLow Poly Skockster = 52549762908440 = 1\nKilla Rilla = 52549762941208 = 1\nRanga Tanga = 52549762973976 = 1\nLow Poly Rilla = 52549763006744 = 1\nSKOCKZ Graffiti = 52549763039512 = 1\nLow Poly Cogster = 52549763072280 = 1",
+              "options": "Design",
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_08_37_PM.png?v=1785740950&width=900",
               "name": "Sticker Sheets",
               "detail": "Premium gloss. A free sheet comes in every order.",
               "price": "$1",
               "tag": "",
-              "group": "Stickers",
-              "variant": ""
+              "group": "Stickers"
             }
           ]
         },
@@ -637,7 +644,7 @@
           "date": "2026-11-01",
           "done": "Shipping now. Orders go out in the order they came in.",
           "button": "Reserve yours: $110",
-          "buttonLink": "https://skockz.store/products/skockz-signature-hoodie",
+          "buttonLink": "#/p/skockz-signature-hoodie",
           "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882&width=2000"
         },
         {
@@ -973,61 +980,66 @@
               "description": "ON SALE NOW — SOCKS ONLY, $15. All 100 pairs are here in Warrnambool. Only 40 are going out without a can, and this is them. The $25 collectible can option follows in a few days, once every can has been numbered by hand. Designed in Warrnambool · Made to Shred. The first SKOCKZ sock run — 100 pairs, one colourway, one size. Black and charcoal grey, ribbed leg, contrast cuff, heel and toe, with the SKOCKSTER up the side.",
               "images": "https://skockz.store/cdn/shop/files/IMG_3743_02b73d39-3127-47fc-8ef0-9bff6b269cac.png?v=1789980137&width=900\nhttps://skockz.store/cdn/shop/files/skockz-socks-can-classic-black.png?v=1787093563&width=900\nhttps://skockz.store/cdn/shop/files/skockz-socks-classic-black.png?v=1787007313&width=900",
               "link": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition",
+              "variant": "Classic Black / With Collectible Can = 52331535958296 = 25 = sold\nClassic Black / Socks Only (No Can) = 52503090233624 = 15",
+              "options": "Colourway / Packaging",
               "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=900",
               "name": "Skateboarding Socks",
               "detail": "Bamboo crew socks, one run of 100. AU 8–12.",
               "price": "From $15",
               "tag": "Just landed",
-              "group": "Wear",
-              "variant": "Socks Only (No Can) = 52503090233624 = 15"
+              "group": "Wear"
             },
             {
               "description": "PRE-ORDER — SHIPS FROM NOVEMBER 2026. This hoodie is made in one small batch, not held in stock. Order now and yours is reserved from that run. You'll get an email at every step, and a full refund on request any time before it ships. Free pickup in Warrnambool once it lands. Size guide & how to measure → The pocket is a skateboard. An actual one. Most hoodies give you one kangaroo pouch and call it a day.",
               "images": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882&width=900\nhttps://skockz.store/cdn/shop/files/skockz-hoodie-front-worn.jpg?v=1786867518&width=900\nhttps://skockz.store/cdn/shop/files/skockz-hoodie-front-full-length.jpg?v=1786869114&width=900",
               "link": "https://skockz.store/products/skockz-signature-hoodie",
+              "variant": "S = 52320133808408 = 110\nM = 52331543920920 = 110\nL = 52331543953688 = 110\nXL = 52331543986456 = 110",
+              "options": "Size",
               "image": "https://skockz.store/cdn/shop/files/Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422&width=900",
               "name": "Signature Hoodie",
               "detail": "Puff print. One small batch, ships from November 2026.",
               "price": "$110",
               "tag": "Pre-order",
-              "group": "Wear",
-              "variant": "Size S = 52320133808408 = 110\nSize M = 52331543920920 = 110\nSize L = 52331543953688 = 110\nSize XL = 52331543986456 = 110"
+              "group": "Wear"
             },
             {
               "description": "Yours is the only one. There will never be another. Every Mini SKOCKSTER is rolled, shaped and assembled by hand from polymer clay — no moulds, no casts, no production line. Two identical ones have never come off the desk, and never will. Yours doesn't exist yet. It gets made after you order, in the colour and ear shape you pick, then clipped to its keyring and sent from Warrnambool. 1 of 1 — always.",
               "images": "https://skockz.store/cdn/shop/files/dark-IMG_3050.jpg?v=1786412014&width=900\nhttps://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_26_2026_at_03_32_58_PM.png?v=1787722389&width=900\nhttps://skockz.store/cdn/shop/files/dark-resin-2968_c27c14c6-9606-46e5-9858-a2092efeecd4.jpg?v=1786412014&width=900",
               "link": "https://skockz.store/products/mini-skocksters-keychain",
+              "variant": "Gleaming Gold / Resin Coated (+$5) = 52390494372120 = 20\nGleaming Gold / No Resin = 52460800508184 = 15 = sold\nGnarly Green / Resin Coated (+$5) = 52390495387928 = 20\nGnarly Green / No Resin = 52460800639256 = 15\nMenace Mono / Resin Coated (+$5) = 52390495322392 = 20\nMenace Mono / No Resin = 52460800573720 = 15\nBogan Brown / Resin Coated (+$5) = 52390495486232 = 20\nBogan Brown / No Resin = 52460800737560 = 15 = sold\nBail Blue / Resin Coated (+$5) = 52390495289624 = 20\nBail Blue / No Resin = 52460800540952 = 15\nOllie Orange / Resin Coated (+$5) = 52390495420696 = 20\nOllie Orange / No Resin = 52460800672024 = 15\nPunchy Pink / Resin Coated (+$5) = 52390495453464 = 20\nPunchy Pink / No Resin = 52460800704792 = 15\nSmooth Scarlett / Resin Coated (+$5) = 52462975254808 = 20\nSmooth Scarlett / No Resin = 52462975287576 = 15",
+              "options": "Colour / Resin Glaze",
               "image": "https://skockz.store/cdn/shop/files/dark-IMG_3061.jpg?v=1786412014&width=900",
               "name": "Mini SKOCKSTERS Keychain",
               "detail": "Rolled and shaped by hand. Yours is the only one.",
               "price": "From $15",
               "tag": "Made to order",
-              "group": "Keychains",
-              "variant": ""
+              "group": "Keychains"
             },
             {
               "description": "The SKOCKZ logo. In clay. On your keys. Hand-assembled polymer clay keychain featuring the iconic SKOCKZ aesthetic. Choose between the bold SZ monogram or the full SKOCKZ logo with ears — both available in any colour to match your vibe. Add an optional UV resin glaze for extra protection and shine, or take it raw. A compact statement for skaters who carry the brand everywhere. Made in Warrnambool.",
               "images": "https://skockz.store/cdn/shop/files/5E1E4C99-2207-457C-8EBD-67BED56A4A29.jpg?v=1785156580&width=900\nhttps://skockz.store/cdn/shop/files/skockz-keychain-body.jpg?v=1783740730&width=900\nhttps://skockz.store/cdn/shop/files/IMG_2855.heic?v=1783666022&width=900",
               "link": "https://skockz.store/products/clay-skockz-logo",
+              "variant": "SKOCKZ / Red / No Resin = 52388060430616 = 10\nS / Red / No Resin = 52388060561688 = 10\nSZ / Red / No Resin = 52388060692760 = 10\nSKOCKZ / Orange / No Resin = 52388524163352 = 10\nS / Orange / No Resin = 52388524294424 = 10\nSZ / Orange / No Resin = 52388524425496 = 10\nSKOCKZ / Yellow / No Resin = 52388524556568 = 10\nS / Yellow / No Resin = 52388524687640 = 10\nSZ / Yellow / No Resin = 52388524818712 = 10\nSKOCKZ / Green / No Resin = 52388524949784 = 10\nS / Green / No Resin = 52388525080856 = 10\nSZ / Green / No Resin = 52388525211928 = 10\nSKOCKZ / Blue / No Resin = 52388525343000 = 10\nS / Blue / No Resin = 52388525474072 = 10\nSZ / Blue / No Resin = 52388525605144 = 10\nSKOCKZ / Pink / No Resin = 52388525736216 = 10\nS / Pink / No Resin = 52388525867288 = 10\nSZ / Pink / No Resin = 52388525998360 = 10\nSKOCKZ / Purple / No Resin = 52388526129432 = 10\nS / Purple / No Resin = 52388526260504 = 10\nSZ / Purple / No Resin = 52388526391576 = 10\nSKOCKZ / Brown / No Resin = 52388526522648 = 10\nS / Brown / No Resin = 52388526653720 = 10\nSZ / Brown / No Resin = 52388526784792 = 10\nSKOCKZ / Grey / No Resin = 52388526915864 = 10\nS / Grey / No Resin = 52388527046936 = 10\nSZ / Grey / No Resin = 52388527178008 = 10\nSKOCKZ / Red / Resin Coated (+$5) = 52462919319832 = 15\nS / Red / Resin Coated (+$5) = 52462919352600 = 15\nSZ / Red / Resin Coated (+$5) = 52462919385368 = 15\nSKOCKZ / Orange / Resin Coated (+$5) = 52462919418136 = 15\nS / Orange / Resin Coated (+$5) = 52462919450904 = 15\nSZ / Orange / Resin Coated (+$5) = 52462919483672 = 15\nSKOCKZ / Yellow / Resin Coated (+$5) = 52462919516440 = 15\nS / Yellow / Resin Coated (+$5) = 52462919549208 = 15\nSZ / Yellow / Resin Coated (+$5) = 52462919581976 = 15\nSKOCKZ / Green / Resin Coated (+$5) = 52462919614744 = 15\nS / Green / Resin Coated (+$5) = 52462919647512 = 15\nSZ / Green / Resin Coated (+$5) = 52462919680280 = 15\nSKOCKZ / Blue / Resin Coated (+$5) = 52462919713048 = 15\nS / Blue / Resin Coated (+$5) = 52462919745816 = 15\nSZ / Blue / Resin Coated (+$5) = 52462919778584 = 15\nSKOCKZ / Pink / Resin Coated (+$5) = 52462919811352 = 15\nS / Pink / Resin Coated (+$5) = 52462919844120 = 15\nSZ / Pink / Resin Coated (+$5) = 52462919876888 = 15\nSKOCKZ / Purple / Resin Coated (+$5) = 52462919909656 = 15\nS / Purple / Resin Coated (+$5) = 52462919942424 = 15\nSZ / Purple / Resin Coated (+$5) = 52462919975192 = 15\nSKOCKZ / Brown / Resin Coated (+$5) = 52462920007960 = 15\nS / Brown / Resin Coated (+$5) = 52462920040728 = 15\nSZ / Brown / Resin Coated (+$5) = 52462920073496 = 15\nSKOCKZ / Grey / Resin Coated (+$5) = 52462920106264 = 15\nS / Grey / Resin Coated (+$5) = 52462920139032 = 15\nSZ / Grey / Resin Coated (+$5) = 52462920171800 = 15",
+              "options": "Piece Body / Colour / Resin Glaze",
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543&width=900",
               "name": "LOGO Keychain",
               "detail": "SZ monogram or the full logo, in any colour.",
               "price": "From $10",
               "tag": "",
-              "group": "Keychains",
-              "variant": ""
+              "group": "Keychains"
             },
             {
               "description": "Stick it everywhere. SKOCKZ stickers with a premium glossy finish — featuring the mascots, logos, and graphics from the full SKOCKZ range. Every order automatically includes a free sticker sheet. Grab extra sheets for just $1 each. Premium glossy finish SKOCKZ mascots + brand graphics 1 free sheet included with every SKOCKZ order Additional sheets $1 each Perfect for boards, helmets, laptops, water bottles Stick it. Shred it.",
               "images": "https://skockz.store/cdn/shop/files/2F4CDC52-B9FD-44F5-881B-1B9633FA949D.jpg?v=1784263643&width=900\nhttps://skockz.store/cdn/shop/files/FDC43649-803C-43A0-9F14-59A950B77BEA.jpg?v=1784263643&width=900\nhttps://skockz.store/cdn/shop/files/skockz-sticker-skockz-logo-art.jpg?v=1792738049&width=900",
               "link": "https://skockz.store/products/stickers",
+              "variant": "SKOCKZ Logo = 52320134005016 = 1\nPointy Purpy = 52335983264024 = 1\nSKOCKZ Duo = 52335983296792 = 1\nBerry Blob = 52335983329560 = 1\nLizard Kickflip = 52335983362328 = 1\nLow Poly Skockster = 52549762908440 = 1\nKilla Rilla = 52549762941208 = 1\nRanga Tanga = 52549762973976 = 1\nLow Poly Rilla = 52549763006744 = 1\nSKOCKZ Graffiti = 52549763039512 = 1\nLow Poly Cogster = 52549763072280 = 1",
+              "options": "Design",
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_08_37_PM.png?v=1785740950&width=900",
               "name": "Sticker Sheets",
               "detail": "Premium gloss. A free sheet comes in every order.",
               "price": "$1",
               "tag": "",
-              "group": "Stickers",
-              "variant": ""
+              "group": "Stickers"
             }
           ]
         },
@@ -1040,7 +1052,7 @@
           "points": "An email at every step\nFull refund on request any time before it ships\nFree pickup in Warrnambool",
           "price": "$110",
           "button": "Reserve yours",
-          "buttonLink": "https://skockz.store/products/skockz-signature-hoodie",
+          "buttonLink": "#/p/skockz-signature-hoodie",
           "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882&width=1200",
           "badge": "Pre-order",
           "flip": true
@@ -1117,7 +1129,7 @@
               "sold": false,
               "description": "Set 02. One SKOCKSTER and the worry stone made to match it, plus 3 stickers you pick, sold together. There is exactly one of this set and this page is it. GOBLIN is the green one. A glitter-olive body, a bright green star visor pulled low across the eyes, two curved green horns, a green nose, a single white fang and a round lime core, with green arms and four green studs lined up across its feet. Three greens on one piece.",
               "images": "https://skockz.store/cdn/shop/files/set-s02-goblin-skockster.png?v=1791698732&width=900\nhttps://skockz.store/cdn/shop/files/set-s02-goblin-worry-stone.png?v=1791700572&width=900",
-              "variant": "52850166563096"
+              "variant": "S02/001 = 52850166563096"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
@@ -1130,7 +1142,7 @@
               "sold": false,
               "description": "Set 03. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same pinks, plus three stickers you pick, sold together. It's the first set with more than two pieces. There is exactly one of it and this page is it. GALAH is the pink one, named after the pink cockatoo.",
               "images": "https://skockz.store/cdn/shop/files/set-s03-galah-skockster.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-worry-stone.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-logo-sko.png?v=1791876482&width=900",
-              "variant": "52870723698968"
+              "variant": "S03/001 = 52870723698968"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
@@ -1143,7 +1155,7 @@
               "sold": false,
               "description": "Set 04. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same blues, plus three stickers you pick, sold together. There is exactly one of it and this page is it. BLUEBOTTLE is the blue one, named after the jellyfish that washes up on every Aussie beach come summer. It has a glossy cobalt body, a wide black star visor pulled low across the eyes, a pale-blue nose and a single white fang.",
               "images": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-skockster.png?v=1792192132&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-worry-stone.png?v=1792192131&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-sko.png?v=1792192132&width=900",
-              "variant": "52915015385368"
+              "variant": "S04/001 = 52915015385368"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
@@ -1156,7 +1168,20 @@
               "sold": false,
               "description": "Set 05. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same reds, plus three stickers you pick, sold together. There is exactly one of it and this page is it. REDBACK is the red one, named after the spider every Aussie kid gets told to check the shed for. It has a glossy red body, a crimson star visor pulled low across the eyes and a gold nose.",
               "images": "https://skockz.store/cdn/shop/files/set-s05-redback-worry-stone.png?v=1792552349&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-worry-stone-back.png?v=1792552350&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-sko.png?v=1792552350&width=900",
-              "variant": "52967214743832"
+              "variant": "S05/001 = 52967214743832"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
+              "name": "ALL FOUR SETS",
+              "detail": "GOBLIN, GALAH, BLUEBOTTLE and REDBACK together. Save $20.",
+              "price": "$130",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-sets-all-four-1-of-1",
+              "sold": false,
+              "description": "All four sets. One buyer. This listing only exists while every one of them is still here. GOBLIN, GALAH, BLUEBOTTLE and REDBACK are four 1-of-1 SKOCKSTERS, each sold with the worry stone made to match it. Three of them also come with a two-sided SKO/CKZ logo keychain in the same colours, and every set comes with 3 stickers you pick. Green, pink, blue and red, all shaped by hand in Warrnambool. No moulds. No casts.",
+              "images": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
+              "variant": "52967227588888"
             }
           ]
         },
@@ -1169,7 +1194,7 @@
           "price": "$130",
           "priceNote": "save $20",
           "button": "Claim all four",
-          "buttonLink": "https://skockz.store/products/skockz-sets-all-four-1-of-1",
+          "buttonLink": "#/p/skockz-sets-all-four-1-of-1",
           "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=1200",
           "badge": "Save $20"
         },
@@ -1262,7 +1287,7 @@
               "sold": false,
               "description": "Set 02. One SKOCKSTER and the worry stone made to match it, plus 3 stickers you pick, sold together. There is exactly one of this set and this page is it. GOBLIN is the green one. A glitter-olive body, a bright green star visor pulled low across the eyes, two curved green horns, a green nose, a single white fang and a round lime core, with green arms and four green studs lined up across its feet. Three greens on one piece.",
               "images": "https://skockz.store/cdn/shop/files/set-s02-goblin-skockster.png?v=1791698732&width=900\nhttps://skockz.store/cdn/shop/files/set-s02-goblin-worry-stone.png?v=1791700572&width=900",
-              "variant": "52850166563096"
+              "variant": "S02/001 = 52850166563096"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
@@ -1275,7 +1300,7 @@
               "sold": false,
               "description": "Set 03. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same pinks, plus three stickers you pick, sold together. It's the first set with more than two pieces. There is exactly one of it and this page is it. GALAH is the pink one, named after the pink cockatoo.",
               "images": "https://skockz.store/cdn/shop/files/set-s03-galah-skockster.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-worry-stone.png?v=1791876482&width=900\nhttps://skockz.store/cdn/shop/files/set-s03-galah-logo-sko.png?v=1791876482&width=900",
-              "variant": "52870723698968"
+              "variant": "S03/001 = 52870723698968"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
@@ -1288,7 +1313,7 @@
               "sold": false,
               "description": "Set 04. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same blues, plus three stickers you pick, sold together. There is exactly one of it and this page is it. BLUEBOTTLE is the blue one, named after the jellyfish that washes up on every Aussie beach come summer. It has a glossy cobalt body, a wide black star visor pulled low across the eyes, a pale-blue nose and a single white fang.",
               "images": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-skockster.png?v=1792192132&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-worry-stone.png?v=1792192131&width=900\nhttps://skockz.store/cdn/shop/files/set-s04-bluebottle-sko.png?v=1792192132&width=900",
-              "variant": "52915015385368"
+              "variant": "S04/001 = 52915015385368"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
@@ -1301,7 +1326,7 @@
               "sold": false,
               "description": "Set 05. A SKOCKSTER, the worry stone made to match it and a logo keychain, all in the same reds, plus three stickers you pick, sold together. There is exactly one of it and this page is it. REDBACK is the red one, named after the spider every Aussie kid gets told to check the shed for. It has a glossy red body, a crimson star visor pulled low across the eyes and a gold nose.",
               "images": "https://skockz.store/cdn/shop/files/set-s05-redback-worry-stone.png?v=1792552349&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-worry-stone-back.png?v=1792552350&width=900\nhttps://skockz.store/cdn/shop/files/set-s05-redback-sko.png?v=1792552350&width=900",
-              "variant": "52967214743832"
+              "variant": "S05/001 = 52967214743832"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockster-001-blizzard-premium.png?v=1787482857&width=900",
@@ -1457,7 +1482,7 @@
               "sold": false,
               "description": "Serial 012/001. There is exactly one of these on Earth and this page is it. PATINA is named for the green that copper turns as it ages — and it wears both. A mint-green body, a wide black visor pulled low across the eyes, round copper ears, a copper nose, copper talons, and a row of copper plates running down its spine into the tail. A deep teal core and a single cream fang finish it.",
               "images": "https://skockz.store/cdn/shop/files/skockster-012-patina-back.png?v=1790393787&width=900\nhttps://skockz.store/cdn/shop/files/skockster-012-patina-simplified.jpg?v=1790744891&width=900",
-              "variant": "52768502350104"
+              "variant": "012/001 = 52768502350104"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockster-013-thrash-premium.png?v=1790477076&width=900",
@@ -1522,7 +1547,7 @@
               "sold": false,
               "description": "Serial 002/001. One tray, one photo, one owner. Gold clay dish with a sculpted face — bulging eyes, gritted teeth and a tongue lolling over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52581375639832"
+              "variant": "002/001 = 52581375639832"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_31_2026_at_12_38_27_PM.png?v=1788143937&width=900",
@@ -1535,7 +1560,7 @@
               "sold": false,
               "description": "Serial 003/001. One tray, one photo, one owner. Deep green clay dish with a pale blue snout, a matching blue tongue over the lip and dark green studs pressed into the rim. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52584910094616"
+              "variant": "003/001 = 52584910094616"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-005-sulfur-premium.png?v=1789297429&width=900",
@@ -1548,7 +1573,7 @@
               "sold": false,
               "description": "Serial 005/001. One tray, one photo, one owner. Yellow clay disc with a scalloped edge and four brown studs across the brow, white eyes with amber centres, a black snout, and a mouth of gritted teeth with a soft yellow tongue pushed out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674773942552"
+              "variant": "005/001 = 52674773942552"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-006-plasma-premium.png?v=1789297437&width=900",
@@ -1561,7 +1586,7 @@
               "sold": false,
               "description": "Serial 006/001. One tray, one photo, one owner. Deep magenta clay disc with hot pink brows, pale pink eyes on magenta centres, a black snout, two pink fangs and a fat red tongue rolling out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674775154968"
+              "variant": "006/001 = 52674775154968"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-007-furnace-premium.png?v=1789297456&width=900",
@@ -1574,7 +1599,7 @@
               "sold": false,
               "description": "Serial 007/001. One tray, one photo, one owner. Red clay disc, flecked and textured, with two bulging white eyes on red centres, a pair of black nostrils rimmed in red, a row of gritted gold teeth and a long red tongue hanging out over the lip. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674777973016"
+              "variant": "007/001 = 52674777973016"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-tray-008-oracle-premium.png?v=1789297465&width=900",
@@ -1587,7 +1612,7 @@
               "sold": false,
               "description": "Serial 008/001. One tray, one photo, one owner. Lavender clay disc with deep magenta brows and a spiralled third eye set into the forehead, turquoise at its centre. White eyes on violet pupils, two black nostril dots, and a purple tongue pushed out under a wide black mouth. Rolled flat, walled up by hand and sealed under a UV resin glaze. The photo is this exact tray , not one like it. Roughly palm-sized.",
               "images": "",
-              "variant": "52674779578648"
+              "variant": "008/001 = 52674779578648"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-001-cobalt.jpg?v=1790835439&width=900",
@@ -1600,7 +1625,7 @@
               "sold": false,
               "description": "Serial C01/001. One case, one photo, one owner. COBALT is a teal-green clay body under a cobalt blue visor — two heavy curved horns, four teal fangs around a black mouth, and a fat blue tongue rolling out over the lip. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line. Built around a full-size lighter — the big ones, not minis.",
               "images": "",
-              "variant": "52671818596632"
+              "variant": "C01/001 = 52671818596632"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-002-eclipse.jpg?v=1790835439&width=900",
@@ -1613,7 +1638,7 @@
               "sold": false,
               "description": "Serial C02/001. One case, one photo, one owner. ECLIPSE is a deep violet clay body under a purple visor — two magenta horns, black eyes, and a heavy open mouth rimmed in violet. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line. Built around a full-size lighter — the big ones, not minis.",
               "images": "",
-              "variant": "52671819809048"
+              "variant": "C02/001 = 52671819809048"
             },
             {
               "image": "https://skockz.store/cdn/shop/files/skockz-case-003-narwhal.jpg?v=1790835426&width=900",
@@ -1626,7 +1651,7 @@
               "sold": false,
               "description": "Serial C03/001. One case, one photo, one owner. NARWHAL is a pale ocean-blue clay body under a heavy navy brow, with one blue horn on top, big white eyes glancing sideways, two black nostrils and the biggest pout in the crew. Wrapped, shaped and worked around the lighter body by hand in Warrnambool, then sealed under a UV resin glaze. No moulds. No casts. No production line.",
               "images": "",
-              "variant": "52794887766296"
+              "variant": "C03/001 = 52794887766296"
             }
           ]
         },
@@ -1653,7 +1678,7 @@
           "heading": "SKOCKZ Socks.\nThe first run.",
           "text": "One hundred pairs turned up this week, along with one hundred cans, and every can is being numbered by hand. This is the first SKOCKZ product ever manufactured, and it exists because a 17-year-old in Warrnambool put his own money on the table.",
           "button": "Buy socks: $15",
-          "buttonLink": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition",
+          "buttonLink": "#/p/skockz-skateboarding-socks-limited-edition",
           "button2": "Join the can list",
           "button2Link": "#signup",
           "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=1200",

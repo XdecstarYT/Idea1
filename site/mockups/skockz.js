@@ -14,7 +14,7 @@ const DATA = require("./skockz-data.json");
 const info = (handle) => DATA[handle] || { desc: "", images: [], variants: [] };
 const morePhotos = (handle) => info(handle).images.slice(1, 4).map((f) => img(f)).join("\n");
 // Bag options for products sold as one item (every one-of-one); multi-option products list theirs explicitly
-const oneVariant = (handle) => { const v = info(handle).variants; return v.length === 1 ? v[0][1] : ""; };
+const oneVariant = (handle) => { const v = info(handle).variants; return v.length !== 1 ? "" : v[0][0] === "Default Title" ? v[0][1] : `${v[0][0]} = ${v[0][1]}`; };
 let n = 0;
 const block = (type, fields) => Object.assign({ id: "sk" + (++n), type }, fields);
 
@@ -58,17 +58,24 @@ const SETS = [
   ["skockz-set-04-bluebottle-1-of-1", "SET 04 BLUEBOTTLE", 40, false, "set-s04-bluebottle-together.png?v=1792192132", "Coiled horns on the stone, like a bluebottle's stingers."],
   ["skockz-set-05-redback-1-of-1", "SET 05 REDBACK", 40, false, "set-s05-redback-together.png?v=1792556091", "Red and gold. Flip the stone over and the whole back is gold."],
 ];
+const ALL_FOUR_HANDLE = "skockz-sets-all-four-1-of-1";
+const lazyAllFour = () => ({
+  image: img("set-s03-galah-together.png?v=1791877423"), name: "ALL FOUR SETS", detail: "GOBLIN, GALAH, BLUEBOTTLE and REDBACK together. Save $20.", price: "$130", tag: "1 of 1", group: "Sets",
+  link: product(ALL_FOUR_HANDLE), sold: false, description: info(ALL_FOUR_HANDLE).desc, images: info(ALL_FOUR_HANDLE).images.slice(1, 4).map((f) => img(f)).join("\n"), variant: oneVariant(ALL_FOUR_HANDLE),
+});
 const card = (group, tag) => ([handle, name, price, sold, photo, detail]) => ({
   image: img(photo), name, detail, price: "$" + price, tag, group, link: product(handle), sold,
   description: info(handle).desc, images: morePhotos(handle), variant: sold ? "" : oneVariant(handle),
 });
 
+const ALL_FOUR = lazyAllFour();
 const VAULT = [].concat(SETS.map(card("Sets", "1 of 1")), SKOCKSTERS.map(card("SKOCKSTERS", "1 of 1")), TRAYS.map(card("Trays", "1 of 1")), CASES.map(card("Lighter cases", "1 of 1")));
 const claimed = VAULT.filter((i) => i.sold).length;
 const available = VAULT.filter((i) => !i.sold);
 
-const optionLines = (handle, label) => info(handle).variants.filter((v) => v[3]).map((v) => `${label(v[0])} = ${v[1]} = ${+v[2]}`).join("\n");
-const merch = (handle, extra) => Object.assign({ description: info(handle).desc, images: morePhotos(handle), link: product(handle) }, extra);
+// Every option a product has (sold-out ones included, so the product page can show them as unavailable)
+const optionLines = (handle) => info(handle).variants.map((v) => `${v[0]} = ${v[1]} = ${+v[2]}${v[3] ? "" : " = sold"}`).join("\n");
+const merch = (handle, extra) => Object.assign({ description: info(handle).desc, images: morePhotos(handle), link: product(handle), variant: optionLines(handle), options: info(handle).options.join(" / ") }, extra);
 const MERCH_RAW = [
   { image: img("IMG_3744.png?v=1789978074"), name: "Skateboarding Socks", detail: "Bamboo crew socks, one run of 100. AU 8–12.", price: "From $15", tag: "Just landed", group: "Wear", link: product("skockz-skateboarding-socks-limited-edition") },
   { image: img("Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422"), name: "Signature Hoodie", detail: "Puff print. One small batch, ships from November 2026.", price: "$110", tag: "Pre-order", group: "Wear", link: product("skockz-signature-hoodie") },
@@ -76,11 +83,7 @@ const MERCH_RAW = [
   { image: img("ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543"), name: "LOGO Keychain", detail: "SZ monogram or the full logo, in any colour.", price: "From $10", tag: "", group: "Keychains", link: product("clay-skockz-logo") },
   { image: img("ChatGPT_Image_Aug_3_2026_at_05_08_37_PM.png?v=1785740950"), name: "Sticker Sheets", detail: "Premium gloss. A free sheet comes in every order.", price: "$1", tag: "", group: "Stickers", link: product("stickers") },
 ];
-const MERCH_OPTIONS = {
-  "skockz-skateboarding-socks-limited-edition": optionLines("skockz-skateboarding-socks-limited-edition", (l) => l.split("/").pop().trim()),
-  "skockz-signature-hoodie": optionLines("skockz-signature-hoodie", (l) => "Size " + l),
-};
-const MERCH = MERCH_RAW.map((m) => { const handle = m.link.split("/products/")[1]; return merch(handle, Object.assign({}, m, { variant: MERCH_OPTIONS[handle] || "" })); });
+const MERCH = MERCH_RAW.map((m) => merch(m.link.split("/products/")[1], m));
 
 const REVIEWS = [
   { quote: "Obsessed with the Skockz key rings, venom lives on my handbag 💜", name: "Morgan H", detail: "SKOCKSTER 003 VENOM" },
@@ -97,9 +100,9 @@ const home = [
     autoplay: true,
     slides: [
       { image: HERO_IMG, eyebrow: "Hand-sculpted in Warrnambool", heading: "Made to shred.\nMade one of one.", text: `Clay SKOCKSTERS, skate socks, hoodies and stickers, made by a skater for the skate community. ${available.length} one-of-ones left in the vault.`, button: "Enter the vault", buttonLink: "#/vault", button2: "Our story", button2Link: "#/story", tag: "1 of 1" },
-      { image: img("skockster-012-patina-copper.png?v=1790393787", 2000), eyebrow: "The last SKOCKSTER standing", heading: "012 PATINA", text: "Mint green and copper, named for the green copper turns as it ages. 14 of 15 SKOCKSTERS are gone. This is the one that's left.", button: "Claim it: $25", buttonLink: product("skockster-012-patina-1-of-1"), button2: "See the run", button2Link: "#row-the-skockster-run-001-015", tag: "012/001" },
+      { image: img("skockster-012-patina-copper.png?v=1790393787", 2000), eyebrow: "The last SKOCKSTER standing", heading: "012 PATINA", text: "Mint green and copper, named for the green copper turns as it ages. 14 of 15 SKOCKSTERS are gone. This is the one that's left.", button: "Claim it: $25", buttonLink: "#/p/skockster-012-patina-1-of-1", button2: "See the run", button2Link: "#row-the-skockster-run-001-015", tag: "012/001" },
       { image: img("IMG_3743.png?v=1790072428", 2000), eyebrow: "The first run has landed", heading: "SKOCKZ Socks.\n100 pairs. Then never again.", text: "Bamboo crew socks in black and charcoal, rolled into a collectible tin numbered by hand.", button: "Get a pair", buttonLink: "#/socks", button2: "What's in the can", button2Link: "#/socks", tag: "1 of 100" },
-      { image: img("set-s04-bluebottle-together.png?v=1792192132", 2000), eyebrow: "Matched sets · one of each, ever", heading: "Four sets.\nOne of each.", text: "A SKOCKSTER plus the pieces made to match it. Take the one that's yours, or all four for $130.", button: "Shop the sets", buttonLink: "#/sets", button2: "Take all four", button2Link: product("skockz-sets-all-four-1-of-1"), tag: "Save $20" },
+      { image: img("set-s04-bluebottle-together.png?v=1792192132", 2000), eyebrow: "Matched sets · one of each, ever", heading: "Four sets.\nOne of each.", text: "A SKOCKSTER plus the pieces made to match it. Take the one that's yours, or all four for $130.", button: "Shop the sets", buttonLink: "#/sets", button2: "Take all four", button2Link: "#/p/skockz-sets-all-four-1-of-1", tag: "Save $20" },
     ],
   }),
   block("row", { heading: "Still in the vault", more: "Explore all", moreLink: "#/vault", shape: "square", soldText: "Claimed", items: ofOne.filter((i) => !i.sold) }),
@@ -122,7 +125,7 @@ const home = [
     date: "2026-11-01",
     done: "Shipping now. Orders go out in the order they came in.",
     button: "Reserve yours: $110",
-    buttonLink: product("skockz-signature-hoodie"),
+    buttonLink: "#/p/skockz-signature-hoodie",
     image: img("ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882", 2000),
   }),
   block("tiles", {
@@ -160,7 +163,7 @@ const shop = [
     points: "An email at every step\nFull refund on request any time before it ships\nFree pickup in Warrnambool",
     price: "$110",
     button: "Reserve yours",
-    buttonLink: product("skockz-signature-hoodie"),
+    buttonLink: "#/p/skockz-signature-hoodie",
     image: img("ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882", 1200),
     badge: "Pre-order",
     flip: true,
@@ -177,7 +180,7 @@ const shop = [
 
 const sets = [
   block("pagehead", { eyebrow: "Matched sets · one of each, ever", heading: "Four sets. One of each.", text: "A SKOCKSTER plus the pieces made to match it, all in one colour, sold as one. Take the one that's yours, or take the whole run.", image: img("set-s04-bluebottle-together.png?v=1792192132", 2000) }),
-  block("products", { anchor: "all-sets", heading: "", columns: "3", soldText: "Claimed", items: SETS.map(card("Sets", "1 of 1")) }),
+  block("products", { anchor: "all-sets", heading: "", columns: "3", soldText: "Claimed", items: SETS.map(card("Sets", "1 of 1")).concat([ALL_FOUR]) }),
   block("feature", {
     eyebrow: "Only while all four are here",
     heading: "Take all four.",
@@ -185,7 +188,7 @@ const sets = [
     price: "$130",
     priceNote: "save $20",
     button: "Claim all four",
-    buttonLink: product("skockz-sets-all-four-1-of-1"),
+    buttonLink: "#/p/skockz-sets-all-four-1-of-1",
     image: img("set-s03-galah-together.png?v=1791877423", 1200),
     badge: "Save $20",
   }),
@@ -220,7 +223,7 @@ const socks = [
     heading: "SKOCKZ Socks.\nThe first run.",
     text: "One hundred pairs turned up this week, along with one hundred cans, and every can is being numbered by hand. This is the first SKOCKZ product ever manufactured, and it exists because a 17-year-old in Warrnambool put his own money on the table.",
     button: "Buy socks: $15",
-    buttonLink: product("skockz-skateboarding-socks-limited-edition"),
+    buttonLink: "#/p/skockz-skateboarding-socks-limited-edition",
     button2: "Join the can list",
     button2Link: "#signup",
     image: img("IMG_3744.png?v=1789978074", 1200),
@@ -328,6 +331,8 @@ const design = {
     radius: "soft",
     look: "cinema",
     store: SHOP,
+    perks: "Free sticker sheet in every order\nFree pickup in Warrnambool\nFree shipping over $50 in Australia\nSecure checkout with Shop Pay, cards and wallets",
+    shipping: "Everything ships from Warrnambool, Victoria. Australia standard $11, express $15, free over $50. International $20. Local pickup is free.\n\nClay pieces are made after you order, so allow 3–5 business days before they're posted. You'll get tracking by email.\n\nFaulty or damaged? Email sskockzz@gmail.com within 30 days for a replacement, repair or refund. Pieces made just for you can't be returned for change of mind. Your rights under Australian Consumer Law always apply.",
   },
   shared: [
     block("marquee", { text: "Designed in Warrnambool\nMade to shred\nFree local pickup\nFree shipping over $50\nFree sticker with every order", style: "brand" }),

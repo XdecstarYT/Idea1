@@ -52,6 +52,17 @@ Everyone signs in at **/account.html** (the "Log in" link in the site's top menu
 
 The data lives in Supabase. Security is enforced by the database itself: visitors can only read prices and submit leads; clients can only see their own websites and requests; only accounts listed in the `admins` table can see leads, all clients, or change anything.
 
+## Sending designs by email
+
+**Send email** (in the Send dialog) and **Send to client** email the design straight to the client through the `send-email` Supabase function (`supabase/functions/send-email`). Every email is logged in the `design_emails` table. Until it's switched on, the app opens your own email app instead.
+
+To switch it on (free, 300 emails a day):
+
+1. Make a free account at [brevo.com](https://www.brevo.com) and add **decmar098@gmail.com** as a sender (Senders, domains & IPs → Senders). Brevo emails you a code to confirm it.
+2. In Brevo, go to **SMTP & API → API keys** and create a key.
+3. In Supabase, open the project → **Edge Functions → Secrets** and add `BREVO_API_KEY` with that key.
+4. Optional secrets: `SENDER_EMAIL` (default decmar098@gmail.com), `SENDER_NAME` (default "Declan · Marshall Web Co."), `SITE_URL` (default https://marshallwebz.netlify.app).
+
 ## Updating the website
 1. Change your details in `site/config.json`, or edit a page in `site/pages/`.
 2. Run `node site/build.js` to rebuild the pages in `docs/`.
