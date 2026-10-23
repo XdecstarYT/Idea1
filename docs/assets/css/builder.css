@@ -20,7 +20,7 @@ body.builder { overflow: hidden; height: 100vh; }
 
 .bld-left { grid-area: left; border-radius: 22px; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
 .bld-right { grid-area: right; border-radius: 22px; overflow-y: auto; padding: 20px; min-height: 0; }
-.pane-tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 10px 10px 0; gap: 4px; }
+.pane-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 10px 10px 0; gap: 4px; }
 .pane-tabs button { border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600; padding: 10px; border-radius: 12px; cursor: pointer; }
 .pane-tabs button[aria-pressed="true"] { background: rgba(255, 255, 255, 0.1); color: #fff; }
 .pane { flex: 1; overflow-y: auto; padding: 12px; min-height: 0; }
@@ -87,3 +87,23 @@ body.builder { overflow: hidden; height: 100vh; }
   .bld-canvas { height: 75vh; }
   .bld-left { max-height: 60vh; }
 }
+
+/* Pages */
+.page-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.page-bar label { margin: 0; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.page-bar select { flex: 1; }
+.bl-group { list-style: none; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 10px 4px 2px; }
+.page-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.page-item { padding: 10px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid transparent; display: grid; gap: 8px; }
+.page-item.sel { border-color: var(--brass); background: rgba(212, 173, 58, 0.1); }
+.page-item .pi-top { display: flex; gap: 6px; align-items: center; }
+.page-item .pi-top input { flex: 1; min-width: 0; font-weight: 600; }
+.page-item .pi-slug { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
+.page-item .pi-slug input { flex: 1; min-width: 0; padding: 6px 8px; font-size: 0.8rem; }
+.page-item .pi-actions { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.page-item .pi-actions button { border: 0; background: rgba(255, 255, 255, 0.08); color: #fff; border-radius: 8px; padding: 5px 9px; cursor: pointer; font: inherit; font-size: 0.8rem; }
+.page-item .pi-actions button:hover { background: rgba(255, 255, 255, 0.16); }
+.page-item .pi-actions .switch { margin-left: auto; font-size: 0.8rem; }
+.page-add { display: flex; gap: 8px; margin-top: 12px; }
+.page-add input { flex: 1; min-width: 0; }
+.add-where { margin: 0 0 12px; }

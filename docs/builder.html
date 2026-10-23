@@ -53,11 +53,18 @@
     <aside class="glass bld-left" aria-label="Sections and theme">
       <div class="pane-tabs" role="group">
         <button type="button" aria-pressed="true" data-pane-tab="sections">Sections</button>
+        <button type="button" aria-pressed="false" data-pane-tab="pages">Pages</button>
         <button type="button" aria-pressed="false" data-pane-tab="theme">Theme</button>
       </div>
       <div class="pane" data-pane-body="sections">
+        <div class="page-bar" id="page-bar" hidden><label for="page-select">Page</label><select id="page-select"></select></div>
         <ul class="block-list" id="block-list"></ul>
         <button class="btn btn-glass btn-sm add-section" id="add-section">+ Add section</button>
+      </div>
+      <div class="pane" data-pane-body="pages" hidden>
+        <p class="hint" id="pages-intro"></p>
+        <ul class="page-list" id="page-list"></ul>
+        <form class="page-add" id="page-add"><input id="page-new" maxlength="40" placeholder="New page, e.g. Shop" aria-label="New page name"><button class="btn btn-glass btn-sm" type="submit">+ Add page</button></form>
       </div>
       <div class="pane" data-pane-body="theme" hidden>
         <form class="insp" id="theme-form" onsubmit="return false"></form>
@@ -74,6 +81,7 @@
   <dialog class="editor" id="add-dialog" aria-labelledby="add-title" style="width:min(760px,94vw)">
     <div class="editor-form">
       <div class="panel-head" style="margin:0"><h2 id="add-title" style="margin:0">Add a section</h2><button class="icon-btn" type="button" data-close aria-label="Close">✕</button></div>
+      <label class="switch add-where" id="add-where" hidden><input type="checkbox" id="add-shared"><span class="track"></span>Show this section on every page</label>
       <div class="type-grid" id="type-grid"></div>
     </div>
   </dialog>

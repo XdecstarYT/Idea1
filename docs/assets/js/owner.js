@@ -499,8 +499,7 @@
     file.text().then(function (text) {
       var content;
       try { content = JSON.parse(text); } catch (err) { content = null; }
-      var known = content && Array.isArray(content.blocks) && content.blocks.every(function (b) { return b && window.MWCBuilder.BLOCKS[b.type]; });
-      if (!known) return toast("That file isn't a design from the site builder.", "err");
+      if (!window.MWCBuilder.isDesign(content)) return toast("That file isn't a design from the site builder.", "err");
       create(content);
     });
   });

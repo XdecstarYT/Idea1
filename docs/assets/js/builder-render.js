@@ -45,18 +45,25 @@
         { key: "links", label: "Menu links", type: "list", item: [{ key: "text", label: "Text", type: "text" }, { key: "link", label: "Link", type: "text" }] },
         { key: "cta", label: "Button text", type: "text" },
         { key: "ctaLink", label: "Button link", type: "text", hint: "Leave empty to call your phone number" },
+        { key: "auto", label: "Menu lists the site's pages", type: "toggle", hint: "Multi-page sites only. Turn off to use the links above." },
       ],
-      defaults: function (t) { return { logo: t.business || "Your Business", links: [{ text: "Services", link: "#services" }, { text: "About", link: "#about" }, { text: "Contact", link: "#contact" }], cta: t.phone ? "Call " + t.phone : "Get a quote", ctaLink: "" }; },
-      render: function (b, t) {
-        return '<header class="hdr"><div class="wrap hdr-in"><a class="logo" href="#top">' + esc(b.logo || t.business) + "</a>" +
-          '<nav class="menu">' + (b.links || []).map(function (l) { return '<a href="' + esc(url(l.link)) + '">' + esc(l.text) + "</a>"; }).join("") + "</nav>" +
-          (b.cta ? '<a class="btn btn-p" href="' + esc(url(b.ctaLink, telLink(t.phone))) + '">' + esc(b.cta) + "</a>" : "") + "</div></header>";
+      defaults: function (t) { return { logo: t.business || "Your Business", links: [{ text: "Services", link: "#services" }, { text: "About", link: "#about" }, { text: "Contact", link: "#contact" }], cta: t.phone ? "Call " + t.phone : "Get a quote", ctaLink: "", auto: true }; },
+      render: function (b, t, ctx) {
+        var links = ctx.multi && b.auto ? menuPages(ctx).map(function (p) { return { text: p.title, link: "#/" + p.slug, nav: p.slug }; }) : (b.links || []);
+        var nav = links.map(function (l) { return '<a href="' + esc(url(l.link)) + '"' + (l.nav ? ' data-nav="' + esc(l.nav) + '"' : "") + ">" + esc(l.text) + "</a>"; }).join("");
+        var home = ctx.multi ? "#/" + ctx.pages[0].slug : "#top";
+        return '<header class="hdr"><div class="wrap hdr-in"><a class="logo" href="' + esc(home) + '">' + esc(b.logo || t.business) + "</a>" +
+          '<nav class="menu">' + nav + "</nav>" +
+          '<div class="hdr-end">' + (b.cta ? '<a class="btn btn-p hdr-cta" href="' + esc(url(b.ctaLink, telLink(t.phone))) + '">' + esc(b.cta) + "</a>" : "") +
+          (nav ? '<input type="checkbox" id="nav-t" class="nav-t" aria-label="Menu"><label for="nav-t" class="burger" aria-hidden="true"><i></i><i></i><i></i></label>' +
+            '<nav class="drawer">' + nav + (b.cta ? '<a class="btn btn-p" href="' + esc(url(b.ctaLink, telLink(t.phone))) + '">' + esc(b.cta) + "</a>" : "") + "</nav>" : "") +
+          "</div></div></header>";
       },
     },
     hero: {
       label: "Hero", icon: "★", desc: "Big headline and buttons",
       fields: [
-        { key: "layout", label: "Layout", type: "select", options: [["centered", "Centred"], ["split", "Text + image"]] },
+        { key: "layout", label: "Layout", type: "select", options: [["centered", "Centred"], ["split", "Text + image"], ["full", "Full-screen photo"]] },
         { key: "eyebrow", label: "Small text above", type: "text" },
         { key: "heading", label: "Headline", type: "textarea" },
         { key: "text", label: "Sub-heading", type: "textarea" },
@@ -69,6 +76,18 @@
       ],
       defaults: function (t) { return { layout: "centered", eyebrow: "Proudly local", heading: "A headline that says exactly what you do", text: "One or two sentences on why customers choose you.", button: "Get a free quote", buttonLink: "#contact", button2: "", button2Link: "", image: "", badges: "" }; },
       render: function (b, t) {
+        if (b.layout === "full") {
+          var bg = img(b.image);
+          var fb = lines(b.badges);
+          return '<section class="hero hero-full"' + (bg ? ' style="--bgimg:url(\'' + esc(bg) + '\')"' : "") + '><div class="wrap hero-in"><div class="hero-copy">' +
+            (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") +
+            "<h1>" + esc(b.heading).replace(/\n/g, "<br>") + "</h1>" +
+            (b.text ? '<p class="lead">' + esc(b.text) + "</p>" : "") +
+            '<div class="btns">' + (b.button ? '<a class="btn btn-p btn-lg" href="' + esc(url(b.buttonLink, "#contact")) + '">' + esc(b.button) + "</a>" : "") +
+            (b.button2 ? '<a class="btn btn-o btn-lg" href="' + esc(url(b.button2Link)) + '">' + esc(b.button2) + "</a>" : "") + "</div>" +
+            (fb.length ? '<ul class="badges">' + fb.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "") +
+            '</div></div><span class="scroll-cue" aria-hidden="true"></span></section>';
+        }
         var media = b.layout === "split" ? '<div class="hero-media">' + (img(b.image) ? '<img src="' + esc(img(b.image)) + '" alt="">' : '<div class="ph ph-lg">✦</div>') + "</div>" : "";
         var badges = lines(b.badges);
         return '<section class="hero ' + (b.layout === "split" ? "hero-split" : "hero-center") + '"><div class="wrap hero-in"><div class="hero-copy">' +
@@ -116,21 +135,31 @@
         { key: "heading", label: "Heading", type: "text" },
         { key: "intro", label: "Intro", type: "textarea" },
         { key: "columns", label: "Cards per row", type: "select", options: [["4", "4"], ["3", "3"], ["2", "2"]] },
-        { key: "items", label: "Products", type: "list", item: [{ key: "image", label: "Photo (https link)", type: "image" }, { key: "name", label: "Name", type: "text" }, { key: "detail", label: "Short description", type: "textarea" }, { key: "price", label: "Price", type: "text" }, { key: "tag", label: "Tag (e.g. New, 1 of 1)", type: "text" }, { key: "link", label: "Shop link", type: "text" }] },
+        { key: "filters", label: "Show category filters", type: "toggle", hint: "Buttons above the grid built from each product's category." },
+        { key: "soldText", label: "Label for sold products", type: "text", hint: "e.g. Sold, Claimed, Sold out" },
+        { key: "items", label: "Products", type: "list", item: [{ key: "image", label: "Photo (https link)", type: "image" }, { key: "name", label: "Name", type: "text" }, { key: "detail", label: "Short description", type: "textarea" }, { key: "price", label: "Price", type: "text" }, { key: "tag", label: "Tag (e.g. New, 1 of 1)", type: "text" }, { key: "group", label: "Category (for filters)", type: "text" }, { key: "link", label: "Shop link", type: "text" }, { key: "sold", label: "Sold / claimed", type: "toggle" }] },
         { key: "button", label: "Button below the grid", type: "text" },
         { key: "buttonLink", label: "Button link", type: "text" },
       ],
       defaults: function () { return { eyebrow: "", heading: "Shop", intro: "", columns: "4", items: [{ image: "", name: "Product one", detail: "", price: "$20", tag: "New", link: "" }, { image: "", name: "Product two", detail: "", price: "$30", tag: "", link: "" }, { image: "", name: "Product three", detail: "", price: "$40", tag: "", link: "" }, { image: "", name: "Product four", detail: "", price: "$50", tag: "", link: "" }], button: "", buttonLink: "" }; },
       render: function (b) {
+        var items = b.items || [];
+        var groups = [];
+        items.forEach(function (i) { var g = String(i.group || "").trim(); if (g && groups.indexOf(g) < 0) groups.push(g); });
+        var anySold = items.some(function (i) { return i.sold; });
+        var sold = b.soldText || "Sold";
+        var chips = b.filters && (groups.length > 1 || anySold) ? '<div class="chips" role="group" aria-label="Filter products"><button type="button" class="chip on" data-f="">All <small>' + items.length + "</small></button>" +
+          groups.map(function (g) { return '<button type="button" class="chip" data-f="' + esc(g) + '">' + esc(g) + " <small>" + items.filter(function (i) { return String(i.group || "").trim() === g; }).length + "</small></button>"; }).join("") +
+          (anySold ? '<button type="button" class="chip" data-f="__avail">Available now <small>' + items.filter(function (i) { return !i.sold; }).length + "</small></button>" : "") + "</div>" : "";
         return '<section class="sec" id="' + esc(b.anchor || "shop") + '"><div class="wrap">' +
-          (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + head(b.heading, b.intro) +
-          '<div class="pgrid c' + esc(b.columns || "4") + '">' + (b.items || []).map(function (i, n) {
+          (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + head(b.heading, b.intro) + chips +
+          '<div class="pgrid c' + esc(b.columns || "4") + '">' + items.map(function (i, n) {
             var href = url(i.link, "");
             var tagName = href ? "a" : "div";
-            return "<" + tagName + ' class="pcard"' + (href ? ' href="' + esc(href) + '"' : "") + '><div class="pimg">' +
+            return "<" + tagName + ' class="pcard' + (i.sold ? " sold" : "") + '"' + (href ? ' href="' + esc(href) + '"' : "") + ' data-g="' + esc(String(i.group || "").trim()) + '"><div class="pimg">' +
               (img(i.image) ? '<img src="' + esc(img(i.image)) + '" alt="' + esc(i.name) + '" loading="lazy">' : '<div class="ph" style="--h:' + (n * 61 % 360) + '">🛍</div>') +
-              (i.tag ? '<span class="ptag">' + esc(i.tag) + "</span>" : "") + '</div><div class="pbody"><h3>' + esc(i.name) + "</h3>" +
-              (i.detail ? "<p>" + esc(i.detail) + "</p>" : "") + '<div class="prow"><b>' + esc(i.price) + "</b>" + (href ? "<span>Shop →</span>" : "") + "</div></div></" + tagName + ">";
+              (i.tag ? '<span class="ptag">' + esc(i.tag) + "</span>" : "") + (i.sold ? '<span class="stamp">' + esc(sold) + "</span>" : "") + '</div><div class="pbody"><h3>' + esc(i.name) + "</h3>" +
+              (i.detail ? "<p>" + esc(i.detail) + "</p>" : "") + '<div class="prow"><b>' + esc(i.price) + "</b>" + (href ? "<span>" + (i.sold ? "See it →" : "Shop →") + "</span>" : "") + "</div></div></" + tagName + ">";
           }).join("") + "</div>" +
           (b.button ? '<div class="center-btn"><a class="btn btn-p btn-lg" href="' + esc(url(b.buttonLink)) + '">' + esc(b.button) + "</a></div>" : "") +
           "</div></section>";
@@ -144,12 +173,15 @@
         { key: "points", label: "Highlights (one per line)", type: "textarea" },
         { key: "image", label: "Image (https link)", type: "image" },
         { key: "flip", label: "Image on the left", type: "toggle" },
+        { key: "button", label: "Button (optional)", type: "text" },
+        { key: "buttonLink", label: "Button link", type: "text" },
       ],
       defaults: function (t) { return { heading: "About " + (t.business || "us"), text: "Tell your story: how you started, what you care about, and why locals trust you.", points: "Locally owned\nFully licensed and insured\nHonest, upfront pricing", image: "", flip: false }; },
       render: function (b) {
         var points = lines(b.points);
-        return '<section class="sec alt" id="about"><div class="wrap split' + (b.flip ? " flip" : "") + '"><div><h2>' + esc(b.heading) + "</h2><p class=\"lead\">" + esc(b.text).replace(/\n/g, "<br>") + "</p>" +
-          (points.length ? '<ul class="ticks">' + points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "") + "</div>" +
+        return '<section class="sec alt" id="' + esc(b.anchor || "about") + '"><div class="wrap split' + (b.flip ? " flip" : "") + '"><div><h2>' + esc(b.heading) + "</h2><p class=\"lead\">" + esc(b.text).replace(/\n/g, "<br>") + "</p>" +
+          (points.length ? '<ul class="ticks">' + points.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") + "</ul>" : "") +
+          (b.button ? '<div class="btns"><a class="btn btn-p" href="' + esc(url(b.buttonLink)) + '">' + esc(b.button) + "</a></div>" : "") + "</div>" +
           '<div class="media">' + (img(b.image) ? '<img src="' + esc(img(b.image)) + '" alt="">' : '<div class="ph ph-lg">◐</div>') + "</div></div></section>";
       },
     },
@@ -207,11 +239,12 @@
       label: "FAQ", icon: "?", desc: "Questions and answers",
       fields: [
         { key: "heading", label: "Heading", type: "text" },
+        { key: "intro", label: "Intro (optional)", type: "textarea" },
         { key: "items", label: "Questions", type: "list", item: [{ key: "q", label: "Question", type: "text" }, { key: "a", label: "Answer", type: "textarea" }] },
       ],
       defaults: function () { return { heading: "Questions", items: [{ q: "Do you offer free quotes?", a: "Yes. Get in touch and we'll get back to you the same day." }, { q: "What areas do you cover?", a: "Warrnambool and surrounding towns." }] }; },
       render: function (b) {
-        return '<section class="sec alt" id="faq"><div class="wrap narrow">' + head(b.heading) + (b.items || []).map(function (i) {
+        return '<section class="sec alt" id="' + esc(b.anchor || "faq") + '"><div class="wrap narrow">' + head(b.heading, b.intro) + (b.items || []).map(function (i) {
           return '<details class="faq"><summary>' + esc(i.q) + "</summary><p>" + esc(i.a) + "</p></details>";
         }).join("") + "</div></section>";
       },
@@ -258,15 +291,157 @@
         return '<section class="sec alt" id="contact"><div class="wrap split"><div><h2>' + esc(b.heading) + '</h2><p class="lead">' + esc(b.text) + "</p>" + details + "</div>" + form + "</div></section>";
       },
     },
+    pagehead: {
+      label: "Page header", icon: "▔", desc: "Title banner for the top of a page",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Page title", type: "textarea" },
+        { key: "text", label: "Intro", type: "textarea" },
+        { key: "image", label: "Background photo (optional)", type: "image" },
+      ],
+      defaults: function () { return { eyebrow: "", heading: "Page title", text: "A sentence or two about what's on this page.", image: "" }; },
+      render: function (b) {
+        var bg = img(b.image);
+        return '<section class="phead' + (bg ? " has-img" : "") + '"' + (bg ? ' style="--bgimg:url(\'' + esc(bg) + '\')"' : "") + '><div class="wrap">' +
+          (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + "<h1>" + esc(b.heading).replace(/\n/g, "<br>") + "</h1>" +
+          (b.text ? '<p class="lead">' + esc(b.text) + "</p>" : "") + "</div></section>";
+      },
+    },
+    tiles: {
+      label: "Collection tiles", icon: "▤", desc: "Big photo tiles that link to pages",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Heading", type: "text" },
+        { key: "intro", label: "Intro", type: "textarea" },
+        { key: "items", label: "Tiles", type: "list", item: [{ key: "image", label: "Photo (https link)", type: "image" }, { key: "title", label: "Title", type: "text" }, { key: "text", label: "Short text", type: "text" }, { key: "link", label: "Link (e.g. #/shop)", type: "text" }] },
+      ],
+      defaults: function () { return { eyebrow: "", heading: "Shop by collection", intro: "", items: [{ image: "", title: "Collection one", text: "", link: "" }, { image: "", title: "Collection two", text: "", link: "" }, { image: "", title: "Collection three", text: "", link: "" }] }; },
+      render: function (b) {
+        var items = b.items || [];
+        return '<section class="sec" id="' + esc(b.anchor || "collections") + '"><div class="wrap">' + (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + head(b.heading, b.intro) +
+          '<div class="tiles n' + Math.min(items.length, 5) + '">' + items.map(function (i, n) {
+            var href = url(i.link, "");
+            var tag = href ? "a" : "div";
+            return "<" + tag + ' class="tile"' + (href ? ' href="' + esc(href) + '"' : "") + ">" + (img(i.image) ? '<img src="' + esc(img(i.image)) + '" alt="" loading="lazy">' : '<div class="ph" style="--h:' + (n * 73 % 360) + '"></div>') +
+              '<div class="tile-copy"><h3>' + esc(i.title) + "</h3>" + (i.text ? "<p>" + esc(i.text) + "</p>" : "") + (href ? '<span class="tile-go" aria-hidden="true">→</span>' : "") + "</div></" + tag + ">";
+          }).join("") + "</div></div></section>";
+      },
+    },
+    feature: {
+      label: "Feature", icon: "◆", desc: "Spotlight one product or offer",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Heading", type: "textarea" },
+        { key: "text", label: "Text", type: "textarea" },
+        { key: "points", label: "Highlights (one per line)", type: "textarea" },
+        { key: "price", label: "Price (optional)", type: "text" },
+        { key: "priceNote", label: "Price note", type: "text" },
+        { key: "button", label: "Main button", type: "text" },
+        { key: "buttonLink", label: "Main button link", type: "text" },
+        { key: "button2", label: "Second button", type: "text" },
+        { key: "button2Link", label: "Second button link", type: "text" },
+        { key: "image", label: "Image (https link)", type: "image" },
+        { key: "badge", label: "Sticker on the image", type: "text" },
+        { key: "flip", label: "Image on the left", type: "toggle" },
+      ],
+      defaults: function () { return { eyebrow: "Featured", heading: "Your best seller", text: "Why people love it, in a sentence or two.", points: "First great thing\nSecond great thing", price: "$49", priceNote: "", button: "Buy now", buttonLink: "", button2: "", button2Link: "", image: "", badge: "New", flip: false }; },
+      render: function (b) {
+        var points = lines(b.points);
+        return '<section class="sec feat-sec" id="' + esc(b.anchor || "feature") + '"><div class="wrap split feat' + (b.flip ? " flip" : "") + '"><div>' +
+          (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + "<h2>" + esc(b.heading).replace(/\n/g, "<br>") + "</h2>" + (b.text ? '<p class="lead">' + esc(b.text).replace(/\n/g, "<br>") + "</p>" : "") +
+          (points.length ? '<ul class="ticks">' + points.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "") +
+          (b.price ? '<div class="feat-price"><b>' + esc(b.price) + "</b>" + (b.priceNote ? "<span>" + esc(b.priceNote) + "</span>" : "") + "</div>" : "") +
+          '<div class="btns">' + (b.button ? '<a class="btn btn-p btn-lg" href="' + esc(url(b.buttonLink)) + '">' + esc(b.button) + "</a>" : "") + (b.button2 ? '<a class="btn btn-o btn-lg" href="' + esc(url(b.button2Link)) + '">' + esc(b.button2) + "</a>" : "") + "</div></div>" +
+          '<div class="media feat-media">' + (img(b.image) ? '<img src="' + esc(img(b.image)) + '" alt="" loading="lazy">' : '<div class="ph ph-lg">◆</div>') + (b.badge ? '<span class="feat-badge">' + esc(b.badge) + "</span>" : "") + "</div></div></section>";
+      },
+    },
+    steps: {
+      label: "Steps", icon: "①", desc: "Numbered steps or reasons",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Heading", type: "text" },
+        { key: "intro", label: "Intro", type: "textarea" },
+        { key: "items", label: "Steps", type: "list", item: [{ key: "title", label: "Title", type: "text" }, { key: "text", label: "Text", type: "textarea" }] },
+      ],
+      defaults: function () { return { eyebrow: "", heading: "How it works", intro: "", items: [{ title: "Get in touch", text: "Call or send a message." }, { title: "We get to work", text: "Fast, tidy and on budget." }, { title: "Job done", text: "Pay when you're happy." }] }; },
+      render: function (b) {
+        return '<section class="sec" id="' + esc(b.anchor || "steps") + '"><div class="wrap">' + (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + head(b.heading, b.intro) +
+          '<ol class="steps">' + (b.items || []).map(function (i, n) {
+            return '<li class="card"><span class="num">' + (n < 9 ? "0" : "") + (n + 1) + "</span><h3>" + esc(i.title) + "</h3><p>" + esc(i.text) + "</p></li>";
+          }).join("") + "</ol></div></section>";
+      },
+    },
+    text: {
+      label: "Text", icon: "¶", desc: "Paragraphs, lists and simple tables",
+      fields: [
+        { key: "heading", label: "Heading", type: "text" },
+        { key: "body", label: "Text", type: "textarea", hint: "Blank line = new paragraph. Start a line with \"## \" for a subheading, \"- \" for a bullet. \"Left | Right\" makes a table row." },
+        { key: "alt", label: "Shaded background", type: "toggle" },
+      ],
+      defaults: function () { return { heading: "Heading", body: "Write anything here.\n\n## A subheading\n- A bullet point\n- Another one\n\nStandard delivery | $10\nPick up | Free", alt: false }; },
+      render: function (b) {
+        return '<section class="sec' + (b.alt ? " alt" : "") + '" id="' + esc(b.anchor || "info") + '"><div class="wrap narrow prose">' + (b.heading ? "<h2>" + esc(b.heading) + "</h2>" : "") + prose(b.body) + "</div></section>";
+      },
+    },
+    signup: {
+      label: "Sign-up", icon: "✎", desc: "Email list sign-up (opens their email app)",
+      fields: [
+        { key: "eyebrow", label: "Small text above", type: "text" },
+        { key: "heading", label: "Heading", type: "text" },
+        { key: "text", label: "Text", type: "textarea" },
+        { key: "button", label: "Button", type: "text" },
+        { key: "note", label: "Small print", type: "text" },
+      ],
+      defaults: function () { return { eyebrow: "", heading: "Be first to know", text: "One email when something new drops. Nothing else.", button: "Join the list", note: "Unsubscribe any time." }; },
+      render: function (b, t) {
+        return '<section class="signup" id="' + esc(b.anchor || "signup") + '"><div class="wrap narrow">' + (b.eyebrow ? '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" : "") + "<h2>" + esc(b.heading) + "</h2>" + (b.text ? '<p class="lead">' + esc(b.text) + "</p>" : "") +
+          '<form class="signup-form" action="mailto:' + esc(t.email || "") + "?subject=" + encodeURIComponent("Add me to the list") + '" method="post" enctype="text/plain"><input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required><button class="btn btn-p" type="submit">' + esc(b.button || "Join") + "</button></form>" +
+          (b.note ? '<p class="small">' + esc(b.note) + "</p>" : "") + "</div></section>";
+      },
+    },
     footer: {
       label: "Footer", icon: "▁", desc: "Copyright and contact line",
-      fields: [{ key: "text", label: "Footer text", type: "textarea" }],
+      fields: [
+        { key: "text", label: "Footer text", type: "textarea" },
+        { key: "tagline", label: "Short blurb (optional)", type: "textarea", hint: "Adds a bigger footer with your name, this blurb and links." },
+        { key: "links", label: "Extra links", type: "list", item: [{ key: "text", label: "Text", type: "text" }, { key: "link", label: "Link", type: "text" }] },
+      ],
       defaults: function (t) { return { text: "© " + new Date().getFullYear() + " " + (t.business || "Your Business") + ". All rights reserved." }; },
-      render: function (b, t) {
-        return '<footer class="ftr"><div class="wrap ftr-in"><span>' + esc(b.text) + '</span><span class="credit">Website by Marshall Web Co.</span></div></footer>';
+      render: function (b, t, ctx) {
+        var pageLinks = ctx.multi ? ctx.pages.map(function (p) { return '<a href="#/' + esc(p.slug) + '">' + esc(p.title) + "</a>"; }).join("") : "";
+        var extra = (b.links || []).map(function (l) { return '<a href="' + esc(url(l.link)) + '"' + (/^https?:/i.test(url(l.link)) ? ' target="_blank" rel="noopener"' : "") + ">" + esc(l.text) + "</a>"; }).join("");
+        var big = b.tagline || pageLinks || extra;
+        return '<footer class="ftr' + (big ? " ftr-big" : "") + '"><div class="wrap">' +
+          (big ? '<div class="ftr-top"><div><a class="logo" href="' + (ctx.multi ? "#/" + esc(ctx.pages[0].slug) : "#top") + '">' + esc(t.business || "") + "</a>" + (b.tagline ? "<p>" + esc(b.tagline) + "</p>" : "") +
+            (t.email ? '<p><a href="mailto:' + esc(t.email) + '">' + esc(t.email) + "</a></p>" : "") + "</div>" +
+            (pageLinks ? '<nav class="ftr-col"><b>Explore</b>' + pageLinks + "</nav>" : "") + (extra ? '<nav class="ftr-col"><b>More</b>' + extra + "</nav>" : "") + "</div>" : "") +
+          '<div class="ftr-in"><span>' + esc(b.text) + '</span><span class="credit">Website by Marshall Web Co.</span></div></div></footer>';
       },
     },
   };
+
+  // Simple text formatting for the Text section
+  function prose(src) {
+    var out = [], list = null, table = null, para = [];
+    function flush() {
+      if (para.length) { out.push("<p>" + para.map(esc).join("<br>") + "</p>"); para = []; }
+      if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; }
+      if (table) { out.push('<table class="kv">' + table.join("") + "</table>"); table = null; }
+    }
+    String(src || "").split("\n").forEach(function (raw) {
+      var l = raw.trim();
+      if (!l) return flush();
+      if (/^##\s+/.test(l)) { flush(); out.push("<h3>" + esc(l.replace(/^##\s+/, "")) + "</h3>"); return; }
+      if (/^[-•]\s+/.test(l)) { if (para.length || table) flush(); list = list || []; list.push("<li>" + esc(l.replace(/^[-•]\s+/, "")) + "</li>"); return; }
+      if (l.indexOf(" | ") > 0) { if (para.length || list) flush(); table = table || []; var c = l.split(" | "); table.push("<tr><td>" + esc(c[0]) + "</td><td>" + esc(c.slice(1).join(" | ")) + "</td></tr>"); return; }
+      if (list || table) flush();
+      para.push(l);
+    });
+    flush();
+    return out.join("");
+  }
+
+  function menuPages(ctx) { return ctx.pages.filter(function (p, i) { return i > 0 && !p.hideInMenu; }); }
 
   function head(h, intro) {
     return '<div class="sec-head">' + (h ? "<h2>" + esc(h) + "</h2>" : "") + (intro ? '<p class="lead">' + esc(intro) + "</p>" : "") + "</div>";
@@ -289,7 +464,12 @@
     ".btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:var(--r);font-weight:700;text-decoration:none;border:2px solid transparent;transition:transform .15s;font-family:var(--fb);font-size:1rem;cursor:pointer}.btn:hover{transform:translateY(-2px)}.btn-lg{padding:16px 28px;font-size:1.05rem}",
     ".btn-p{background:var(--p);color:#fff}.btn-o{border-color:currentColor;color:var(--fg)}.btn-inv{background:#fff;color:var(--a)}",
     ".hdr{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px}",
-    ".logo{font-family:var(--fh);font-weight:800;font-size:1.25rem;text-decoration:none}.menu{display:flex;gap:22px}.menu a{text-decoration:none;font-weight:600;color:var(--muted)}.menu a:hover{color:var(--fg)}@media(max-width:760px){.menu{display:none}.hdr .btn{padding:10px 14px;font-size:.9rem}}",
+    "[hidden]{display:none!important}.logo{font-family:var(--fh);font-weight:800;font-size:1.25rem;text-decoration:none}.menu{display:flex;gap:22px}.menu a{position:relative;text-decoration:none;font-weight:600;color:var(--muted);transition:color .2s}.menu a:hover,.menu a.on{color:var(--fg)}.menu a.on::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--p)}",
+    ".hdr-end{display:flex;align-items:center;gap:10px}.nav-t{position:absolute;opacity:0;pointer-events:none}.burger,.drawer{display:none}",
+    "@media(max-width:860px){.menu{display:none}.hdr .btn{padding:10px 14px;font-size:.9rem}.burger{display:grid;gap:5px;place-content:center;width:44px;height:44px;border:1px solid var(--line);border-radius:var(--r);cursor:pointer}.burger i{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;transition:transform .25s,opacity .25s}",
+    ".nav-t:checked~.burger i:nth-child(1){transform:translateY(7px) rotate(45deg)}.nav-t:checked~.burger i:nth-child(2){opacity:0}.nav-t:checked~.burger i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}.nav-t:focus-visible~.burger{outline:2px solid var(--p)}",
+    ".nav-t:checked~.drawer{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;padding:8px 22px 24px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.35);animation:dr .25s ease-out}.drawer a{padding:14px 0;font-family:var(--fh);font-size:1.25rem;font-weight:700;text-decoration:none;border-bottom:1px solid var(--line)}.drawer a.on{color:var(--p)}.drawer .btn{margin-top:18px;border:0;font-size:1rem}@keyframes dr{from{opacity:0;transform:translateY(-8px)}}}",
+    "@media(max-width:420px){.hdr-cta{display:none}}",
     ".hero{padding:96px 0;background:radial-gradient(900px 420px at 85% 0%,color-mix(in srgb,var(--p) 22%,transparent),transparent 70%),linear-gradient(180deg,var(--bg2),var(--bg))}.hero-center{text-align:center}.hero-center .lead{max-width:640px;margin:0 auto}.hero-center .btns,.hero-center .badges{justify-content:center}",
     ".hero-split .hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}@media(max-width:860px){.hero-split .hero-in{grid-template-columns:1fr}}.hero-media img,.media img{border-radius:var(--r);width:100%;aspect-ratio:4/3;object-fit:cover}",
     ".btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.badges{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin:26px 0 0;color:var(--muted);font-weight:600;font-size:.95rem}.badges li::before{content:'✓ ';color:var(--p)}",
@@ -315,28 +495,124 @@
     ".pbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}.pbody h3{font-size:1.02rem;margin:0}.pbody p{margin:0;color:var(--muted);font-size:.9rem}.prow{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:center}.prow b{font-size:1.1rem}.prow span{color:var(--p);font-weight:700;font-size:.9rem}",
     ".center-btn{text-align:center;margin-top:32px}@media(max-width:520px){.pbody{padding:12px}.pbody h3{font-size:.92rem}}",
     ".ftr{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}.ftr-in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.credit{opacity:.7}",
+    ".ftr-big{padding-top:64px}.ftr-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;padding-bottom:36px;margin-bottom:24px;border-bottom:1px solid var(--line)}.ftr-top p{max-width:380px;margin:12px 0 0}.ftr-top a{text-decoration:none}.ftr-top .logo{color:var(--fg);font-size:1.6rem}.ftr-col{display:flex;flex-direction:column;gap:9px}.ftr-col b{color:var(--fg);font-family:var(--fh);margin-bottom:4px}.ftr-col a:hover{color:var(--p)}@media(max-width:700px){.ftr-top{grid-template-columns:1fr 1fr}.ftr-top>:first-child{grid-column:1/-1}}",
+    // Full-screen hero, page header, tiles, feature, steps, text, sign-up
+    ".hero-full{position:relative;min-height:min(92vh,880px);display:flex;align-items:flex-end;padding:130px 0 90px;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.3) 45%,color-mix(in srgb,var(--bg) 94%,transparent)),var(--bgimg,linear-gradient(135deg,var(--a),var(--p))) center/cover no-repeat}",
+    ".hero-full .hero-in{width:100%}.hero-full h1{font-size:clamp(2.8rem,9vw,7rem);line-height:.98;text-shadow:0 6px 40px rgba(0,0,0,.35)}.hero-full .lead{color:rgba(255,255,255,.86);max-width:620px}.hero-full .btn-o{color:#fff}.hero-full .badges{color:rgba(255,255,255,.8)}",
+    ".scroll-cue{position:absolute;left:50%;bottom:22px;width:2px;height:44px;background:linear-gradient(rgba(255,255,255,.9),transparent);animation:cue 1.8s ease-in-out infinite}@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}",
+    ".phead{padding:84px 0 56px;background:radial-gradient(760px 320px at 12% 0%,color-mix(in srgb,var(--p) 26%,transparent),transparent 70%),var(--bg2);border-bottom:1px solid var(--line)}.phead h1{font-size:clamp(2.4rem,7vw,5rem);margin:0 0 .3em}.phead .lead{max-width:680px;margin:0}",
+    ".phead.has-img{padding:130px 0 70px;color:#fff;background:linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.35)),var(--bgimg) center/cover no-repeat}.phead.has-img .lead{color:rgba(255,255,255,.86)}",
+    ".tiles{display:grid;gap:16px;grid-template-columns:repeat(6,1fr)}.tile{grid-column:span 2;position:relative;display:block;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;text-decoration:none;color:#fff;background:var(--bg2);isolation:isolate}",
+    ".tiles.n5 .tile:nth-child(-n+2),.tiles.n4 .tile,.tiles.n2 .tile{grid-column:span 3;aspect-ratio:16/11}.tiles.n1 .tile{grid-column:span 6;aspect-ratio:21/9}",
+    ".tile img,.tile .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;aspect-ratio:auto;border-radius:0;transition:transform .7s cubic-bezier(.2,.7,.2,1);z-index:-1}.tile::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.82))}",
+    ".tile-copy{position:absolute;left:0;right:0;bottom:0;padding:24px 76px 24px 24px}.tile h3{font-size:clamp(1.3rem,2.4vw,1.8rem);margin:0}.tile p{margin:6px 0 0;opacity:.86;font-size:.95rem}",
+    ".tile-go{position:absolute;right:20px;bottom:24px;width:44px;height:44px;border-radius:50%;background:var(--p);display:grid;place-items:center;font-weight:800;transition:transform .3s}a.tile:hover img{transform:scale(1.07)}a.tile:hover .tile-go{transform:translateX(4px)}",
+    "@media(max-width:860px){.tiles{grid-template-columns:1fr 1fr;gap:12px}.tiles .tile.tile.tile{grid-column:span 1;aspect-ratio:4/5}.tiles.n5 .tile.tile.tile:first-child,.tiles.n3 .tile.tile.tile:first-child,.tiles.n1 .tile.tile.tile{grid-column:span 2;aspect-ratio:16/11}.tile-copy{padding:14px 14px 58px}.tile h3{font-size:1.1rem}.tile p{font-size:.82rem}.tile-go{right:auto;left:14px;bottom:14px;width:34px;height:34px}}",
+    "@media(max-width:700px){.hero-full{min-height:88vh;padding:110px 0 70px;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55) 40%,color-mix(in srgb,var(--bg) 96%,transparent)),var(--bgimg,linear-gradient(135deg,var(--a),var(--p))) center/cover no-repeat}.hero-full .btns .btn{flex:1 1 100%}}",
+    ".feat-media{position:relative}.feat-media img{aspect-ratio:1;object-fit:cover}.feat-badge{position:absolute;top:18px;right:18px;background:var(--p);color:#fff;font-family:var(--fh);font-weight:800;padding:10px 16px;border-radius:99px;transform:rotate(6deg);box-shadow:0 12px 30px rgba(0,0,0,.3)}",
+    ".feat-price{display:flex;align-items:baseline;gap:10px;margin-top:24px}.feat-price b{font-family:var(--fh);font-size:2.4rem;color:var(--p);line-height:1}.feat-price span{color:var(--muted)}",
+    ".steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.steps .num{display:block;font-family:var(--fh);font-size:2.6rem;line-height:1;color:var(--p);margin-bottom:16px}",
+    ".prose h3{margin:1.6em 0 .5em}.prose p,.prose li{color:var(--muted)}.prose ul{padding-left:1.2em}.kv{width:100%;border-collapse:collapse;margin:10px 0 18px}.kv td{padding:13px 0;border-bottom:1px solid var(--line)}.kv td:last-child{text-align:right;font-weight:700}",
+    ".signup{padding:88px 0;text-align:center;background:radial-gradient(620px 280px at 50% 0%,color-mix(in srgb,var(--p) 26%,transparent),transparent 70%),var(--bg2)}.signup .lead{margin:0 auto}.signup-form{display:flex;gap:10px;max-width:520px;margin:28px auto 0}",
+    ".signup-form input{flex:1;min-width:0;font:inherit;padding:14px 16px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg);color:var(--fg)}.small{font-size:.85rem;color:var(--muted);margin-top:14px}@media(max-width:520px){.signup-form{flex-direction:column}}",
+    // Product filters and sold state
+    ".chips{display:flex;flex-wrap:wrap;gap:8px;margin:-14px 0 28px}html:not(.js) .chips{display:none}.chip{font:inherit;font-weight:700;font-size:.9rem;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;transition:background .2s,border-color .2s}.chip:hover{border-color:var(--p)}.chip small{opacity:.6;margin-left:3px}.chip.on{background:var(--p);border-color:var(--p);color:#fff}",
+    ".pcard.sold .pimg img{filter:grayscale(1) brightness(.5)}.pcard.sold .prow b{text-decoration:line-through;opacity:.55}.pcard.sold .ptag{background:#4a4a52}",
+    ".stamp{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);border:3px solid #fff;color:#fff;font-family:var(--fh);font-weight:800;font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:8px;background:rgba(0,0,0,.25);white-space:nowrap}",
+    // Pages and scroll-in animation
+    "main.page{animation:pg .45s ease-out}@keyframes pg{from{opacity:0}}",
+    ".anim .rv{opacity:0;translate:0 22px;transition:opacity .8s cubic-bezier(.2,.7,.2,1),translate .8s cubic-bezier(.2,.7,.2,1)}.anim .rv.in{opacity:1;translate:none}.anim .pgrid>.rv:nth-child(4n+2),.anim .tiles>.rv:nth-child(3n+2),.anim .grid3>.rv:nth-child(3n+2),.anim .steps>.rv:nth-child(3n+2){transition-delay:.08s}.anim .pgrid>.rv:nth-child(4n+3),.anim .tiles>.rv:nth-child(3n),.anim .grid3>.rv:nth-child(3n),.anim .steps>.rv:nth-child(3n){transition-delay:.16s}.anim .pgrid>.rv:nth-child(4n){transition-delay:.24s}",
+    "@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}",
   ].join("");
+
+  // Runs on published pages: page switching, anchor links, the mobile menu, product filters and scroll-in animation
+  var SITE_JS = "(function(){var d=document,h=d.documentElement,base=d.title;h.classList.add('js');" +
+    "var pages=[].slice.call(d.querySelectorAll('main[data-page]'));" +
+    "function cur(){return pages.filter(function(p){return!p.hidden})[0]||null}" +
+    "function mark(p){[].forEach.call(d.querySelectorAll('[data-nav]'),function(a){a.classList.toggle('on',!!p&&a.getAttribute('data-nav')===p.getAttribute('data-page'))})}" +
+    "function find(id,scope){if(!id)return null;var all=[].filter.call(d.querySelectorAll('[id]'),function(e){return e.id===id});" +
+    "return all.filter(function(e){return scope&&scope.contains(e)})[0]||all.filter(function(e){return!e.closest('main[data-page]')})[0]||all[0]||null}" +
+    "function show(p,push,hash){pages.forEach(function(x){x.hidden=x!==p});mark(p);var t=p.getAttribute('data-title');d.title=t?t+' \u00b7 '+base:base;if(push){try{history.pushState(null,'',hash)}catch(e){}}}" +
+    "function top(){try{scrollTo({top:0,behavior:'instant'})}catch(e){scrollTo(0,0)}}" +
+    "function go(hash,push){var nt=d.getElementById('nav-t');if(nt)nt.checked=false;" +
+    "if(!hash||hash==='#'||hash==='#top'){scrollTo({top:0,behavior:'smooth'});return}" +
+    "if(hash.indexOf('#/')===0){if(!pages.length)return;var parts=hash.slice(2).split('/');var p=pages.filter(function(x){return x.getAttribute('data-page')===parts[0]})[0]||pages[0];" +
+    "var changed=p!==cur();show(p,push&&changed,hash);var el=parts[1]&&find(parts[1],p);if(el)el.scrollIntoView();else if(changed)top();return}" +
+    "var el=find(decodeURIComponent(hash.slice(1)),cur());if(!el)return;var pg=el.closest('main[data-page]');if(pg&&pg.hidden){show(pg,push,'#/'+pg.getAttribute('data-page'));top()}el.scrollIntoView({behavior:'smooth'})}" +
+    // Inside a preview frame, open outside links in a new tab instead of inside the frame
+    "d.addEventListener('click',function(e){var x=e.target.closest&&e.target.closest('a[href]');if(x&&window.top!==window&&/^https?:/i.test(x.getAttribute('href')))x.target='_blank'},true);" +
+    "d.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^=\"#\"]');if(!a||e.defaultPrevented)return;e.preventDefault();go(a.getAttribute('href'),true)});" +
+    "addEventListener('popstate',function(){go(location.hash||(pages[0]?'#/'+pages[0].getAttribute('data-page'):'#top'),false)});" +
+    "d.addEventListener('click',function(e){var c=e.target.closest&&e.target.closest('.chip');if(!c)return;var box=c.parentNode,grid=box.nextElementSibling,f=c.getAttribute('data-f');" +
+    "[].forEach.call(box.querySelectorAll('.chip'),function(x){x.classList.toggle('on',x===c)});" +
+    "[].forEach.call(grid.querySelectorAll('.pcard'),function(p){p.hidden=!(f===''||(f==='__avail'?!p.classList.contains('sold'):p.getAttribute('data-g')===f))})});" +
+    "if(location.hash&&location.hash.length>1)go(location.hash,false);else mark(cur());" +
+    "if('IntersectionObserver'in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -6% 0px'});" +
+    "h.classList.add('anim');[].forEach.call(d.querySelectorAll('.sec-head,.pcard,.sec .card,.tile,.media,.hero-copy,.phead .wrap,.signup .wrap,.cta .wrap,.stats-in>div'),function(el){el.classList.add('rv');io.observe(el)})}" +
+    "})();";
 
   var EDIT_CSS = "[data-block]{position:relative;cursor:pointer}[data-block]:hover{outline:2px dashed rgba(212,173,58,.8);outline-offset:-2px}[data-block].sel{outline:3px solid #d4ad3a;outline-offset:-3px}[data-block].sel::before{content:attr(data-label);position:absolute;top:0;left:0;z-index:20;background:#d4ad3a;color:#1b1404;font:700 11px/1 system-ui;padding:5px 8px;letter-spacing:.06em;text-transform:uppercase}a,button{pointer-events:none}";
   var EDIT_JS = "document.addEventListener('click',function(e){var b=e.target.closest('[data-block]');if(b){e.preventDefault();parent.postMessage({mwcSelect:b.getAttribute('data-block')},'*')}},true);" +
     "window.addEventListener('message',function(e){if(!e.data||!e.data.mwcHighlight)return;document.querySelectorAll('[data-block]').forEach(function(x){x.classList.toggle('sel',x.getAttribute('data-block')===e.data.mwcHighlight)});var s=document.querySelector('[data-block].sel');if(s&&e.data.scroll)s.scrollIntoView({block:'nearest',behavior:'smooth'})});";
 
+  // ---------- Pages ----------
+  // A design is either one page ({ blocks }) or a multi-page site ({ pages: [{ id, title, slug, blocks, hideInMenu }], shared }).
+  // Shared sections show on every page: headers and banners at the top, everything else at the bottom.
+  var TOP_TYPES = { header: 1, marquee: 1 };
+  function slugify(v) { return String(v || "").toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40); }
+  function pageList(design) {
+    if (!design || !Array.isArray(design.pages) || !design.pages.length) return null;
+    var seen = {};
+    return design.pages.map(function (p, i) {
+      var slug = slugify(p.slug || p.title) || "page-" + (i + 1);
+      while (seen[slug]) slug += "-" + (i + 1);
+      seen[slug] = 1;
+      return { id: p.id, title: p.title || "Page " + (i + 1), slug: slug, hideInMenu: !!p.hideInMenu, blocks: Array.isArray(p.blocks) ? p.blocks : [] };
+    });
+  }
+  function isDesign(c) {
+    var ok = function (list) { return Array.isArray(list) && list.every(function (b) { return b && BLOCKS[b.type]; }); };
+    if (!c || typeof c !== "object") return false;
+    if (Array.isArray(c.pages) && c.pages.length) return c.pages.every(function (p) { return p && ok(p.blocks); }) && (c.shared == null || ok(c.shared));
+    return ok(c.blocks);
+  }
+
   function renderSite(design, opts) {
     opts = opts || {};
     var t = (design && design.theme) || {};
-    var blocks = (design && design.blocks) || [];
+    var pages = pageList(design);
+    var ctx = { multi: !!pages, pages: pages || [] };
     var f = FONTS[t.font] || FONTS.modern;
-    var body = blocks.filter(function (b) { return BLOCKS[b.type] && !b.hidden; }).map(function (b) {
-      var html = BLOCKS[b.type].render(b, t);
-      return opts.editable ? '<div data-block="' + esc(b.id) + '" data-label="' + esc(BLOCKS[b.type].label) + '"' + (b.id === opts.selected ? ' class="sel"' : "") + ">" + html + "</div>" : html;
-    }).join("\n");
-    if (!body) body = '<div style="padding:120px 20px;text-align:center;color:#888;font-family:system-ui">Add a section to get started.</div>';
-    return "<!doctype html>\n<html lang=\"en-AU\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">" +
+    var empty = '<div style="padding:120px 20px;text-align:center;color:#888;font-family:system-ui">Add a section to get started.</div>';
+    function blocksHtml(list) {
+      return (list || []).filter(function (b) { return BLOCKS[b.type] && !b.hidden; }).map(function (b) {
+        var html = BLOCKS[b.type].render(b, t, ctx);
+        return opts.editable ? '<div data-block="' + esc(b.id) + '" data-label="' + esc(BLOCKS[b.type].label) + '"' + (b.id === opts.selected ? ' class="sel"' : "") + ">" + html + "</div>" : html;
+      }).join("\n");
+    }
+    var body;
+    if (!pages) body = blocksHtml(design && design.blocks) || empty;
+    else {
+      var shared = (design.shared || []);
+      // The builder shows one page at a time; everywhere else gets every page, switched by the router
+      var shown = opts.editable ? [pages.filter(function (p) { return p.id === opts.page || p.slug === opts.page; })[0] || pages[0]] : pages;
+      body = blocksHtml(shared.filter(function (b) { return TOP_TYPES[b.type]; })) +
+        shown.map(function (p, i) {
+          return '<main class="page" data-page="' + esc(p.slug) + '" data-title="' + esc(i === 0 && p === pages[0] ? "" : p.title) + '"' + (i > 0 ? " hidden" : "") + ">\n" + (blocksHtml(p.blocks) || empty) + "\n</main>";
+        }).join("\n") +
+        blocksHtml(shared.filter(function (b) { return !TOP_TYPES[b.type]; }));
+      if (opts.editable) {
+        var on = shown[0].slug;
+        body = body.replace(/data-nav="([^"]*)"/g, function (m, slug) { return m + (slug === on ? ' class="on"' : ""); });
+      }
+    }
+    return "<!doctype html>\n<html lang=\"en-AU\"" + (opts.editable ? ' class="js"' : "") + "><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">" +
       "<title>" + esc(t.business || "Website") + "</title>" + (opts.noindex ? '<meta name="robots" content="noindex">' : "") + (t.description ? '<meta name="description" content="' + esc(t.description) + '">' : "") +
+      '<meta name="theme-color" content="' + esc(t.mode === "dark" ? "#0d1017" : color(t.primary, "#2e9e5b")) + '">' +
       '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
       '<link href="https://fonts.googleapis.com/css2?family=' + f.css + '&display=swap" rel="stylesheet">' +
       "<style>" + themeCss(t) + BASE_CSS + (opts.editable ? EDIT_CSS : "") + (opts.banner ? ".draft-bar{position:sticky;top:0;z-index:50;background:#d4ad3a;color:#1b1404;font:600 13px/1.4 system-ui;text-align:center;padding:8px 14px}.draft-bar~.hdr{top:36px}" : "") + "</style></head><body id=\"top\">\n" + (opts.banner ? '<div class="draft-bar">' + esc(opts.banner) + "</div>" : "") + body + "\n" +
-      (opts.editable ? "<script>" + EDIT_JS + "</script>" : "") + "</body></html>";
+      "<script>" + (opts.editable ? EDIT_JS : SITE_JS) + "</script></body></html>";
   }
 
   function newBlock(type, theme) {
@@ -385,5 +661,5 @@
     return { version: 1, theme: t, blocks: [make("header"), make("hero"), make("contact"), make("footer")] };
   }
 
-  return { BLOCKS: BLOCKS, FONTS: FONTS, RADIUS: RADIUS, renderSite: renderSite, newBlock: newBlock, template: template, esc: esc, uid: uid };
+  return { BLOCKS: BLOCKS, FONTS: FONTS, RADIUS: RADIUS, TOP_TYPES: TOP_TYPES, renderSite: renderSite, newBlock: newBlock, template: template, pageList: pageList, isDesign: isDesign, slugify: slugify, esc: esc, uid: uid };
 });

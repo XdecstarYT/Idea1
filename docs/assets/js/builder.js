@@ -22,7 +22,7 @@
   var sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "mwc-auth" } });
   var designId = new URLSearchParams(location.search).get("id");
 
-  var state = { me: null, design: null, content: null, client: null, site: null, selected: null, undo: [], redo: [], lastSnap: "", dirty: false };
+  var state = { me: null, design: null, content: null, client: null, site: null, selected: null, page: 0, undo: [], redo: [], lastSnap: "", dirty: false };
 
   // ---------- Load ----------
   sb.auth.getSession().then(function (res) {
@@ -51,11 +51,136 @@
   }).catch(function () { gate("Couldn't reach the server. Check your connection and refresh."); });
 
   function normalise(c) {
+    var withIds = function (list) { list.forEach(function (b) { if (!b.id) b.id = B.uid(); }); return list; };
+    if (c && Array.isArray(c.pages) && c.pages.length) {
+      c.theme = c.theme || {};
+      c.shared = withIds(Array.isArray(c.shared) ? c.shared : []);
+      c.pages.forEach(function (p, i) {
+        p.id = p.id || B.uid();
+        p.title = p.title || "Page " + (i + 1);
+        p.slug = B.slugify(p.slug || p.title) || "page-" + (i + 1);
+        p.blocks = withIds(Array.isArray(p.blocks) ? p.blocks : []);
+      });
+      delete c.blocks;
+      return c;
+    }
     if (!c || !Array.isArray(c.blocks)) return B.template("blank", {});
     c.theme = c.theme || {};
-    c.blocks.forEach(function (b) { if (!b.id) b.id = B.uid(); });
+    withIds(c.blocks);
     return c;
   }
+
+  // ---------- Pages ----------
+  function multi() { return Array.isArray(state.content.pages) && state.content.pages.length > 0; }
+  function curPage() {
+    if (!multi()) return null;
+    state.page = Math.max(0, Math.min(state.page, state.content.pages.length - 1));
+    return state.content.pages[state.page];
+  }
+  // The section list a block lives in: "shared" (every page), "page" (the current page) or the single-page list
+  function listFor(name) { return !multi() ? state.content.blocks : name === "shared" ? state.content.shared : curPage().blocks; }
+  function allBlocks() {
+    if (!multi()) return state.content.blocks;
+    return state.content.pages.reduce(function (all, p) { return all.concat(p.blocks); }, state.content.shared.slice());
+  }
+  function listNameOf(id) {
+    if (!multi()) return "page";
+    return state.content.shared.some(function (b) { return b.id === id; }) ? "shared" : "page";
+  }
+
+  // Turn a one-page design into a site with pages. Leading headers/banners and the footer become shared.
+  function makeMulti() {
+    var blocks = state.content.blocks || [];
+    var shared = [], i = 0;
+    while (i < blocks.length && B.TOP_TYPES[blocks[i].type]) shared.push(blocks[i++]);
+    var rest = blocks.slice(i);
+    var tail = [];
+    while (rest.length && rest[rest.length - 1].type === "footer") tail.unshift(rest.pop());
+    shared = shared.concat(tail);
+    shared.forEach(function (b) { if (b.type === "header") b.auto = true; });
+    state.content.shared = shared;
+    state.content.pages = [{ id: B.uid(), title: "Home", slug: "home", blocks: rest }];
+    delete state.content.blocks;
+  }
+
+  function addPage(title) {
+    if (!multi()) makeMulti();
+    var pages = state.content.pages;
+    var slug = B.slugify(title) || "page";
+    var taken = pages.map(function (p) { return p.slug; });
+    var n = 2, base = slug;
+    while (taken.indexOf(slug) >= 0) slug = base + "-" + n++;
+    var head = B.newBlock("pagehead", state.content.theme);
+    head.heading = title;
+    pages.push({ id: B.uid(), title: title, slug: slug, blocks: [head] });
+    state.page = pages.length - 1;
+    state.selected = head.id;
+  }
+
+  function renderPages() {
+    var on = multi();
+    $("#page-bar").hidden = !on;
+    $("#add-where").hidden = !on;
+    $("#pages-intro").textContent = on
+      ? "Each page has its own sections. Link to a page with #/its-link-name (e.g. #/" + state.content.pages[Math.min(1, state.content.pages.length - 1)].slug + "). Menus fill in automatically."
+      : "This design is a single page. Add a page to turn it into a full website: your header and footer will show on every page.";
+    if (!on) { $("#page-list").innerHTML = ""; return; }
+    var cur = curPage();
+    $("#page-select").innerHTML = state.content.pages.map(function (p, i) { return '<option value="' + i + '"' + (p === cur ? " selected" : "") + ">" + esc(p.title) + " (" + p.blocks.length + ")</option>"; }).join("");
+    $("#page-list").innerHTML = state.content.pages.map(function (p, i) {
+      return '<li class="page-item' + (p === cur ? " sel" : "") + '" data-i="' + i + '">' +
+        '<div class="pi-top"><input data-pfield="title" value="' + esc(p.title) + '" maxlength="40" aria-label="Page name">' + (i === 0 ? '<span class="status-pill live">Home</span>' : "") + "</div>" +
+        '<div class="pi-slug">#/<input data-pfield="slug" value="' + esc(p.slug) + '" maxlength="40" aria-label="Link name"></div>' +
+        '<div class="pi-actions"><button type="button" data-pact="edit">Edit</button><button type="button" data-pact="up" aria-label="Move up">↑</button><button type="button" data-pact="down" aria-label="Move down">↓</button>' +
+        (state.content.pages.length > 1 ? '<button type="button" data-pact="del" aria-label="Delete page">✕</button>' : "") +
+        (i > 0 ? '<label class="switch"><input type="checkbox" data-pfield="hideInMenu"' + (p.hideInMenu ? " checked" : "") + '><span class="track"></span>Hide in menu</label>' : "") + "</div></li>";
+    }).join("");
+  }
+
+  function goPage(i) {
+    state.page = i;
+    state.selected = null;
+    renderPages(); renderList(); renderInspector(); renderPreview();
+  }
+  $("#page-select").addEventListener("change", function (e) { goPage(+e.target.value); });
+  $("#page-add").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var title = $("#page-new").value.trim();
+    if (!title) return $("#page-new").focus();
+    addPage(title);
+    $("#page-new").value = "";
+    changed(true);
+    toast("Added the " + title + " page");
+  });
+  $("#page-list").addEventListener("click", function (e) {
+    var item = e.target.closest(".page-item");
+    var act = e.target.dataset && e.target.dataset.pact;
+    if (!item || !act) return;
+    var i = +item.dataset.i, pages = state.content.pages;
+    if (act === "edit") { goPage(i); $('[data-pane-tab="sections"]').click(); return; }
+    if (act === "up" && i > 0) { pages.splice(i - 1, 0, pages.splice(i, 1)[0]); state.page = i - 1; }
+    else if (act === "down" && i < pages.length - 1) { pages.splice(i + 1, 0, pages.splice(i, 1)[0]); state.page = i + 1; }
+    else if (act === "del") {
+      if (!confirm('Delete the "' + pages[i].title + '" page and its ' + pages[i].blocks.length + " sections?")) return;
+      pages.splice(i, 1);
+      if (state.selected && !getBlock(state.selected)) state.selected = null;
+      state.page = Math.min(state.page, pages.length - 1);
+    } else return;
+    changed(true);
+  });
+  $("#page-list").addEventListener("input", function (e) {
+    var item = e.target.closest(".page-item");
+    var field = e.target.dataset.pfield;
+    if (!item || !field) return;
+    var p = state.content.pages[+item.dataset.i];
+    if (field === "hideInMenu") p.hideInMenu = e.target.checked;
+    else if (field === "slug") p.slug = B.slugify(e.target.value) || p.slug;
+    else p.title = e.target.value;
+    changed(false);
+  });
+  $("#page-list").addEventListener("focusout", function (e) {
+    if (e.target.dataset && e.target.dataset.pfield === "slug") renderPages();
+  });
 
   function start() {
     show("bld");
@@ -64,6 +189,7 @@
       ? "For " + (state.client.full_name || state.client.email || "client") + " · " + (state.site.name || "website")
       : "For " + (state.design.prospect_name || "a prospect") + " · share by link";
     renderStatus();
+    renderPages();
     renderList();
     renderTheme();
     renderInspector();
@@ -90,9 +216,17 @@
 
   function renderList() {
     var list = $("#block-list");
-    list.innerHTML = state.content.blocks.map(function (b, i) {
+    if (!multi()) { list.innerHTML = state.content.blocks.map(function (b, i) { return itemHtml(b, i, "page"); }).join(""); return; }
+    var shared = state.content.shared, page = curPage();
+    var top = [], bottom = [];
+    shared.forEach(function (b, i) { (B.TOP_TYPES[b.type] ? top : bottom).push(itemHtml(b, i, "shared")); });
+    list.innerHTML = (top.length ? '<li class="bl-group">Every page · top</li>' + top.join("") : "") +
+      '<li class="bl-group">' + esc(page.title) + " page</li>" + (page.blocks.length ? page.blocks.map(function (b, i) { return itemHtml(b, i, "page"); }).join("") : '<li class="hint" style="list-style:none;padding:6px 4px">No sections on this page yet.</li>') +
+      (bottom.length ? '<li class="bl-group">Every page · bottom</li>' + bottom.join("") : "");
+  }
+  function itemHtml(b, i, listName) {
       var def = B.BLOCKS[b.type] || { label: b.type, icon: "?" };
-      return '<li class="block-item' + (b.id === state.selected ? " sel" : "") + (b.hidden ? " hidden-block" : "") + '" draggable="true" data-id="' + esc(b.id) + '" data-i="' + i + '">' +
+      return '<li class="block-item' + (b.id === state.selected ? " sel" : "") + (b.hidden ? " hidden-block" : "") + '" draggable="true" data-id="' + esc(b.id) + '" data-i="' + i + '" data-list="' + listName + '">' +
         '<span class="bi-icon">' + esc(def.icon) + '</span><span class="bi-text"><b>' + esc(def.label) + "</b><span>" + esc(summary(b) || def.desc) + "</span></span>" +
         '<span class="bi-actions">' +
           '<button type="button" data-act="up" title="Move up" aria-label="Move up">↑</button>' +
@@ -101,14 +235,13 @@
           '<button type="button" data-act="hide" title="' + (b.hidden ? "Show" : "Hide") + '" aria-label="' + (b.hidden ? "Show" : "Hide") + '">' + (b.hidden ? "◌" : "◉") + "</button>" +
           '<button type="button" data-act="del" title="Delete" aria-label="Delete">✕</button>' +
         "</span></li>";
-    }).join("");
   }
 
   $("#block-list").addEventListener("click", function (e) {
     var item = e.target.closest(".block-item");
     if (!item) return;
     var i = +item.dataset.i;
-    var blocks = state.content.blocks;
+    var blocks = listFor(item.dataset.list);
     var act = e.target.dataset && e.target.dataset.act;
     if (!act) { select(item.dataset.id, true); return; }
     if (act === "up" && i > 0) blocks.splice(i - 1, 0, blocks.splice(i, 1)[0]);
@@ -124,20 +257,20 @@
   });
 
   // Drag to reorder
-  var dragFrom = null;
-  $("#block-list").addEventListener("dragstart", function (e) { var it = e.target.closest(".block-item"); if (it) { dragFrom = +it.dataset.i; e.dataTransfer.effectAllowed = "move"; } });
+  var dragFrom = null, dragList = null;
+  $("#block-list").addEventListener("dragstart", function (e) { var it = e.target.closest(".block-item"); if (it) { dragFrom = +it.dataset.i; dragList = it.dataset.list; e.dataTransfer.effectAllowed = "move"; } });
   $("#block-list").addEventListener("dragover", function (e) {
     var it = e.target.closest(".block-item");
-    if (!it || dragFrom === null) return;
+    if (!it || dragFrom === null || it.dataset.list !== dragList) return;
     e.preventDefault();
     $$(".block-item").forEach(function (x) { x.classList.toggle("drag-over", x === it); });
   });
   $("#block-list").addEventListener("drop", function (e) {
     var it = e.target.closest(".block-item");
-    if (!it || dragFrom === null) return;
+    if (!it || dragFrom === null || it.dataset.list !== dragList) return;
     e.preventDefault();
     var to = +it.dataset.i;
-    var blocks = state.content.blocks;
+    var blocks = listFor(dragList);
     blocks.splice(to, 0, blocks.splice(dragFrom, 1)[0]);
     dragFrom = null;
     changed(true);
@@ -150,14 +283,18 @@
     var d = B.BLOCKS[k];
     return '<button type="button" class="type-card" data-type="' + k + '"><span class="ti">' + esc(d.icon) + "</span><b>" + esc(d.label) + "</b><span>" + esc(d.desc) + "</span></button>";
   }).join("");
-  $("#add-section").addEventListener("click", function () { addDialog.showModal(); });
+  $("#add-section").addEventListener("click", function () {
+    $("#add-shared").checked = !!state.selected && listNameOf(state.selected) === "shared";
+    addDialog.showModal();
+  });
   $("#type-grid").addEventListener("click", function (e) {
     var card = e.target.closest("[data-type]");
     if (!card) return;
     var block = B.newBlock(card.dataset.type, state.content.theme);
-    var blocks = state.content.blocks;
-    // Insert after the selected section, or before the footer
-    var at = state.selected ? blocks.findIndex(function (b) { return b.id === state.selected; }) + 1 : blocks.findIndex(function (b) { return b.type === "footer"; });
+    var blocks = listFor(multi() && $("#add-shared").checked ? "shared" : "page");
+    // Insert after the selected section (if it's in the same list), or before the footer
+    var selAt = state.selected ? blocks.findIndex(function (b) { return b.id === state.selected; }) : -1;
+    var at = selAt >= 0 ? selAt + 1 : blocks.findIndex(function (b) { return b.type === "footer"; });
     if (at < 0) at = blocks.length;
     blocks.splice(at, 0, block);
     state.selected = block.id;
@@ -168,7 +305,7 @@
   $$("dialog [data-close]").forEach(function (b) { b.addEventListener("click", function () { b.closest("dialog").close(); }); });
 
   // ---------- Inspector ----------
-  function getBlock(id) { return state.content.blocks.find(function (b) { return b.id === id; }); }
+  function getBlock(id) { return allBlocks().find(function (b) { return b.id === id; }); }
 
   function fieldHtml(f, value, path) {
     var id = "f-" + path.replace(/\./g, "-");
@@ -208,7 +345,8 @@
     }
     var def = B.BLOCKS[b.type];
     el.innerHTML = feedbackBanner() + '<div class="insp-head"><span class="bi-icon" style="width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.08)">' + esc(def.icon) + "</span><h2>" + esc(def.label) + '</h2><button class="icon-btn" type="button" id="deselect" aria-label="Close">✕</button></div>' +
-      '<form class="insp" onsubmit="return false">' + def.fields.map(function (f) { return fieldHtml(f, b[f.key], f.key); }).join("") + "</form>";
+      (multi() && listNameOf(b.id) === "shared" ? '<p class="hint" style="margin:0 0 12px">Shows on every page.</p>' : "") +
+      '<form class="insp" onsubmit="return false">' + def.fields.filter(function (f) { return multi() || !(b.type === "header" && f.key === "auto"); }).map(function (f) { return fieldHtml(f, b[f.key], f.key); }).join("") + "</form>";
     $("#deselect").addEventListener("click", function () { select(null); });
   }
 
@@ -299,7 +437,8 @@
     var y = 0;
     try { y = frame.contentWindow.scrollY; } catch (e) { /* not loaded yet */ }
     frame.onload = function () { try { frame.contentWindow.scrollTo(0, y); } catch (e) { /* ignore */ } };
-    frame.srcdoc = B.renderSite(state.content, { editable: true, selected: state.selected });
+    var page = curPage();
+    frame.srcdoc = B.renderSite(state.content, { editable: true, selected: state.selected, page: page && page.id });
   }
   function postHighlight(scroll) {
     try { frame.contentWindow.postMessage({ mwcHighlight: state.selected || "none", scroll: !!scroll }, "*"); } catch (e) { /* ignore */ }
@@ -329,10 +468,10 @@
     state.dirty = true;
     $("#save-state").textContent = "Unsaved";
     $("#save-state").className = "save-state dirty";
-    if (structural) { renderList(); renderInspector(); renderPreview(); snapshot(); }
+    if (structural) { renderPages(); renderList(); renderInspector(); renderPreview(); snapshot(); }
     else {
       clearTimeout(previewTimer);
-      previewTimer = setTimeout(function () { renderPreview(); renderList(); }, 180);
+      previewTimer = setTimeout(function () { renderPreview(); renderList(); if (multi()) $("#page-select").innerHTML = state.content.pages.map(function (p, i) { return '<option value="' + i + '"' + (i === state.page ? " selected" : "") + ">" + esc(p.title) + " (" + p.blocks.length + ")</option>"; }).join(""); }, 180);
       clearTimeout(snapTimer);
       snapTimer = setTimeout(snapshot, 500);
     }
@@ -353,7 +492,7 @@
     state.content = JSON.parse(snap);
     state.lastSnap = snap;
     if (state.selected && !getBlock(state.selected)) state.selected = null;
-    renderList(); renderTheme(); renderInspector(); renderPreview(); updateHistoryButtons();
+    renderPages(); renderList(); renderTheme(); renderInspector(); renderPreview(); updateHistoryButtons();
     state.dirty = true;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(save, 800);

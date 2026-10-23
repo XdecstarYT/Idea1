@@ -1,253 +1,1146 @@
 {
-  "version": 1,
+  "version": 2,
   "theme": {
     "business": "SKOCKZ",
     "phone": "",
-    "email": "",
-    "description": "Hand-sculpted one-of-one keychains, skate socks, hoodies and stickers. Designed in Warrnambool, made to shred.",
+    "email": "sskockzz@gmail.com",
+    "description": "Hand-sculpted one-of-one SKOCKSTERS, skate socks, hoodies and stickers. Designed in Warrnambool, made to shred.",
     "primary": "#ee1aea",
     "accent": "#1a0b1f",
     "mode": "dark",
     "font": "street",
     "radius": "soft"
   },
-  "blocks": [
+  "shared": [
     {
-      "id": "sk1",
+      "id": "sk38",
       "type": "marquee",
-      "text": "Designed in Warrnambool\nMade to shred\nFree local pickup\nShipping worldwide\nFree sticker with every order",
+      "text": "Designed in Warrnambool\nMade to shred\nFree local pickup\nFree shipping over $50\nFree sticker with every order",
       "style": "brand"
     },
     {
-      "id": "sk2",
+      "id": "sk39",
       "type": "header",
       "logo": "SKOCKZ",
+      "links": [],
+      "cta": "Shop all",
+      "ctaLink": "#/shop",
+      "auto": true
+    },
+    {
+      "id": "sk40",
+      "type": "footer",
+      "text": "© 2026 SKOCKZ · Designed in Warrnambool, made to shred",
+      "tagline": "An independent skate brand from Warrnambool, Victoria. Hand-sculpted one-of-ones, socks, hoodies and stickers.",
       "links": [
         {
-          "text": "Sets",
-          "link": "#sets"
+          "text": "Instagram @skockz",
+          "link": "https://www.instagram.com/skockz"
         },
         {
-          "text": "Shop",
-          "link": "#shop"
+          "text": "Shipping",
+          "link": "#shipping"
         },
         {
-          "text": "The Vault",
-          "link": "#vault"
+          "text": "Returns",
+          "link": "#returns"
         },
         {
-          "text": "Story",
-          "link": "#about"
-        },
-        {
-          "text": "Reviews",
-          "link": "#reviews"
+          "text": "Current store",
+          "link": "https://skockz.store"
         }
-      ],
-      "cta": "Shop all",
-      "ctaLink": "https://skockz.store/collections/all"
-    },
+      ]
+    }
+  ],
+  "pages": [
     {
-      "id": "sk3",
-      "type": "hero",
-      "layout": "split",
-      "eyebrow": "Hand-sculpted in Warrnambool",
-      "heading": "Made to shred.\nMade one of one.",
-      "text": "Clay SKOCKSTERS, skate socks, hoodies and stickers, sculpted by hand in Warrnambool. When a one-of-one is claimed, it's gone for good.",
-      "button": "Shop the drop",
-      "buttonLink": "#sets",
-      "button2": "Enter the vault",
-      "button2Link": "https://skockz.store/collections/1-of-1",
-      "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_2_2026_at_05_45_27_PM.png?v=1785657015&width=1000",
-      "badges": "4.9★ from 14 reviews\nFree local pickup\nShipping worldwide"
-    },
-    {
-      "id": "sk4",
-      "type": "products",
-      "anchor": "sets",
-      "eyebrow": "Matched sets · one of each, ever",
-      "heading": "Four sets. One of each.",
-      "intro": "A SKOCKSTER plus the pieces made to match it, all in one colour, sold as one. Take the one that's yours, or take the whole run.",
-      "columns": "4",
-      "items": [
+      "id": "home",
+      "title": "Home",
+      "slug": "home",
+      "blocks": [
         {
-          "image": "https://skockz.store/cdn/shop/files/set-s02-goblin-together.png?v=1791700747&width=900",
-          "name": "Set 02 — GOBLIN",
-          "detail": "Glitter-olive body, curved horns, one white fang. Pale-green marble worry stone.",
-          "price": "$30",
-          "tag": "1 of 1",
-          "link": "https://skockz.store/products/skockz-set-02-goblin-1-of-1"
+          "id": "sk1",
+          "type": "hero",
+          "layout": "full",
+          "eyebrow": "Hand-sculpted in Warrnambool",
+          "heading": "Made to shred.\nMade one of one.",
+          "text": "Clay SKOCKSTERS, skate socks, hoodies and stickers, made by a skater for the skate community. When a one-of-one is claimed, it's gone for good.",
+          "button": "Enter the vault",
+          "buttonLink": "#/vault",
+          "button2": "Shop the drop",
+          "button2Link": "#/shop",
+          "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_2_2026_at_05_45_27_PM.png?v=1785657015&width=2000",
+          "badges": "4.9★ from 14 reviews\nFree Warrnambool pickup\nFree shipping over $50"
         },
         {
-          "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
-          "name": "Set 03 — GALAH",
-          "detail": "Pink and cheeky. Flip the keychain: SKO on one side, CKZ on the other.",
-          "price": "$40",
-          "tag": "1 of 1",
-          "link": "https://skockz.store/products/skockz-set-03-galah-1-of-1"
+          "id": "sk2",
+          "type": "stats",
+          "items": [
+            {
+              "value": "30",
+              "label": "One-of-ones made"
+            },
+            {
+              "value": "16",
+              "label": "Already claimed"
+            },
+            {
+              "value": "14",
+              "label": "Still in the vault"
+            },
+            {
+              "value": "0",
+              "label": "Restocks. Ever."
+            }
+          ]
         },
         {
-          "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
-          "name": "Set 04 — BLUEBOTTLE",
-          "detail": "Coiled horns on the stone, like a bluebottle's stingers. A SKOCKZ first.",
-          "price": "$40",
-          "tag": "1 of 1",
-          "link": "https://skockz.store/products/skockz-set-04-bluebottle-1-of-1"
+          "id": "sk3",
+          "type": "tiles",
+          "eyebrow": "Shop the range",
+          "heading": "Pick your poison",
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=1200",
+              "title": "Matched sets",
+              "text": "A SKOCKSTER plus the pieces made to match it.",
+              "link": "#/sets"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-012-patina-copper.png?v=1790393787&width=1200",
+              "title": "The Vault",
+              "text": "30 one-of-ones. 14 left.",
+              "link": "#/vault"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=1000",
+              "title": "SKOCKZ Socks",
+              "text": "100 pairs. One run.",
+              "link": "#/socks"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422&width=1000",
+              "title": "Hoodies & merch",
+              "text": "Wear it, clip it, slap it.",
+              "link": "#/shop"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-008-oracle-premium.png?v=1789297465&width=1000",
+              "title": "Trays & cases",
+              "text": "Sculpted dishes and lighter cases.",
+              "link": "#/vault"
+            }
+          ]
         },
         {
-          "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
-          "name": "Set 05 — REDBACK",
-          "detail": "Red and gold. Flip the stone over and the whole back is gold.",
-          "price": "$40",
-          "tag": "1 of 1",
-          "link": "https://skockz.store/products/skockz-set-05-redback-1-of-1"
+          "id": "sk4",
+          "type": "products",
+          "anchor": "fresh",
+          "eyebrow": "Still in the vault",
+          "heading": "Grab one before someone else does",
+          "intro": "There's exactly one of each of these. The photo is the exact piece you get.",
+          "columns": "4",
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-012-patina-copper.png?v=1790393787&width=900",
+              "name": "012 PATINA",
+              "detail": "Mint green and copper, like copper as it ages.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-012-patina-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-002-midas-premium.png?v=1787902573&width=900",
+              "name": "TRAY 002 MIDAS",
+              "detail": "Gold dish, gritted teeth.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-002-midas-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_31_2026_at_12_38_27_PM.png?v=1788143937&width=900",
+              "name": "TRAY 003 OXIDE",
+              "detail": "Deep green, pale blue snout.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-003-oxide-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-005-sulfur-premium.png?v=1789297429&width=900",
+              "name": "TRAY 005 SULFUR",
+              "detail": "Yellow, scalloped edge, brown studs.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-005-sulfur-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-006-plasma-premium.png?v=1789297437&width=900",
+              "name": "TRAY 006 PLASMA",
+              "detail": "Magenta, pink fangs.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-006-plasma-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-007-furnace-premium.png?v=1789297456&width=900",
+              "name": "TRAY 007 FURNACE",
+              "detail": "Flecked red, gold teeth.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-007-furnace-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-008-oracle-premium.png?v=1789297465&width=900",
+              "name": "TRAY 008 ORACLE",
+              "detail": "Lavender with a spiralled third eye.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-008-oracle-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-case-001-cobalt.jpg?v=1790835439&width=900",
+              "name": "CASE 001 COBALT",
+              "detail": "Teal lighter case, cobalt visor.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Lighter cases",
+              "link": "https://skockz.store/products/skockz-case-001-cobalt-1-of-1",
+              "sold": false
+            }
+          ],
+          "button": "See all 30 in the vault",
+          "buttonLink": "#/vault"
+        },
+        {
+          "id": "sk5",
+          "type": "feature",
+          "eyebrow": "The first run has landed",
+          "heading": "SKOCKZ Socks.\n100 pairs. Then never again.",
+          "text": "Custom-knit bamboo crew socks in black and charcoal, each rolled into a collectible tin numbered by hand: yours out of 100.",
+          "points": "One size, AU 8–12\nReinforced where skate shoes wear through\nOne colourway, no restock",
+          "price": "From $15",
+          "priceNote": "$25 with the numbered can",
+          "button": "Get the socks",
+          "buttonLink": "#/socks",
+          "image": "https://skockz.store/cdn/shop/files/IMG_3743.png?v=1790072428&width=1200",
+          "badge": "1 of 100"
+        },
+        {
+          "id": "sk6",
+          "type": "steps",
+          "eyebrow": "Why SKOCKZ is different",
+          "heading": "Small batch. Real hands. No fake scarcity.",
+          "items": [
+            {
+              "title": "Handmade in small batches",
+              "text": "Made in Warrnambool, not mass-produced. Every piece gets real time and real hands. No moulds, no casts, no production line."
+            },
+            {
+              "title": "Genuinely limited",
+              "text": "When a run's gone, it's gone. No restock spam. Sold one-of-ones keep their page so you can see what you missed."
+            },
+            {
+              "title": "By the community, for the community",
+              "text": "Built by a young Aussie skater who's actually part of it. A free sticker sheet goes in every single order."
+            }
+          ]
+        },
+        {
+          "id": "sk7",
+          "type": "testimonials",
+          "heading": "What the crew says",
+          "items": [
+            {
+              "quote": "Obsessed with the Skockz key rings, venom lives on my handbag 💜",
+              "name": "Morgan H",
+              "detail": "SKOCKSTER 003 VENOM"
+            },
+            {
+              "quote": "Same day delivery and extremely good quality, even threw in some free stickers for me.",
+              "name": "Sam B",
+              "detail": "Mini SKOCKSTERS Keychain"
+            },
+            {
+              "quote": "Perfect fit, very good quality hoodie, my new favourite piece in the wardrobe.",
+              "name": "Mia A",
+              "detail": "Signature Hoodie"
+            }
+          ]
+        },
+        {
+          "id": "sk8",
+          "type": "cta",
+          "heading": "Join the crew",
+          "text": "New drops, one-of-ones and behind-the-scenes sculpting land on Instagram first.",
+          "button": "Follow @skockz",
+          "buttonLink": "https://www.instagram.com/skockz"
         }
-      ],
-      "button": "Take all four: $130 (save $20)",
-      "buttonLink": "https://skockz.store/products/skockz-sets-all-four-1-of-1"
+      ]
     },
     {
-      "id": "sk5",
-      "type": "products",
-      "anchor": "shop",
-      "eyebrow": "Best of SKOCKZ",
-      "heading": "The everyday drop",
-      "intro": "Every order comes with a free sticker.",
-      "columns": "4",
-      "items": [
+      "id": "shop",
+      "title": "Shop",
+      "slug": "shop",
+      "blocks": [
         {
-          "image": "https://skockz.store/cdn/shop/files/Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422&width=900",
-          "name": "Signature Hoodie",
-          "detail": "Puff print.",
+          "id": "sk9",
+          "type": "pagehead",
+          "eyebrow": "Shop",
+          "heading": "The everyday drop",
+          "text": "Socks, hoodies, keychains and stickers. Every order comes with a free sticker sheet, and Warrnambool locals can pick up for free."
+        },
+        {
+          "id": "sk10",
+          "type": "products",
+          "anchor": "merch",
+          "heading": "",
+          "columns": "3",
+          "filters": true,
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=900",
+              "name": "Skateboarding Socks",
+              "detail": "Bamboo crew socks, one run of 100. AU 8–12.",
+              "price": "From $15",
+              "tag": "Just landed",
+              "group": "Wear",
+              "link": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422&width=900",
+              "name": "Signature Hoodie",
+              "detail": "Puff print. One small batch, ships from November 2026.",
+              "price": "$110",
+              "tag": "Pre-order",
+              "group": "Wear",
+              "link": "https://skockz.store/products/skockz-signature-hoodie"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/dark-IMG_3061.jpg?v=1786412014&width=900",
+              "name": "Mini SKOCKSTERS Keychain",
+              "detail": "Rolled and shaped by hand. Yours is the only one.",
+              "price": "From $15",
+              "tag": "Made to order",
+              "group": "Keychains",
+              "link": "https://skockz.store/products/mini-skocksters-keychain"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543&width=900",
+              "name": "LOGO Keychain",
+              "detail": "SZ monogram or the full logo, in any colour.",
+              "price": "From $10",
+              "tag": "",
+              "group": "Keychains",
+              "link": "https://skockz.store/products/clay-skockz-logo"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_08_37_PM.png?v=1785740950&width=900",
+              "name": "Sticker Sheets",
+              "detail": "Premium gloss. A free sheet comes in every order.",
+              "price": "$1",
+              "tag": "",
+              "group": "Stickers",
+              "link": "https://skockz.store/products/stickers"
+            }
+          ]
+        },
+        {
+          "id": "sk11",
+          "type": "feature",
+          "eyebrow": "Pre-order · ships from November 2026",
+          "heading": "The Signature Hoodie",
+          "text": "Puff-print SKOCKZ hoodie, made in one small batch rather than held in stock. Order now and yours is reserved from that run.",
+          "points": "An email at every step\nFull refund on request any time before it ships\nFree pickup in Warrnambool",
           "price": "$110",
-          "tag": "Best seller",
-          "link": "https://skockz.store/products/skockz-signature-hoodie"
+          "button": "Reserve yours",
+          "buttonLink": "https://skockz.store/products/skockz-signature-hoodie",
+          "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882&width=1200",
+          "badge": "Pre-order",
+          "flip": true
         },
         {
-          "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=900",
-          "name": "Skateboarding Socks",
-          "detail": "Limited edition.",
-          "price": "From $15",
-          "tag": "Just landed",
-          "link": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition"
-        },
-        {
-          "image": "https://skockz.store/cdn/shop/files/dark-IMG_3061.jpg?v=1786412014&width=900",
-          "name": "Mini SKOCKSTERS Keychain",
-          "detail": "Resin glazed.",
-          "price": "From $15",
-          "tag": "",
-          "link": "https://skockz.store/products/mini-skocksters-keychain"
-        },
-        {
-          "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543&width=900",
-          "name": "SKOCKZ Logo Keychain",
-          "detail": "Clay, hand-made.",
-          "price": "From $10",
-          "tag": "",
-          "link": "https://skockz.store/products/clay-skockz-logo"
-        }
-      ],
-      "button": "Shop everything",
-      "buttonLink": "https://skockz.store/collections/all"
-    },
-    {
-      "id": "sk6",
-      "type": "stats",
-      "items": [
-        {
-          "value": "30",
-          "label": "One-of-ones made"
-        },
-        {
-          "value": "16",
-          "label": "Already claimed"
-        },
-        {
-          "value": "14",
-          "label": "Still in the vault"
-        },
-        {
-          "value": "$1",
-          "label": "Stickers. Yes, really."
+          "id": "sk12",
+          "type": "services",
+          "heading": "The small print, made simple",
+          "items": [
+            {
+              "icon": "📍",
+              "title": "Free Warrnambool pickup",
+              "text": "Choose local pickup at checkout and we'll arrange a time and a public spot.",
+              "price": ""
+            },
+            {
+              "icon": "📦",
+              "title": "Free shipping over $50",
+              "text": "Australia-wide. Standard $11, express $15, international $20.",
+              "price": ""
+            },
+            {
+              "icon": "✨",
+              "title": "Free stickers, always",
+              "text": "A sticker sheet goes in every order. You don't have to do anything.",
+              "price": ""
+            }
+          ]
         }
       ]
     },
     {
-      "id": "sk7",
-      "type": "cta",
-      "anchor": "vault",
-      "heading": "The Vault",
-      "text": "Hand-sculpted one at a time. There's exactly one of each, and when it's claimed the page stays up forever so you can see what you missed.",
-      "button": "Enter the vault",
-      "buttonLink": "https://skockz.store/collections/1-of-1"
-    },
-    {
-      "id": "sk8",
-      "type": "about",
-      "heading": "The story behind SKOCKZ",
-      "text": "Skateboarding has always been about bringing people together. But when injury strikes, isolation can hit hard: you're stuck on the sidelines, watching your crew progress while you heal.\n\nThat feeling inspired SKOCKZ. Our Youth Isolation Focus is about keeping you connected to skate culture, even when you can't ride. Bold designs, hot pink accents and street-inspired graphics that remind you you're still part of the crew.",
-      "points": "Designed and sculpted in Warrnambool\nEvery piece made by hand\nFree local pickup, delivery within 10 km, shipping worldwide",
-      "image": "https://skockz.store/cdn/shop/files/IMG_3743.png?v=1790072428&width=900",
-      "flip": false
-    },
-    {
-      "id": "sk9",
-      "type": "testimonials",
-      "heading": "What the crew says",
-      "items": [
+      "id": "sets",
+      "title": "Sets",
+      "slug": "sets",
+      "blocks": [
         {
-          "quote": "Obsessed with the Skockz key rings, venom lives on my handbag 💜",
-          "name": "Morgan H",
-          "detail": "SKOCKSTER 003 — VENOM"
+          "id": "sk13",
+          "type": "pagehead",
+          "eyebrow": "Matched sets · one of each, ever",
+          "heading": "Four sets. One of each.",
+          "text": "A SKOCKSTER plus the pieces made to match it, all in one colour, sold as one. Take the one that's yours, or take the whole run.",
+          "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=2000"
         },
         {
-          "quote": "Same day delivery and extremely good quality, even threw in some free stickers for me.",
-          "name": "Sam B",
-          "detail": "Mini SKOCKSTERS Keychain"
+          "id": "sk14",
+          "type": "products",
+          "anchor": "all-sets",
+          "heading": "",
+          "columns": "3",
+          "soldText": "Claimed",
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s01-nugget-together.png?v=1791698718&width=900",
+              "name": "SET 01 NUGGET",
+              "detail": "Gold SKOCKSTER and matching worry stone.",
+              "price": "$30",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-01-nugget-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s02-goblin-together.png?v=1791700747&width=900",
+              "name": "SET 02 GOBLIN",
+              "detail": "Glitter-olive, curved horns, one white fang. Pale-green marble worry stone.",
+              "price": "$30",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-02-goblin-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
+              "name": "SET 03 GALAH",
+              "detail": "Pink and cheeky. Flip the keychain: SKO on one side, CKZ on the other.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-03-galah-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
+              "name": "SET 04 BLUEBOTTLE",
+              "detail": "Coiled horns on the stone, like a bluebottle's stingers.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-04-bluebottle-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
+              "name": "SET 05 REDBACK",
+              "detail": "Red and gold. Flip the stone over and the whole back is gold.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-05-redback-1-of-1",
+              "sold": false
+            }
+          ]
         },
         {
-          "quote": "Perfect fit, very good quality hoodie, my new favourite piece in the wardrobe.",
-          "name": "Mia A",
-          "detail": "Signature Hoodie"
+          "id": "sk15",
+          "type": "feature",
+          "eyebrow": "Only while all four are here",
+          "heading": "Take all four.",
+          "text": "GOBLIN, GALAH, BLUEBOTTLE and REDBACK: four one-of-one SKOCKSTERS, each with the worry stone made to match it. One buyer. This offer disappears the moment any single set sells.",
+          "price": "$130",
+          "priceNote": "save $20",
+          "button": "Claim all four",
+          "buttonLink": "https://skockz.store/products/skockz-sets-all-four-1-of-1",
+          "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=1200",
+          "badge": "Save $20"
+        },
+        {
+          "id": "sk16",
+          "type": "steps",
+          "heading": "What's in a set",
+          "items": [
+            {
+              "title": "A one-of-one SKOCKSTER",
+              "text": "Hand-sculpted, never repeated. The photo is the exact piece."
+            },
+            {
+              "title": "Its matching worry stone",
+              "text": "Made in the same colours, to sit in your pocket or on your desk."
+            },
+            {
+              "title": "Logo keychain + stickers",
+              "text": "Sets 03 to 05 add a two-sided SKO/CKZ keychain. Pick three set-only stickers you can't buy anywhere else."
+            }
+          ]
         }
       ]
     },
     {
-      "id": "sk10",
-      "type": "faq",
-      "heading": "Good to know",
-      "items": [
+      "id": "vault",
+      "title": "The Vault",
+      "slug": "vault",
+      "blocks": [
         {
-          "q": "Do you ship?",
-          "a": "Yes, worldwide. Around Warrnambool you can also grab free local pickup, or delivery within 10 km."
+          "id": "sk17",
+          "type": "pagehead",
+          "eyebrow": "The Vault",
+          "heading": "Every one-of-one we've ever made.",
+          "text": "Hand-sculpted one at a time. There's exactly one of each, and when it's claimed its page stays up forever so you can see what you missed."
         },
         {
-          "q": "Is every SKOCKSTER really one of one?",
-          "a": "Yes. Each one is hand-sculpted, and once it's claimed it's gone. Its page stays up so you can see what you missed."
+          "id": "sk18",
+          "type": "stats",
+          "items": [
+            {
+              "value": "30",
+              "label": "Made"
+            },
+            {
+              "value": "16",
+              "label": "Claimed"
+            },
+            {
+              "value": "14",
+              "label": "Available now"
+            },
+            {
+              "value": "$20–$40",
+              "label": "Each"
+            }
+          ]
         },
         {
-          "q": "Do I get a sticker?",
-          "a": "Every SKOCKZ order comes with a free sticker, and extra stickers are just $1 each."
+          "id": "sk19",
+          "type": "products",
+          "anchor": "collection",
+          "eyebrow": "Filter the vault",
+          "heading": "",
+          "columns": "4",
+          "filters": true,
+          "soldText": "Claimed",
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s01-nugget-together.png?v=1791698718&width=900",
+              "name": "SET 01 NUGGET",
+              "detail": "Gold SKOCKSTER and matching worry stone.",
+              "price": "$30",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-01-nugget-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s02-goblin-together.png?v=1791700747&width=900",
+              "name": "SET 02 GOBLIN",
+              "detail": "Glitter-olive, curved horns, one white fang. Pale-green marble worry stone.",
+              "price": "$30",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-02-goblin-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s03-galah-together.png?v=1791877423&width=900",
+              "name": "SET 03 GALAH",
+              "detail": "Pink and cheeky. Flip the keychain: SKO on one side, CKZ on the other.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-03-galah-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s04-bluebottle-together.png?v=1792192132&width=900",
+              "name": "SET 04 BLUEBOTTLE",
+              "detail": "Coiled horns on the stone, like a bluebottle's stingers.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-04-bluebottle-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/set-s05-redback-together.png?v=1792556091&width=900",
+              "name": "SET 05 REDBACK",
+              "detail": "Red and gold. Flip the stone over and the whole back is gold.",
+              "price": "$40",
+              "tag": "1 of 1",
+              "group": "Sets",
+              "link": "https://skockz.store/products/skockz-set-05-redback-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-001-blizzard-premium.png?v=1787482857&width=900",
+              "name": "001 BLIZZARD",
+              "detail": "Iced blue, gold horns and toes.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-001-blizzard-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-002-scorch-premium.png?v=1787482867&width=900",
+              "name": "002 SCORCH",
+              "detail": "Deep red, hot-pink shift, gold horns.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-002-scorch-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-003-venom-premium.png?v=1787482865&width=900",
+              "name": "003 VENOM",
+              "detail": "Purple, with its own hand-built deck.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-003-venom-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-004-emerald-premium.png?v=1787902544&width=900",
+              "name": "004 JADE",
+              "detail": "Glow-green core, bronze-tipped bat wings.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-004-emerald-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-005-shard-premium.png?v=1787902564&width=900",
+              "name": "005 SHARD",
+              "detail": "Deep blue dragon, teal wings, bronze horns.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-005-shard-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-006-tarnish-premium.png?v=1788043695&width=900",
+              "name": "006 TARNISH",
+              "detail": "Antique gold gone green at the edges.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-006-tarnish-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-007-riptide-premium.png?v=1789273952&width=900",
+              "name": "007 RIPTIDE",
+              "detail": "Turquoise, silver horns and talons.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-007-riptide-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-008-hazard-premium.png?v=1789273960&width=900",
+              "name": "008 HAZARD",
+              "detail": "Three greens, deep to lime, one white fang.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-008-hazard-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-009-glacier-premium.png?v=1790069844&width=900",
+              "name": "009 GLACIER",
+              "detail": "Jade-teal with shimmer through the clay.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-009-glacier-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-010-mirage-premium.png?v=1790389052&width=900",
+              "name": "010 MIRAGE",
+              "detail": "Four greens, teal tail fin.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-010-mirage-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-011-bloom-premium.png?v=1790388258&width=900",
+              "name": "011 BLOOM",
+              "detail": "Deep violet with magenta spikes.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-011-bloom-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-012-patina-copper.png?v=1790393787&width=900",
+              "name": "012 PATINA",
+              "detail": "Mint green and copper, like copper as it ages.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-012-patina-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-013-thrash-premium.png?v=1790477076&width=900",
+              "name": "013 THRASH",
+              "detail": "Two-tone red. Rides its own board.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-013-thrash-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-014-alloy-premium.png?v=1790481796&width=900",
+              "name": "014 ALLOY",
+              "detail": "Four metallic clays on one piece.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-014-alloy-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-015-crush-premium.png?v=1790725900&width=900",
+              "name": "015 CRUSH",
+              "detail": "The first one built all in SKOCKZ pink.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "SKOCKSTERS",
+              "link": "https://skockz.store/products/skockster-015-crush-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-001-flare-premium.png?v=1787969973&width=900",
+              "name": "TRAY 001 FLARE",
+              "detail": "Hot pink dish, tongue out.",
+              "price": "$20",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-001-flare-1-of-1",
+              "sold": true
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-002-midas-premium.png?v=1787902573&width=900",
+              "name": "TRAY 002 MIDAS",
+              "detail": "Gold dish, gritted teeth.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-002-midas-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/ChatGPT_Image_Aug_31_2026_at_12_38_27_PM.png?v=1788143937&width=900",
+              "name": "TRAY 003 OXIDE",
+              "detail": "Deep green, pale blue snout.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-003-oxide-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-005-sulfur-premium.png?v=1789297429&width=900",
+              "name": "TRAY 005 SULFUR",
+              "detail": "Yellow, scalloped edge, brown studs.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-005-sulfur-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-006-plasma-premium.png?v=1789297437&width=900",
+              "name": "TRAY 006 PLASMA",
+              "detail": "Magenta, pink fangs.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-006-plasma-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-007-furnace-premium.png?v=1789297456&width=900",
+              "name": "TRAY 007 FURNACE",
+              "detail": "Flecked red, gold teeth.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-007-furnace-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-tray-008-oracle-premium.png?v=1789297465&width=900",
+              "name": "TRAY 008 ORACLE",
+              "detail": "Lavender with a spiralled third eye.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Trays",
+              "link": "https://skockz.store/products/skockz-tray-008-oracle-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-case-001-cobalt.jpg?v=1790835439&width=900",
+              "name": "CASE 001 COBALT",
+              "detail": "Teal lighter case, cobalt visor.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Lighter cases",
+              "link": "https://skockz.store/products/skockz-case-001-cobalt-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-case-002-eclipse.jpg?v=1790835439&width=900",
+              "name": "CASE 002 ECLIPSE",
+              "detail": "Deep violet, magenta horns.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Lighter cases",
+              "link": "https://skockz.store/products/skockz-case-002-eclipse-1-of-1",
+              "sold": false
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockz-case-003-narwhal.jpg?v=1790835426&width=900",
+              "name": "CASE 003 NARWHAL",
+              "detail": "Ocean blue, one horn, big pout.",
+              "price": "$25",
+              "tag": "1 of 1",
+              "group": "Lighter cases",
+              "link": "https://skockz.store/products/skockz-case-003-narwhal-1-of-1",
+              "sold": false
+            }
+          ]
         },
         {
-          "q": "Can I buy a whole set?",
-          "a": "Yes. Each matched set is sold as one, or take all four sets together for $130 while they're all still available."
+          "id": "sk20",
+          "type": "cta",
+          "heading": "Want one made for you?",
+          "text": "Custom SKOCKSTERS and collabs start with a message on Instagram.",
+          "button": "DM @skockz",
+          "buttonLink": "https://www.instagram.com/skockz"
         }
       ]
     },
     {
-      "id": "sk11",
-      "type": "cta",
-      "heading": "Join the crew",
-      "text": "New drops, one-of-ones and behind-the-scenes sculpting, first on Instagram.",
-      "button": "Follow @skockz",
-      "buttonLink": "https://www.instagram.com/skockz"
+      "id": "socks",
+      "title": "Socks",
+      "slug": "socks",
+      "blocks": [
+        {
+          "id": "sk21",
+          "type": "hero",
+          "layout": "split",
+          "eyebrow": "The run has landed",
+          "heading": "SKOCKZ Socks.\nThe first run.",
+          "text": "One hundred pairs turned up this week, along with one hundred cans, and every can is being numbered by hand. This is the first SKOCKZ product ever manufactured, and it exists because a 17-year-old in Warrnambool put his own money on the table.",
+          "button": "Buy socks: $15",
+          "buttonLink": "https://skockz.store/products/skockz-skateboarding-socks-limited-edition",
+          "button2": "Join the can list",
+          "button2Link": "#signup",
+          "image": "https://skockz.store/cdn/shop/files/IMG_3744.png?v=1789978074&width=1200",
+          "badges": "Bamboo knit\nAU 8–12\nNo restock"
+        },
+        {
+          "id": "sk22",
+          "type": "stats",
+          "items": [
+            {
+              "value": "100",
+              "label": "Pairs made"
+            },
+            {
+              "value": "1",
+              "label": "Colourway"
+            },
+            {
+              "value": "0",
+              "label": "Restocks"
+            }
+          ]
+        },
+        {
+          "id": "sk23",
+          "type": "pricing",
+          "heading": "Two ways to get a pair",
+          "items": [
+            {
+              "name": "Socks only",
+              "price": "$15",
+              "note": "no can",
+              "features": "On sale now\nOnly 40 pairs go out without a can\nFree sticker sheet",
+              "featured": false
+            },
+            {
+              "name": "Socks + collectible can",
+              "price": "$25",
+              "note": "",
+              "features": "Printed tin with a ring-pull lid\nNumbered by hand: yours out of 100\nNo two cans share a number",
+              "featured": true
+            }
+          ]
+        },
+        {
+          "id": "sk24",
+          "type": "text",
+          "heading": "What you're getting",
+          "body": "Colourway | Black and charcoal grey\nSize | One size, AU 8–12\nFabric | Bamboo knit, terry loop footbed\nCut | Crew, cushioned underfoot\nRun size | 100 pairs, no restock\n\nRibbed leg, contrast cuff, heel and toe, with the SKOCKSTER and the SKOCKZ wordmark up the side. Reinforced at the toe and heel, where skate shoes wear through first.\n\n## The can\nEvery pair comes rolled into a printed collectible tin with a ring-pull lid and a number written on it by hand. The can is half the point: it sits on your shelf long after the socks are in the wash."
+        },
+        {
+          "id": "sk25",
+          "type": "signup",
+          "eyebrow": "Why bother with a list?",
+          "heading": "100 pairs is genuinely not many.",
+          "text": "Warrnambool alone could clear that. Get one email the moment the cans go on sale, before the rest of the store sees them. No payment, no commitment.",
+          "button": "Join the list",
+          "note": "One email when the cans drop. We never sell your details."
+        }
+      ]
     },
     {
-      "id": "sk12",
-      "type": "footer",
-      "text": "© 2026 SKOCKZ · Designed in Warrnambool, made to shred · Instagram @skockz"
+      "id": "story",
+      "title": "Story",
+      "slug": "story",
+      "blocks": [
+        {
+          "id": "sk26",
+          "type": "pagehead",
+          "eyebrow": "The story behind SKOCKZ",
+          "heading": "Made by a skater,\nfor the skate community.",
+          "text": "SKOCKZ started in a garage in Warrnambool with a simple idea: the gear you rep should feel just as personal as the culture behind it."
+        },
+        {
+          "id": "sk27",
+          "type": "about",
+          "heading": "Why I started SKOCKZ",
+          "text": "I'm a Year 12 student and a skater. I started SKOCKZ because the skatepark is where mates are made, tricks are learned, and everything else disappears for a while.\n\nWhen an injury put me on the sidelines, I felt how isolating it is to be cut off from that. Filming my mates and slowly building back got me through it, and that's the spirit this brand is built on.",
+          "points": "Designed in Warrnambool\nEvery piece made by hand\nMade to shred",
+          "image": "https://skockz.store/cdn/shop/files/IMG_3743.png?v=1790072428&width=1200",
+          "flip": false
+        },
+        {
+          "id": "sk28",
+          "type": "services",
+          "heading": "What we make",
+          "items": [
+            {
+              "icon": "🧦",
+              "title": "SKOCKZ Socks",
+              "text": "Limited-edition skate socks, each shipped in its own collectible tin.",
+              "price": ""
+            },
+            {
+              "icon": "🐉",
+              "title": "SKOCKSTERS",
+              "text": "One-of-one polymer clay characters, hand-sculpted so no two are ever the same.",
+              "price": ""
+            },
+            {
+              "icon": "🧸",
+              "title": "Low Poly 3D Bears",
+              "text": "Precision 3D-printed collectibles in limited-run colours.",
+              "price": ""
+            },
+            {
+              "icon": "🛹",
+              "title": "Stickers & apparel",
+              "text": "Slap 'em on your board and rep the crew everywhere you ride.",
+              "price": ""
+            }
+          ]
+        },
+        {
+          "id": "sk29",
+          "type": "gallery",
+          "heading": "From the desk",
+          "items": [
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-003-venom.jpg?v=1787478987&width=900",
+              "caption": "003 VENOM, before the studio photo"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-006-tarnish-raw.jpg?v=1788043695&width=900",
+              "caption": "006 TARNISH, raw"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/skockster-008-hazard-back.png?v=1789273961&width=900",
+              "caption": "008 HAZARD from the back"
+            },
+            {
+              "image": "https://skockz.store/cdn/shop/files/dark-IMG_3050.jpg?v=1786412014&width=900",
+              "caption": "Mini SKOCKSTERS, fresh batch"
+            }
+          ]
+        },
+        {
+          "id": "sk30",
+          "type": "cta",
+          "heading": "Send in your clip",
+          "text": "Film your best line repping SKOCKZ and tag @skockz. The best ones get featured on the site and our story.",
+          "button": "Tag @skockz",
+          "buttonLink": "https://www.instagram.com/skockz"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "slug": "faq",
+      "blocks": [
+        {
+          "id": "sk31",
+          "type": "pagehead",
+          "eyebrow": "FAQ",
+          "heading": "Everything people actually ask.",
+          "text": "If your question isn't here, email sskockzz@gmail.com. It's a real person, and it's usually me."
+        },
+        {
+          "id": "sk32",
+          "type": "faq",
+          "anchor": "ordering",
+          "heading": "Ordering & how it's made",
+          "items": [
+            {
+              "q": "Is it actually handmade?",
+              "a": "Actually handmade. Every clay SKOCKSTER, keychain and logo piece is rolled, shaped and assembled by hand in Warrnambool. No moulds, no casts. Yours will vary a little from the photos, and that's what makes it one of one."
+            },
+            {
+              "q": "Can I choose the colour?",
+              "a": "Yep. Pick your options on the product page. Most clay pieces come in 8 colours, and several have a resin glaze upgrade for a glossy, harder-wearing finish."
+            },
+            {
+              "q": "Is it made before or after I order?",
+              "a": "After. Clay pieces are made once your order comes through, so they take a few days. Stickers and anything in stock go out straight away."
+            },
+            {
+              "q": "Do I get free stickers?",
+              "a": "A free sticker sheet goes in every single order."
+            },
+            {
+              "q": "What's the FREE BONUS KEYCHAIN banner?",
+              "a": "If you see the gold banner on a product page, a second handmade keychain goes in your parcel at no cost. It's a surprise, and it's a real one."
+            }
+          ]
+        },
+        {
+          "id": "sk33",
+          "type": "text",
+          "anchor": "shipping",
+          "heading": "Shipping & delivery",
+          "body": "Everything ships from Warrnambool, Victoria. All prices in AUD.\n\nAustralia, standard | $11.00\nAustralia, express | $15.00\nAustralia, orders over $50 | FREE\nWarrnambool local pickup | FREE\nInternational | $20.00\n\n## How long until it turns up?\nStickers and in-stock items | 1–2 business days to make\nClay SKOCKSTERS and keychains | 3–5 business days\nMade-to-order tees | 2–3 weeks\nSignature Hoodie | ships from November 2026\n\nThen the post: Australia Post is usually 2–6 business days standard, 1–3 express. International is usually 2–4 weeks. You'll get tracking by email the moment it's posted."
+        },
+        {
+          "id": "sk34",
+          "type": "faq",
+          "anchor": "returns",
+          "heading": "Returns, sizing & payment",
+          "items": [
+            {
+              "q": "It arrived faulty or damaged",
+              "a": "Email sskockzz@gmail.com within 30 days with your order number and a photo. We'll sort a replacement, repair or refund, and cover return postage on faulty items. Your rights under Australian Consumer Law always apply."
+            },
+            {
+              "q": "I changed my mind. Can I return it?",
+              "a": "Yes, on most things: send back an unused item in its original condition within 30 days for a refund. Pieces made specifically for you (clay SKOCKSTERS, keychains, custom colours, made-to-order tees) can't be returned for change of mind."
+            },
+            {
+              "q": "What size should I get?",
+              "a": "Socks are one size, AU 8–12. For everything else, measure a shirt you already love and compare it with the size guide, or email us and we'll tell you straight."
+            },
+            {
+              "q": "How can I pay?",
+              "a": "Visa, Mastercard, American Express and the express wallets at checkout. Checkout runs on Shopify's secure checkout, so SKOCKZ never sees your card details."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "slug": "contact",
+      "hideInMenu": true,
+      "blocks": [
+        {
+          "id": "sk35",
+          "type": "pagehead",
+          "eyebrow": "Contact",
+          "heading": "Get in touch",
+          "text": "Question about an order, a custom SKOCKSTER, a collab, or just want to say what's up? We're real people and we'd love to hear from you."
+        },
+        {
+          "id": "sk36",
+          "type": "contact",
+          "heading": "Send us a message",
+          "text": "DM @skockz on Instagram for the fastest reply, or use the form and we'll get back to you within 1–2 days.",
+          "showForm": true
+        },
+        {
+          "id": "sk37",
+          "type": "services",
+          "heading": "Quick answers",
+          "items": [
+            {
+              "icon": "🚚",
+              "title": "Shipping",
+              "text": "We ship right across Australia and worldwide. Free over $50 in Australia.",
+              "price": ""
+            },
+            {
+              "icon": "✋",
+              "title": "Handmade items",
+              "text": "SKOCKSTERS are made by hand, so give us a few days to craft yours.",
+              "price": ""
+            },
+            {
+              "icon": "🤝",
+              "title": "Collabs & wholesale",
+              "text": "Keen to work together? Slide into the DMs.",
+              "price": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

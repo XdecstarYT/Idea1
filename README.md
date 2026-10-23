@@ -14,7 +14,7 @@
 | [`docs/account.html`](docs/account.html) | **Login & sign-up for everyone.** Clients get their portal; the owner is sent to the owner panel |
 | [`docs/owner.html`](docs/owner.html) | **The owner panel**: leads, clients, change requests, designs, messages, products, pricing and founding spots |
 | [`docs/builder.html`](docs/builder.html) | **The site builder**: design client websites section by section, then send them for review |
-| [`docs/mockups/`](docs/mockups/) | Client mockups to share by link (e.g. `/mockups/skockz/`). Each has a `design.json` you can import in **Designs → New design** once the client has an account. Source scripts are in `site/mockups/` |
+| [`docs/mockups/`](docs/mockups/) | Client mockups to share by link (e.g. `/mockups/skockz/`, a full 8-page SKOCKZ site: Home, Shop, Sets, The Vault, Socks, Story, FAQ, Contact). Each has a `design.json` you can import in **Designs → New design** once the client has an account. Source scripts are in `site/mockups/` |
 | [`supabase/schema.sql`](supabase/schema.sql) | The database setup (Supabase project `marshall-web-co`, Sydney) |
 | [`MASTER_PROMPT.md`](MASTER_PROMPT.md) | The prompt this was all built from |
 
@@ -43,7 +43,7 @@ Everyone signs in at **/account.html** (the "Log in" link in the site's top menu
 - **Leads:** every free-mockup request lands here. Update status, add notes, export to CSV.
 - **Clients:** everyone with an account. Add a website to a client (status, mockup link, plan, price, next payment, a note) and it appears in their portal instantly.
 - **Change requests:** what clients have asked for. Reply and update the status; they see it in their portal.
-- **Designs:** build a client's website in the **site builder** (templates for trades, cafés and salons; 13 section types; theme colours, fonts and corners; desktop/tablet/phone preview; undo/redo; autosave). **Send to client** puts it in their portal for review; they approve it or request changes. **Export HTML** gives you a finished page to publish on Netlify.
+- **Designs:** build a client's website in the **site builder** (templates for trades, cafés and salons; 19 section types; **multi-page sites** with a Pages tab, menus that fill in automatically and headers/footers shared across every page; product grids with category filters and sold/claimed stamps; theme colours, fonts and corners; desktop/tablet/phone preview; undo/redo; autosave). **Send to client** puts it in their portal for review; they approve it or request changes. **Export HTML** gives you a finished page to publish on Netlify.
 - **Send / share:** any design can be shared by **private review link** (copy, email or text it). The person can view it full-screen and approve it or request changes with **no account needed**. Designs can be made for prospects who haven't signed up yet, then linked to their client account later.
 - **Messages:** live chat with each client. Unread badges, read receipts, and automatic messages when designs are sent, approved or need changes.
 - **Products & pricing:** edit prices, features and badges, or add new packages. **Changes go live on the website instantly**, with no rebuild needed.
