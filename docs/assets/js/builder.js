@@ -407,6 +407,8 @@
     { key: "mode", label: "Background", type: "select", options: [["light", "Light"], ["dark", "Dark"]] },
     { key: "font", label: "Font style", type: "select", options: Object.keys(B.FONTS).map(function (k) { return [k, B.FONTS[k].label]; }) },
     { key: "radius", label: "Corners", type: "select", options: [["sharp", "Sharp"], ["soft", "Soft"], ["round", "Round"]] },
+    { key: "look", label: "Look", type: "select", options: [["standard", "Standard"], ["cinema", "Cinema (deep blacks, glass header)"]] },
+    { key: "store", label: "Online store link (for the shopping bag)", type: "text", hint: "A Shopify store address, e.g. https://yourstore.com. Products with bag options can then be added to a bag and checked out there." },
   ];
   function renderTheme() {
     var t = state.content.theme;

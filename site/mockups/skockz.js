@@ -9,6 +9,12 @@ const B = require("../../docs/assets/js/builder-render.js");
 const SHOP = "https://skockz.store";
 const img = (file, w) => `${SHOP}/cdn/shop/files/${file}&width=${w || 900}`;
 const product = (handle) => `${SHOP}/products/${handle}`;
+// Full descriptions, extra photos and Shopify variant IDs, snapshotted from the store's products.json
+const DATA = require("./skockz-data.json");
+const info = (handle) => DATA[handle] || { desc: "", images: [], variants: [] };
+const morePhotos = (handle) => info(handle).images.slice(1, 4).map((f) => img(f)).join("\n");
+// Bag options for products sold as one item (every one-of-one); multi-option products list theirs explicitly
+const oneVariant = (handle) => { const v = info(handle).variants; return v.length === 1 ? v[0][1] : ""; };
 let n = 0;
 const block = (type, fields) => Object.assign({ id: "sk" + (++n), type }, fields);
 
@@ -52,19 +58,29 @@ const SETS = [
   ["skockz-set-04-bluebottle-1-of-1", "SET 04 BLUEBOTTLE", 40, false, "set-s04-bluebottle-together.png?v=1792192132", "Coiled horns on the stone, like a bluebottle's stingers."],
   ["skockz-set-05-redback-1-of-1", "SET 05 REDBACK", 40, false, "set-s05-redback-together.png?v=1792556091", "Red and gold. Flip the stone over and the whole back is gold."],
 ];
-const card = (group, tag) => ([handle, name, price, sold, photo, detail]) => ({ image: img(photo), name, detail, price: "$" + price, tag, group, link: product(handle), sold });
+const card = (group, tag) => ([handle, name, price, sold, photo, detail]) => ({
+  image: img(photo), name, detail, price: "$" + price, tag, group, link: product(handle), sold,
+  description: info(handle).desc, images: morePhotos(handle), variant: sold ? "" : oneVariant(handle),
+});
 
 const VAULT = [].concat(SETS.map(card("Sets", "1 of 1")), SKOCKSTERS.map(card("SKOCKSTERS", "1 of 1")), TRAYS.map(card("Trays", "1 of 1")), CASES.map(card("Lighter cases", "1 of 1")));
 const claimed = VAULT.filter((i) => i.sold).length;
 const available = VAULT.filter((i) => !i.sold);
 
-const MERCH = [
+const optionLines = (handle, label) => info(handle).variants.filter((v) => v[3]).map((v) => `${label(v[0])} = ${v[1]} = ${+v[2]}`).join("\n");
+const merch = (handle, extra) => Object.assign({ description: info(handle).desc, images: morePhotos(handle), link: product(handle) }, extra);
+const MERCH_RAW = [
   { image: img("IMG_3744.png?v=1789978074"), name: "Skateboarding Socks", detail: "Bamboo crew socks, one run of 100. AU 8–12.", price: "From $15", tag: "Just landed", group: "Wear", link: product("skockz-skateboarding-socks-limited-edition") },
   { image: img("Screenshot2026-06-20at3.36.57pm_27bea016-3ca4-4483-ae8b-e731164d1230.png?v=1786868422"), name: "Signature Hoodie", detail: "Puff print. One small batch, ships from November 2026.", price: "$110", tag: "Pre-order", group: "Wear", link: product("skockz-signature-hoodie") },
   { image: img("dark-IMG_3061.jpg?v=1786412014"), name: "Mini SKOCKSTERS Keychain", detail: "Rolled and shaped by hand. Yours is the only one.", price: "From $15", tag: "Made to order", group: "Keychains", link: product("mini-skocksters-keychain") },
   { image: img("ChatGPT_Image_Aug_3_2026_at_05_02_06_PM.png?v=1785740543"), name: "LOGO Keychain", detail: "SZ monogram or the full logo, in any colour.", price: "From $10", tag: "", group: "Keychains", link: product("clay-skockz-logo") },
   { image: img("ChatGPT_Image_Aug_3_2026_at_05_08_37_PM.png?v=1785740950"), name: "Sticker Sheets", detail: "Premium gloss. A free sheet comes in every order.", price: "$1", tag: "", group: "Stickers", link: product("stickers") },
 ];
+const MERCH_OPTIONS = {
+  "skockz-skateboarding-socks-limited-edition": optionLines("skockz-skateboarding-socks-limited-edition", (l) => l.split("/").pop().trim()),
+  "skockz-signature-hoodie": optionLines("skockz-signature-hoodie", (l) => "Size " + l),
+};
+const MERCH = MERCH_RAW.map((m) => { const handle = m.link.split("/products/")[1]; return merch(handle, Object.assign({}, m, { variant: MERCH_OPTIONS[handle] || "" })); });
 
 const REVIEWS = [
   { quote: "Obsessed with the Skockz key rings, venom lives on my handbag 💜", name: "Morgan H", detail: "SKOCKSTER 003 VENOM" },
@@ -75,19 +91,21 @@ const REVIEWS = [
 const HERO_IMG = img("ChatGPT_Image_Aug_2_2026_at_05_45_27_PM.png?v=1785657015", 2000);
 
 // ---------- Pages ----------
+const ofOne = VAULT.filter((i) => i.group !== "Sets");
 const home = [
-  block("hero", {
-    layout: "full",
-    eyebrow: "Hand-sculpted in Warrnambool",
-    heading: "Made to shred.\nMade one of one.",
-    text: "Clay SKOCKSTERS, skate socks, hoodies and stickers, made by a skater for the skate community. When a one-of-one is claimed, it's gone for good.",
-    button: "Enter the vault",
-    buttonLink: "#/vault",
-    button2: "Shop the drop",
-    button2Link: "#/shop",
-    image: HERO_IMG,
-    badges: "4.9★ from 14 reviews\nFree Warrnambool pickup\nFree shipping over $50",
+  block("billboard", {
+    autoplay: true,
+    slides: [
+      { image: HERO_IMG, eyebrow: "Hand-sculpted in Warrnambool", heading: "Made to shred.\nMade one of one.", text: `Clay SKOCKSTERS, skate socks, hoodies and stickers, made by a skater for the skate community. ${available.length} one-of-ones left in the vault.`, button: "Enter the vault", buttonLink: "#/vault", button2: "Our story", button2Link: "#/story", tag: "1 of 1" },
+      { image: img("skockster-012-patina-copper.png?v=1790393787", 2000), eyebrow: "The last SKOCKSTER standing", heading: "012 PATINA", text: "Mint green and copper, named for the green copper turns as it ages. 14 of 15 SKOCKSTERS are gone. This is the one that's left.", button: "Claim it: $25", buttonLink: product("skockster-012-patina-1-of-1"), button2: "See the run", button2Link: "#row-the-skockster-run-001-015", tag: "012/001" },
+      { image: img("IMG_3743.png?v=1790072428", 2000), eyebrow: "The first run has landed", heading: "SKOCKZ Socks.\n100 pairs. Then never again.", text: "Bamboo crew socks in black and charcoal, rolled into a collectible tin numbered by hand.", button: "Get a pair", buttonLink: "#/socks", button2: "What's in the can", button2Link: "#/socks", tag: "1 of 100" },
+      { image: img("set-s04-bluebottle-together.png?v=1792192132", 2000), eyebrow: "Matched sets · one of each, ever", heading: "Four sets.\nOne of each.", text: "A SKOCKSTER plus the pieces made to match it. Take the one that's yours, or all four for $130.", button: "Shop the sets", buttonLink: "#/sets", button2: "Take all four", button2Link: product("skockz-sets-all-four-1-of-1"), tag: "Save $20" },
+    ],
   }),
+  block("row", { heading: "Still in the vault", more: "Explore all", moreLink: "#/vault", shape: "square", soldText: "Claimed", items: ofOne.filter((i) => !i.sold) }),
+  block("row", { heading: "The SKOCKSTER run · 001–015", more: "See the vault", moreLink: "#/vault", shape: "square", numbered: true, soldText: "Claimed", items: SKOCKSTERS.map(card("SKOCKSTERS", "1 of 1")) }),
+  block("row", { heading: "Matched sets", more: "All sets", moreLink: "#/sets", shape: "square", soldText: "Claimed", items: SETS.map(card("Sets", "1 of 1")) }),
+  block("row", { heading: "The everyday drop", more: "Shop all", moreLink: "#/shop", shape: "square", items: MERCH }),
   block("stats", {
     items: [
       { value: String(VAULT.length), label: "One-of-ones made" },
@@ -95,6 +113,17 @@ const home = [
       { value: String(available.length), label: "Still in the vault" },
       { value: "0", label: "Restocks. Ever." },
     ],
+  }),
+  block("countdown", {
+    anchor: "hoodie-countdown",
+    eyebrow: "Signature Hoodie · pre-order",
+    heading: "Hoodie batch ships in",
+    text: "Made in one small batch, not held in stock. Order before it ships and yours is reserved. Full refund on request any time before then.",
+    date: "2026-11-01",
+    done: "Shipping now. Orders go out in the order they came in.",
+    button: "Reserve yours: $110",
+    buttonLink: product("skockz-signature-hoodie"),
+    image: img("ChatGPT_Image_Sep_2_2026_at_12_48_50_PM.png?v=1790836882", 2000),
   }),
   block("tiles", {
     eyebrow: "Shop the range",
@@ -107,28 +136,7 @@ const home = [
       { image: img("skockz-tray-008-oracle-premium.png?v=1789297465", 1000), title: "Trays & cases", text: "Sculpted dishes and lighter cases.", link: "#/vault" },
     ],
   }),
-  block("products", {
-    anchor: "fresh",
-    eyebrow: "Still in the vault",
-    heading: "Grab one before someone else does",
-    intro: "There's exactly one of each of these. The photo is the exact piece you get.",
-    columns: "4",
-    items: available.filter((i) => i.group !== "Sets").slice(0, 8),
-    button: `See all ${VAULT.length} in the vault`,
-    buttonLink: "#/vault",
-  }),
-  block("feature", {
-    eyebrow: "The first run has landed",
-    heading: "SKOCKZ Socks.\n100 pairs. Then never again.",
-    text: "Custom-knit bamboo crew socks in black and charcoal, each rolled into a collectible tin numbered by hand: yours out of 100.",
-    points: "One size, AU 8–12\nReinforced where skate shoes wear through\nOne colourway, no restock",
-    price: "From $15",
-    priceNote: "$25 with the numbered can",
-    button: "Get the socks",
-    buttonLink: "#/socks",
-    image: img("IMG_3743.png?v=1790072428", 1200),
-    badge: "1 of 100",
-  }),
+  block("row", { heading: "Claimed. Gone for good.", more: "See what you missed", moreLink: "#/vault", shape: "square", soldText: "Claimed", items: VAULT.filter((i) => i.sold) }),
   block("steps", {
     eyebrow: "Why SKOCKZ is different",
     heading: "Small batch. Real hands. No fake scarcity.",
@@ -318,6 +326,8 @@ const design = {
     mode: "dark",
     font: "street",
     radius: "soft",
+    look: "cinema",
+    store: SHOP,
   },
   shared: [
     block("marquee", { text: "Designed in Warrnambool\nMade to shred\nFree local pickup\nFree shipping over $50\nFree sticker with every order", style: "brand" }),
