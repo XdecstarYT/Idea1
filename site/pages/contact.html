@@ -1,15 +1,25 @@
-<!-- {"title": "Get a Free Website Mockup | Marshall Web Co.", "description": "Request a free homepage mockup for your Warrnambool business. No obligation. If you don't love it, you don't pay.", "nav": "contact"} -->
+<!-- {"title": "Get a Free Website Mockup | Marshall Web Co.", "description": "Request a free homepage mockup for your Warrnambool business. Ready in about 72 hours. No obligation: if you don't love it, you don't pay.", "nav": "contact"} -->
     <section class="page-head">
       <div class="container">
         <span class="eyebrow">Free mockup</span>
-        <h1>Let's design your homepage, free</h1>
-        <p class="lead">Tell us a bit about your business. We'll design a homepage mockup and send it to you, usually within a few days. No obligation.</p>
+        <h1>Let's design your homepage, <span class="serif">free.</span></h1>
+        <p class="lead">Tell me a little about your business. I'll design a homepage mockup and send it to you in about 72 hours. No cost, no obligation.</p>
       </div>
     </section>
 
-    <section style="padding-top:20px">
+    <section style="padding-top:0">
       <div class="container contact-grid">
-        <form class="card form" id="quote-form" action="https://formspree.io/f/{{formspreeId}}" method="POST" data-fallback-email="{{email}}">
+        <form class="form-card form" id="quote-form" action="https://formspree.io/f/{{formspreeId}}" method="POST" data-fallback-email="{{email}}">
+          <fieldset class="opt-chips">
+            <legend class="label">What kind of business?</legend>
+            <label><input type="radio" name="industry" value="Trades"><span>🔧 Trades</span></label>
+            <label><input type="radio" name="industry" value="Hospitality"><span>☕ Café / restaurant</span></label>
+            <label><input type="radio" name="industry" value="Hair &amp; beauty"><span>✂️ Hair &amp; beauty</span></label>
+            <label><input type="radio" name="industry" value="Health"><span>🩺 Health</span></label>
+            <label><input type="radio" name="industry" value="Tourism"><span>🌊 Tourism</span></label>
+            <label><input type="radio" name="industry" value="Other"><span>Other</span></label>
+          </fieldset>
+
           <div class="form-row">
             <div><label for="name">Your name *</label><input id="name" name="name" autocomplete="name" required></div>
             <div><label for="business">Business name *</label><input id="business" name="business" autocomplete="organization" required></div>
@@ -18,34 +28,41 @@
             <div><label for="phone">Phone *</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
             <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email"></div>
           </div>
-          <div class="form-row">
-            <div><label for="website">Current website (if any)</label><input id="website" name="website" placeholder="www.example.com.au"></div>
-            <div>
-              <label for="package">Package you're interested in</label>
-              <select id="package" name="package">
-                <option value="unsure">Not sure yet</option>
-                <option value="starter">Starter ($590 or $59/mo)</option>
-                <option value="growth">Growth ($1,290 or $99/mo)</option>
-                <option value="premium">Premium ($2,490 or $179/mo)</option>
-                <option value="gbp">Just Google Business Profile ($149)</option>
-              </select>
-            </div>
-          </div>
-          <div><label for="message">What does your business do, and what do you want from a website?</label><textarea id="message" name="message"></textarea></div>
+          <div><label for="website">Current website (if you have one)</label><input id="website" name="website" placeholder="yourbusiness.com.au"></div>
+
+          <fieldset class="opt-chips">
+            <legend class="label">Package you're interested in</legend>
+            <label><input type="radio" name="package" value="unsure" checked><span>Not sure yet</span></label>
+            <label><input type="radio" name="package" value="starter"><span>Starter</span></label>
+            <label><input type="radio" name="package" value="growth"><span>Growth</span></label>
+            <label><input type="radio" name="package" value="premium"><span>Premium</span></label>
+            <label><input type="radio" name="package" value="gbp"><span>Just Google Maps</span></label>
+          </fieldset>
+
+          <div><label for="message">Anything I should know?</label><textarea id="message" name="message" placeholder="e.g. what you do, the towns you cover, what you'd like the website to do"></textarea></div>
           <div class="hp" aria-hidden="true"><label for="gotcha">Leave this empty</label><input id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off"></div>
-          <button class="btn btn-go" type="submit">Send me my free mockup</button>
-          <p class="form-note">We'll only use your details to respond to this request. See our <a href="privacy.html">privacy policy</a>.</p>
+          <button class="btn btn-go btn-lg" type="submit">Send me my free mockup
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="form-note">🔒 Your details are only used to reply to you. No spam, ever. See the <a href="privacy.html">privacy policy</a>.</p>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
 
-        <aside class="card">
-          <h3>Prefer to talk directly?</h3>
-          <ul class="contact-list">
-            {{#phone}}<li><strong>Call or text</strong><a href="tel:{{phoneIntl}}">{{phone}}</a></li>{{/phone}}
-            <li><strong>Email</strong><a href="mailto:{{email}}">{{email}}</a></li>
-            <li><strong>Based in</strong>{{town}}, VIC. Happy to meet in person anywhere in {{region}}.</li>
-            <li><strong>Reply time</strong>Within one business day.</li>
-          </ul>
+        <aside>
+          <div class="side-card">
+            <h3>What happens next</h3>
+            <ol class="next-steps">
+              <li><b>I reply within a day</b><span>Usually with a couple of quick questions.</span></li>
+              <li><b>Mockup in ~72 hours</b><span>Your new homepage, sent as a link you can open on your phone.</span></li>
+              <li><b>You decide</b><span>Love it? We build the rest. Not for you? No cost, no hard feelings.</span></li>
+            </ol>
+          </div>
+          <div class="side-card">
+            <h3>Prefer to talk directly?</h3>
+            <p class="fine" style="margin:0 0 6px">Email</p>
+            <p><a href="mailto:{{email}}"><b>{{email}}</b></a></p>
+            {{#phone}}<p class="fine" style="margin:0 0 6px">Call or text</p><p><a href="tel:{{phoneIntl}}"><b>{{phone}}</b></a></p>{{/phone}}
+            <p class="fine" style="margin:0">Based in {{town}}. Happy to meet in person anywhere in {{region}}.</p>
+          </div>
         </aside>
       </div>
     </section>

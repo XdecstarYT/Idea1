@@ -55,6 +55,10 @@ for (const file of fs.readdirSync(pagesDir).filter((f) => f.endsWith(".html"))) 
     canonical: `${config.domain}/${file === "index.html" ? "" : file}`,
     robots: meta.noindex ? "noindex" : "index, follow",
     navLinks,
+    // One block per founding spot; taken spots are dimmed
+    seatIcons: Array.from({ length: 5 }, (_, i) =>
+      i < 5 - config.foundingSeatsLeft ? '<i class="taken"></i>' : "<i></i>"
+    ).join(""),
   };
 
   const html = fill(layout, { ...vars, content: fill(body, vars) });

@@ -136,6 +136,24 @@ Use this in the evenings when you can't call. Keep it short and specific.
 
 ---
 
+## E2. Cold email with their website score (for businesses with an old site)
+
+**Subject:** [Business name] scored [X]/100 on Google's mobile test
+
+> Hi [Name],
+>
+> I'm Declan, I build websites for local businesses here in Warrnambool.
+>
+> I ran [their website] through Google's mobile speed test tonight and it scored **[X] out of 100**. You can check it yourself at marshallwebz.netlify.app/#check. Slow sites lose a lot of phone visitors before the page even loads.
+>
+> I'd be happy to design a **free homepage mockup** showing what a faster version could look like. No cost, no obligation.
+>
+> Interested? Just reply "yes".
+>
+> [Signature]
+
+---
+
 ## F. Asking a happy client for a review
 
 > Hi [Name], so glad you're happy with the new site! Would you mind leaving me a quick Google review? It makes a huge difference for a new business: [Google review link]. Thanks heaps!

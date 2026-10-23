@@ -28,6 +28,11 @@ Use the biggest problem from your audit:
 
 Then: **"Is getting more [jobs / bookings / customers] something you're keen on at the moment?"**
 
+**Hook using the free website checker** (for businesses that already have a site):
+> "I ran your site through Google's speed test, the same one on my website, and it scored **[X] out of 100** on phones. Anything under 50 means a lot of people give up before it loads. Want me to text you the link so you can see for yourself?"
+
+(Run it beforehand at **marshallwebz.netlify.app/#check** and write the score in your tracker.)
+
 ## 3. Discovery (2–3 questions, then listen)
 
 1. "Where do most of your new customers come from at the moment?"
