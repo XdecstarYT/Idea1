@@ -35,5 +35,5 @@
 
 Or just ask Claude: *"Update my phone number to 0412 345 678 and rebuild the site."*
 
-## Placeholders to replace before going live
-These live in `site/config.json`: `owner` (YOUR NAME), `phone` (0491 570 156 is a fake number reserved for examples), `abn` (00 000 000 000), `formspreeId`, `email` and `domain`. See [setup checklist](kit/13-setup-checklist.md), step 3.
+## Details still to add
+In `site/config.json`: `phone` and `abn` are left empty, so the site hides them until you fill them in. `formspreeId` is still a placeholder (until it's set, the contact form opens the visitor's email app instead). Update `domain` if you buy marshallweb.com.au. See [setup checklist](kit/13-setup-checklist.md), step 3.

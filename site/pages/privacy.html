@@ -8,7 +8,7 @@
     </section>
     <section style="padding-top:0">
       <div class="container prose">
-        <p>{{business}} (ABN {{abn}}) respects your privacy. This policy explains what personal information we collect, why, and how we look after it, in line with the Australian Privacy Principles.</p>
+        <p>{{business}}{{#abn}} (ABN {{abn}}){{/abn}} respects your privacy. This policy explains what personal information we collect, why, and how we look after it, in line with the Australian Privacy Principles.</p>
 
         <h2>What we collect</h2>
         <ul>
@@ -38,6 +38,6 @@
         <p>If you have a privacy concern, please contact us first and we'll respond within 30 days. If you're not satisfied, you can contact the Office of the Australian Information Commissioner at oaic.gov.au.</p>
 
         <h2>Contact</h2>
-        <p>{{business}}, {{town}} VIC · <a href="mailto:{{email}}">{{email}}</a> · <a href="tel:{{phoneIntl}}">{{phone}}</a></p>
+        <p>{{business}}, {{town}} VIC · <a href="mailto:{{email}}">{{email}}</a>{{#phone}} · <a href="tel:{{phoneIntl}}">{{phone}}</a>{{/phone}}</p>
       </div>
     </section>

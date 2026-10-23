@@ -32,7 +32,7 @@
     "slogan": "{{tagline}}",
     "description": "Affordable, mobile-first websites, Google Business Profile setup and local SEO for small businesses in {{town}} and {{region}}.",
     "url": "{{domain}}",
-    "telephone": "{{phoneIntl}}",
+    {{#phone}}"telephone": "{{phoneIntl}}",{{/phone}}
     "email": "{{email}}",
     "image": "{{domain}}/assets/img/og-image.png",
     "logo": "{{domain}}/assets/img/logo.svg",
@@ -83,7 +83,7 @@
         <div>
           <h4>Contact</h4>
           <ul>
-            <li><a href="tel:{{phoneIntl}}">{{phone}}</a></li>
+            {{#phone}}<li><a href="tel:{{phoneIntl}}">{{phone}}</a></li>{{/phone}}
             <li><a href="mailto:{{email}}">{{email}}</a></li>
             <li>Based in {{town}}, VIC</li>
           </ul>
@@ -99,14 +99,14 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>&copy; <span id="year">2026</span> {{business}} · ABN {{abn}}</span>
+        <span>&copy; <span id="year">2026</span> {{business}}{{#abn}} · ABN {{abn}}{{/abn}}</span>
         <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
       </div>
     </div>
   </footer>
 
   <div class="callbar">
-    <a class="btn btn-navy" href="tel:{{phoneIntl}}">Call now</a>
+    {{#phone}}<a class="btn btn-navy" href="tel:{{phoneIntl}}">Call now</a>{{/phone}}{{^phone}}<a class="btn btn-navy" href="mailto:{{email}}">Email me</a>{{/phone}}
     <a class="btn btn-go" href="contact.html">Free mockup</a>
   </div>
 

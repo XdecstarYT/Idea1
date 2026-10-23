@@ -39,9 +39,9 @@
         </form>
 
         <aside class="card">
-          <h3>Prefer to talk?</h3>
+          <h3>Prefer to talk directly?</h3>
           <ul class="contact-list">
-            <li><strong>Call or text</strong><a href="tel:{{phoneIntl}}">{{phone}}</a></li>
+            {{#phone}}<li><strong>Call or text</strong><a href="tel:{{phoneIntl}}">{{phone}}</a></li>{{/phone}}
             <li><strong>Email</strong><a href="mailto:{{email}}">{{email}}</a></li>
             <li><strong>Based in</strong>{{town}}, VIC. Happy to meet in person anywhere in {{region}}.</li>
             <li><strong>Reply time</strong>Within one business day.</li>

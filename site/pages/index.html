@@ -201,7 +201,7 @@
         <p class="lead" style="margin:0 auto">Free homepage mockup. No obligation. Usually ready within a few days.</p>
         <div class="hero-ctas">
           <a class="btn btn-go" href="contact.html">Get my free mockup</a>
-          <a class="btn btn-ghost" href="tel:{{phoneIntl}}">Call {{phone}}</a>
+          {{#phone}}<a class="btn btn-ghost" href="tel:{{phoneIntl}}">Call {{phone}}</a>{{/phone}}{{^phone}}<a class="btn btn-ghost" href="mailto:{{email}}">Email me</a>{{/phone}}
         </div>
       </div>
     </section>

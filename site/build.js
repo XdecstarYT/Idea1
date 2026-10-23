@@ -1,4 +1,5 @@
 // Builds the agency site into /docs.
+// Optional details (e.g. phone, abn) can be left empty in config.json; see sections() below.
 // Each file in site/pages starts with a JSON comment: <!-- {"title": "...", "description": "...", "nav": "home"} -->
 // Usage: node site/build.js
 
@@ -17,8 +18,16 @@ const NAV = [
   ["about", "about.html", "About"],
 ];
 
+// {{#key}}...{{/key}} keeps its contents only when key is set; {{^key}}...{{/key}} only when it's empty
+function sections(text, vars) {
+  return text.replace(/\{\{([#^])(\w+)\}\}([\s\S]*?)\{\{\/\2\}\}/g, (match, kind, key, inner) => {
+    const isSet = Boolean(vars[key]);
+    return (kind === "#") === isSet ? inner : "";
+  });
+}
+
 function fill(text, vars) {
-  return text.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+  return sections(text, vars).replace(/\{\{(\w+)\}\}/g, (match, key) => {
     if (!(key in vars)) throw new Error(`Unknown token ${match}`);
     return vars[key];
   });

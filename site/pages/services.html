@@ -151,6 +151,6 @@
       <div class="container">
         <h2>Not sure which package fits?</h2>
         <p class="lead" style="margin:0 auto">Tell us about your business and we'll recommend one. Honestly, even if it's the cheapest.</p>
-        <div class="hero-ctas"><a class="btn btn-go" href="contact.html">Get a free mockup</a><a class="btn btn-ghost" href="tel:{{phoneIntl}}">Call {{phone}}</a></div>
+        <div class="hero-ctas"><a class="btn btn-go" href="contact.html">Get a free mockup</a>{{#phone}}<a class="btn btn-ghost" href="tel:{{phoneIntl}}">Call {{phone}}</a>{{/phone}}{{^phone}}<a class="btn btn-ghost" href="mailto:{{email}}">Email me</a>{{/phone}}</div>
       </div>
     </section>

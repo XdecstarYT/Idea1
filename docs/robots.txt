@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://marshallweb.com.au/sitemap.xml
+Sitemap: https://xdecstaryt.github.io/Idea1/sitemap.xml

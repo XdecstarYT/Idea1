@@ -12,10 +12,10 @@ Replace everything in `[BRACKETS]`.
 ## Email signature (use on every email)
 
 ```
-[Your name]
+Declan Marshall
 Marshall Web Co. | Get found. Get called.
-[Mobile] | hello@marshallweb.com.au | marshallweb.com.au
-Warrnambool, VIC | ABN [ABN]
+decmar098@gmail.com | [website address once live]
+Warrnambool, VIC
 
 Don't want to hear from me again? Just reply "unsubscribe" and I'll remove you.
 ```

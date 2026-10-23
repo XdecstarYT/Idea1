@@ -8,7 +8,7 @@
     </section>
     <section style="padding-top:0">
       <div class="container prose">
-        <p>These terms apply to services provided by {{business}} (ABN {{abn}}). Each project also has a written proposal or agreement. If it conflicts with these terms, the agreement wins.</p>
+        <p>These terms apply to services provided by {{business}}{{#abn}} (ABN {{abn}}){{/abn}}. Each project also has a written proposal or agreement. If it conflicts with these terms, the agreement wins.</p>
 
         <h2>Free mockups</h2>
         <p>Homepage mockups are free and come with no obligation. Until you go ahead with a paid package, the mockup design remains ours.</p>
@@ -43,6 +43,6 @@
         <p>We aim for 99.9% uptime and secure hosting, but we can't guarantee uninterrupted service or specific Google rankings. Nothing in these terms limits your rights under the Australian Consumer Law.</p>
 
         <h2>Contact</h2>
-        <p><a href="mailto:{{email}}">{{email}}</a> · <a href="tel:{{phoneIntl}}">{{phone}}</a></p>
+        <p><a href="mailto:{{email}}">{{email}}</a>{{#phone}} · <a href="tel:{{phoneIntl}}">{{phone}}</a>{{/phone}}</p>
       </div>
     </section>
