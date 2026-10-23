@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en-AU" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Client Login | Marshall Web Co.</title>
+  <meta name="description" content="Sign in to your Marshall Web Co. account to see your website's progress and request changes.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
+  <script>document.documentElement.className = "js";</script>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/owner.css">
+</head>
+<body class="owner">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="loading-screen" id="loading"><div class="spinner"></div></div>
+
+  <!-- Sign in / create account -->
+  <div class="owner-login" id="auth-view" hidden>
+    <div class="glass login-card">
+      <a class="brand" href="index.html" aria-label="Back to the website">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">WEB CO.</span></span>
+      </a>
+      <h1 id="auth-title">Welcome <span class="serif">back.</span></h1>
+      <p class="muted" id="auth-sub">Sign in to see your website's progress and request changes.</p>
+
+      <div class="auth-tabs glass" id="auth-tabs" role="group" aria-label="Sign in or create an account">
+        <button type="button" aria-pressed="true" data-mode="signin">Sign in</button>
+        <button type="button" aria-pressed="false" data-mode="signup">Create account</button>
+      </div>
+
+      <form id="signin-form" data-pane="signin">
+        <div><label for="si-email">Email</label><input id="si-email" type="email" autocomplete="username" required></div>
+        <div>
+          <label for="si-password">Password</label>
+          <div class="pw-wrap"><input id="si-password" type="password" autocomplete="current-password" required><button type="button" data-pw-toggle="si-password">Show</button></div>
+        </div>
+        <button type="button" class="link-btn" data-show="forgot">Forgot your password?</button>
+        <p class="login-error" role="alert"></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
+      </form>
+
+      <form id="signup-form" data-pane="signup" hidden novalidate>
+        <div><label for="su-name">Your name *</label><input id="su-name" autocomplete="name" maxlength="120" required></div>
+        <div><label for="su-business">Business name</label><input id="su-business" autocomplete="organization" maxlength="160"></div>
+        <div><label for="su-phone">Phone</label><input id="su-phone" type="tel" autocomplete="tel" maxlength="40"></div>
+        <div><label for="su-email">Email *</label><input id="su-email" type="email" autocomplete="email" required></div>
+        <div>
+          <label for="su-password">Password *</label>
+          <div class="pw-wrap"><input id="su-password" type="password" autocomplete="new-password" minlength="10" required><button type="button" data-pw-toggle="su-password">Show</button></div>
+          <p class="hint">At least 10 characters.</p>
+        </div>
+        <label class="check"><input type="checkbox" id="su-terms" required><span>I agree to the <a href="terms.html" target="_blank">terms</a> and <a href="privacy.html" target="_blank">privacy policy</a>.</span></label>
+        <p class="login-error" role="alert"></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Create account</button>
+      </form>
+
+      <form id="forgot-form" data-pane="forgot" hidden>
+        <p class="muted" style="margin:0">Enter your email and we'll send you a link to set a new password.</p>
+        <div><label for="fp-email">Email</label><input id="fp-email" type="email" autocomplete="email" required></div>
+        <p class="login-error" role="alert"></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Send reset link</button>
+        <button type="button" class="link-btn" data-show="signin">← Back to sign in</button>
+      </form>
+
+      <form id="reset-form" data-pane="reset" hidden>
+        <div>
+          <label for="rp-password">New password</label>
+          <div class="pw-wrap"><input id="rp-password" type="password" autocomplete="new-password" minlength="10" required><button type="button" data-pw-toggle="rp-password">Show</button></div>
+          <p class="hint">At least 10 characters.</p>
+        </div>
+        <p class="login-error" role="alert"></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Save new password</button>
+      </form>
+
+      <div data-pane="message" hidden><div class="notice" id="auth-message" style="margin-top:24px"></div><button type="button" class="link-btn" data-show="signin" style="margin-top:16px">← Back to sign in</button></div>
+
+      <p class="login-foot"><a href="index.html">← Back to the website</a></p>
+    </div>
+  </div>
+
+  <!-- Client portal -->
+  <div class="app" id="portal-view" hidden>
+    <aside class="glass sidebar" aria-label="Your account">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#14213D" stroke="#D4AD3A" stroke-opacity=".55"/><path d="M1.5 15h45" stroke="#D4AD3A" stroke-opacity=".45"/><circle cx="9.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="15.5" cy="8.5" r="2" fill="#D4AD3A"/><circle cx="21.5" cy="8.5" r="2" fill="#D4AD3A"/><path d="M12 37V21l12 10 12-10v16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="brand-text"><span class="brand-name">MARSHALL</span><span class="brand-sub">CLIENT</span></span>
+      </a>
+      <button class="side-link" data-view="sites" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg><span class="label">My websites</span><span class="short">Sites</span></button>
+      <button class="side-link" data-view="requests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg><span class="label">Change requests</span><span class="short">Requests</span></button>
+      <button class="side-link" data-view="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="label">Profile</span><span class="short">Profile</span></button>
+      <div class="spacer"></div>
+      <div class="who">Signed in as<b id="who-email"></b></div>
+    </aside>
+
+    <main class="main">
+      <section class="view active" data-view="sites" style="padding:0">
+        <div class="topbar">
+          <h1 id="greeting">Hi<span class="serif">.</span></h1>
+          <div class="actions"><a class="btn btn-glass btn-sm" href="index.html">Website ↗</a><button class="btn btn-glass btn-sm" data-signout>Sign out</button></div>
+        </div>
+        <div class="site-cards" id="site-cards"></div>
+      </section>
+
+      <section class="view" data-view="requests" style="padding:0">
+        <div class="topbar"><h1>Change requests</h1></div>
+        <div class="glass panel" id="new-request-panel">
+          <h2>Request a change</h2>
+          <form id="request-form" class="form">
+            <div class="form-row">
+              <div><label for="rq-site">Website</label><select id="rq-site" required></select></div>
+              <div><label for="rq-priority">How urgent?</label><select id="rq-priority"><option value="normal">Normal</option><option value="low">Whenever suits</option><option value="urgent">Urgent</option></select></div>
+            </div>
+            <div><label for="rq-title">What needs changing? *</label><input id="rq-title" maxlength="140" placeholder="e.g. Update our Christmas opening hours" required></div>
+            <div><label for="rq-details">Details</label><textarea id="rq-details" maxlength="4000" placeholder="Add any wording, prices or links. Photos can be emailed."></textarea></div>
+            <button class="btn btn-primary" type="submit">Send request</button>
+          </form>
+        </div>
+        <div class="req-list" id="req-list"></div>
+      </section>
+
+      <section class="view" data-view="profile" style="padding:0">
+        <div class="topbar"><h1>Profile</h1><div class="actions"><button class="btn btn-glass btn-sm" data-signout>Sign out</button></div></div>
+        <div class="settings-grid">
+          <div class="glass panel">
+            <h2>Your details</h2>
+            <form id="profile-form" class="form">
+              <div><label for="pf-name">Name</label><input id="pf-name" autocomplete="name" maxlength="120"></div>
+              <div><label for="pf-business">Business</label><input id="pf-business" autocomplete="organization" maxlength="160"></div>
+              <div><label for="pf-phone">Phone</label><input id="pf-phone" type="tel" autocomplete="tel" maxlength="40"></div>
+              <button class="btn btn-primary" type="submit">Save details</button>
+            </form>
+          </div>
+          <div class="glass panel">
+            <h2>Change password</h2>
+            <form id="password-form" class="form">
+              <div><label for="new-pw">New password</label><input id="new-pw" type="password" autocomplete="new-password" minlength="10" required></div>
+              <div><label for="new-pw2">Confirm new password</label><input id="new-pw2" type="password" autocomplete="new-password" minlength="10" required></div>
+              <button class="btn btn-primary" type="submit">Update password</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/render.js"></script>
+  <script src="assets/js/account.js"></script>
+</body>
+</html>

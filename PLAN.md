@@ -93,3 +93,9 @@ After that: 50% deposit to start, balance due on launch. Monthly plans: first mo
 - **Supabase backend** (project `marshall-web-co`, Sydney): products & pricing, site settings and leads, protected by row level security.
 - **Owner panel** at `/owner.html`: leads inbox (status, notes, CSV export), product & price editor with live preview, founding spots and announcement settings, password change.
 - Website prices and founding spots update live from the owner panel.
+
+## Phase 8: Client accounts ✅
+- `/account.html`: sign in, create account, forgot/reset password. The owner is redirected to the owner panel.
+- Client portal: their websites with a progress tracker (Mockup → Building → Your review → Live), mockup and live links, plan, price and next payment, notes from Declan, change requests with replies, profile and password.
+- Owner panel: new **Clients** (add and edit websites per client) and **Change requests** (reply and update status) sections.
+- Database: `profiles` (created automatically at sign-up), `sites`, `change_requests`, all with row level security.

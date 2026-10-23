@@ -134,3 +134,117 @@ grant select on public.admins to authenticated;
 -- Starting data: see site/data.json for the same values
 insert into public.site_settings (id, founding_seats_left, founding_discount, announcement)
 values (1, 5, 40, 'Founding client offer: 40% off for our first 5 clients.');
+
+-- ============================================================
+-- Client accounts (added for the client portal at /account.html)
+-- ============================================================
+
+create table public.profiles (
+  id uuid primary key references auth.users (id) on delete cascade,
+  email text not null default '',
+  full_name text not null default '' check (char_length(full_name) <= 120),
+  business text not null default '' check (char_length(business) <= 160),
+  phone text not null default '' check (char_length(phone) <= 40),
+  created_at timestamptz not null default now()
+);
+
+create table public.sites (
+  id uuid primary key default gen_random_uuid(),
+  client_id uuid not null references public.profiles (id) on delete cascade,
+  name text not null check (char_length(name) between 1 and 120),
+  url text not null default '',
+  mockup_url text not null default '',
+  package text not null default '',
+  status text not null default 'mockup' check (status in ('mockup', 'building', 'review', 'live', 'paused')),
+  plan text not null default 'monthly' check (plan in ('monthly', 'upfront')),
+  price integer,
+  next_payment date,
+  client_note text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index sites_client_idx on public.sites (client_id);
+
+create table public.change_requests (
+  id uuid primary key default gen_random_uuid(),
+  site_id uuid not null references public.sites (id) on delete cascade,
+  client_id uuid not null references public.profiles (id) on delete cascade,
+  title text not null check (char_length(title) between 1 and 140),
+  details text not null default '' check (char_length(details) <= 4000),
+  priority text not null default 'normal' check (priority in ('low', 'normal', 'urgent')),
+  status text not null default 'open' check (status in ('open', 'in_progress', 'done')),
+  owner_reply text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index change_requests_client_idx on public.change_requests (client_id);
+create index change_requests_site_idx on public.change_requests (site_id);
+
+create trigger sites_touch before update on public.sites
+  for each row execute function public.touch_updated_at();
+create trigger change_requests_touch before update on public.change_requests
+  for each row execute function public.touch_updated_at();
+
+-- Create a profile automatically when someone signs up
+create or replace function private.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  insert into public.profiles (id, email, full_name, business, phone)
+  values (
+    new.id,
+    coalesce(new.email, ''),
+    left(coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', ''), 120),
+    left(coalesce(new.raw_user_meta_data ->> 'business', ''), 160),
+    left(coalesce(new.raw_user_meta_data ->> 'phone', ''), 40)
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+revoke execute on function private.handle_new_user() from public, anon, authenticated;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function private.handle_new_user();
+
+alter table public.profiles enable row level security;
+alter table public.sites enable row level security;
+alter table public.change_requests enable row level security;
+
+create policy "Users read own profile, admins read all" on public.profiles
+  for select to authenticated using (id = (select auth.uid()) or (select private.is_admin()));
+create policy "Users update own profile" on public.profiles
+  for update to authenticated using (id = (select auth.uid())) with check (id = (select auth.uid()));
+
+create policy "Clients read own sites, admins read all" on public.sites
+  for select to authenticated using (client_id = (select auth.uid()) or (select private.is_admin()));
+create policy "Admins add sites" on public.sites
+  for insert to authenticated with check ((select private.is_admin()));
+create policy "Admins edit sites" on public.sites
+  for update to authenticated using ((select private.is_admin())) with check ((select private.is_admin()));
+create policy "Admins delete sites" on public.sites
+  for delete to authenticated using ((select private.is_admin()));
+
+create policy "Clients read own requests, admins read all" on public.change_requests
+  for select to authenticated using (client_id = (select auth.uid()) or (select private.is_admin()));
+create policy "Clients request changes to their own sites" on public.change_requests
+  for insert to authenticated with check (
+    client_id = (select auth.uid())
+    and status = 'open'
+    and owner_reply = ''
+    and exists (select 1 from public.sites s where s.id = site_id and s.client_id = (select auth.uid()))
+  );
+create policy "Admins update requests" on public.change_requests
+  for update to authenticated using ((select private.is_admin())) with check ((select private.is_admin()));
+create policy "Admins delete requests" on public.change_requests
+  for delete to authenticated using ((select private.is_admin()));
+
+revoke all on public.profiles, public.sites, public.change_requests from anon, authenticated;
+grant select on public.profiles to authenticated;
+grant update (full_name, business, phone) on public.profiles to authenticated;
+grant select, insert, update, delete on public.sites to authenticated;
+grant select, insert, update, delete on public.change_requests to authenticated;

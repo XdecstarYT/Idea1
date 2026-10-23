@@ -14,10 +14,10 @@
     return;
   }
   var sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
-    auth: { persistSession: true, autoRefreshToken: true, storageKey: "mwc-owner" },
+    auth: { persistSession: true, autoRefreshToken: true, storageKey: "mwc-auth" },
   });
 
-  var state = { leads: [], products: [], settings: null, leadFilter: "all", leadSearch: "", kind: "package", editing: null };
+  var state = { leads: [], products: [], settings: null, clients: [], sites: [], requests: [], leadFilter: "all", leadSearch: "", reqFilter: "open", clientSearch: "", kind: "package", editing: null, editingSite: null, siteClient: null };
   var STATUSES = [["new", "New"], ["contacted", "Contacted"], ["mockup", "Mockup sent"], ["proposal", "Proposal"], ["won", "Won"], ["lost", "Lost"]];
 
   function toast(message, kind) {
@@ -50,6 +50,7 @@
         show("login-view");
         return;
       }
+      state.me = user.id;
       $("#who-email").textContent = user.email;
       var hour = new Date().getHours();
       var name = (user.user_metadata && user.user_metadata.name ? user.user_metadata.name.split(" ")[0] : "");
@@ -99,7 +100,7 @@
 
   // ---------- Data ----------
   function loadAll() {
-    return Promise.all([loadLeads(), loadProducts(), loadSettings()]).then(renderOverview);
+    return Promise.all([loadLeads(), loadProducts(), loadSettings(), loadClients(), loadRequests()]).then(function () { renderRequests(); renderOverview(); });
   }
 
   function loadLeads() {
@@ -130,11 +131,14 @@
   function renderOverview() {
     var leads = state.leads;
     var count = function (s) { return leads.filter(function (l) { return l.status === s; }).length; };
-    var won = count("won"), lost = count("lost");
+    var won = count("won");
     $("#k-new").textContent = count("new");
     $("#k-total").textContent = leads.length;
     $("#k-won").textContent = won;
-    $("#k-rate").textContent = won + lost ? Math.round(won / (won + lost) * 100) + "%" : "–";
+    var open = state.requests.filter(function (r) { return r.status !== "done"; }).length;
+    $("#k-clients").textContent = state.clients.length;
+    $("#k-open").textContent = open;
+    $("#open-count").textContent = open || "";
     $("#k-seats").textContent = state.settings ? state.settings.founding_seats_left : "–";
     $("#new-count").textContent = count("new") || "";
     var recent = leads.slice(0, 4);
@@ -229,6 +233,175 @@
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     a.download = "marshall-leads-" + new Date().toISOString().slice(0, 10) + ".csv";
     a.click();
+  });
+
+  // ---------- Clients and their websites ----------
+  function loadClients() {
+    return Promise.all([
+      sb.from("profiles").select("*").order("created_at", { ascending: false }),
+      sb.from("sites").select("*").order("created_at"),
+    ]).then(function (r) {
+      if (r[0].error || r[1].error) { toast("Couldn't load clients: " + (r[0].error || r[1].error).message, "err"); return; }
+      var me = state.me;
+      state.clients = r[0].data.filter(function (c) { return c.id !== me; });
+      state.sites = r[1].data;
+      renderClients();
+    });
+  }
+
+  var SITE_LABEL = { mockup: "Mockup", building: "Building", review: "Ready for review", live: "Live", paused: "Paused" };
+
+  function renderClients() {
+    var q = state.clientSearch.toLowerCase();
+    var list = state.clients.filter(function (c) {
+      return !q || [c.full_name, c.business, c.email, c.phone].join(" ").toLowerCase().indexOf(q) !== -1;
+    });
+    $("#client-list").innerHTML = list.length ? list.map(function (c) {
+      var sites = state.sites.filter(function (s) { return s.client_id === c.id; });
+      return '<article class="glass client-item"><div class="top"><div>' +
+          "<h3>" + esc(c.full_name || "(no name)") + "</h3>" +
+          '<div class="sub">' + esc(c.business || "No business name") + " · joined " + new Date(c.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) + "</div>" +
+          '<div class="contact">' + (c.email ? '<a href="mailto:' + esc(c.email) + '">✉️ ' + esc(c.email) + "</a>" : "") + (c.phone ? '<a href="tel:' + esc(c.phone.replace(/\s+/g, "")) + '">📞 ' + esc(c.phone) + "</a>" : "") + "</div>" +
+        "</div>" +
+        '<button class="btn btn-primary btn-sm" data-add-site="' + c.id + '">+ Add website</button></div>' +
+        (sites.length ? '<div class="client-sites">' + sites.map(function (s) {
+          return '<div class="client-site"><div><b>' + esc(s.name) + '</b> <span class="status-pill ' + s.status + '">' + SITE_LABEL[s.status] + "</span></div>" +
+            '<button class="btn btn-glass btn-sm" data-edit-site="' + s.id + '">Edit</button></div>';
+        }).join("") + "</div>" : "") +
+      "</article>";
+    }).join("") : '<div class="glass panel empty"><b>' + (state.clients.length ? "No matches" : "No client accounts yet") + "</b>" +
+      (state.clients.length ? "Try another search." : "When clients create an account at /account.html, they'll appear here.") + "</div>";
+
+    $$("[data-add-site]").forEach(function (b) { b.addEventListener("click", function () { openSiteEditor(null, b.dataset.addSite); }); });
+    $$("[data-edit-site]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var site = state.sites.find(function (s) { return s.id === b.dataset.editSite; });
+        openSiteEditor(site, site.client_id);
+      });
+    });
+  }
+
+  $("#client-search").addEventListener("input", function () { state.clientSearch = this.value; renderClients(); });
+
+  var siteEditor = $("#site-editor");
+  var S = function (id) { return document.getElementById("s-" + id); };
+
+  function openSiteEditor(site, clientId) {
+    state.editingSite = site || null;
+    state.siteClient = clientId;
+    var client = state.clients.find(function (c) { return c.id === clientId; }) || {};
+    $("#site-editor-title").textContent = site ? "Edit website" : "Add a website";
+    $("#site-client").textContent = "For " + (client.full_name || client.email || "client") + (client.business ? " · " + client.business : "");
+    $("#package-names").innerHTML = state.products.filter(function (p) { return p.kind === "package"; }).map(function (p) { return '<option value="' + esc(p.name) + '">'; }).join("");
+    S("name").value = site ? site.name : (client.business ? client.business + " website" : "");
+    S("status").value = site ? site.status : "mockup";
+    S("package").value = site ? site.package : "";
+    S("mockup").value = site ? site.mockup_url : "";
+    S("url").value = site ? site.url : "";
+    S("plan").value = site ? site.plan : "monthly";
+    S("price").value = site && site.price != null ? site.price : "";
+    S("next").value = site && site.next_payment ? site.next_payment : "";
+    S("note").value = site ? site.client_note : "";
+    S("delete").hidden = !site;
+    siteEditor.showModal();
+    S("name").focus();
+  }
+
+  $("#s-cancel").addEventListener("click", function () { siteEditor.close(); });
+
+  $("#site-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var row = {
+      client_id: state.siteClient,
+      name: S("name").value.trim(),
+      status: S("status").value,
+      package: S("package").value.trim(),
+      mockup_url: S("mockup").value.trim(),
+      url: S("url").value.trim(),
+      plan: S("plan").value,
+      price: S("price").value === "" ? null : Math.max(0, Math.round(+S("price").value)),
+      next_payment: S("next").value || null,
+      client_note: S("note").value.trim(),
+    };
+    if (!row.name) return toast("Give the website a name.", "err");
+    var req = state.editingSite ? sb.from("sites").update(row).eq("id", state.editingSite.id) : sb.from("sites").insert(row);
+    req.then(function (res) {
+      if (res.error) return toast(res.error.message, "err");
+      siteEditor.close();
+      loadClients().then(function () { renderOverview(); toast("Saved. The client can see it now."); });
+    });
+  });
+
+  $("#s-delete").addEventListener("click", function () {
+    var site = state.editingSite;
+    if (!site || !confirm('Delete "' + site.name + '" and its change requests? This can\'t be undone.')) return;
+    sb.from("sites").delete().eq("id", site.id).then(function (res) {
+      if (res.error) return toast(res.error.message, "err");
+      siteEditor.close();
+      Promise.all([loadClients(), loadRequests()]).then(function () { renderOverview(); toast("Website deleted"); });
+    });
+  });
+
+  // ---------- Change requests ----------
+  function loadRequests() {
+    return sb.from("change_requests").select("*").order("created_at", { ascending: false }).then(function (res) {
+      if (res.error) { toast("Couldn't load requests: " + res.error.message, "err"); return; }
+      state.requests = res.data;
+      renderRequests();
+    });
+  }
+
+  var REQ_LABEL = { open: "Open", in_progress: "In progress", done: "Done" };
+
+  function renderRequests() {
+    var siteName = {}, clientName = {};
+    state.sites.forEach(function (s) { siteName[s.id] = s.name; });
+    state.clients.forEach(function (c) { clientName[c.id] = c.full_name || c.email; });
+    var list = state.requests.filter(function (r) { return state.reqFilter === "all" || r.status === state.reqFilter; });
+    $("#owner-req-list").innerHTML = list.length ? list.map(function (r) {
+      var options = Object.keys(REQ_LABEL).map(function (k) { return '<option value="' + k + '"' + (k === r.status ? " selected" : "") + ">" + REQ_LABEL[k] + "</option>"; }).join("");
+      return '<article class="glass req-item" data-req="' + r.id + '"><div class="top"><div>' +
+          "<h3>" + esc(r.title) + "</h3>" +
+          '<div class="sub">' + esc(clientName[r.client_id] || "Client") + " · " + esc(siteName[r.site_id] || "Website") + " · " + new Date(r.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short" }) + "</div></div>" +
+          '<span class="status-pill ' + (r.priority === "urgent" ? "open" : r.status) + '">' + (r.priority === "urgent" ? "Urgent" : REQ_LABEL[r.status]) + "</span></div>" +
+        (r.details ? '<p class="body">' + esc(r.details) + "</p>" : "") +
+        '<div class="req-owner"><textarea data-field="owner_reply" placeholder="Reply to the client (they see this in their portal)" aria-label="Reply">' + esc(r.owner_reply) + "</textarea>" +
+          '<div style="display:grid;gap:8px;align-content:start"><select data-field="status" aria-label="Status">' + options + '</select><button class="btn btn-danger btn-sm" data-delete-req>Delete</button></div></div>' +
+      "</article>";
+    }).join("") : '<div class="empty"><b>Nothing here</b>' + (state.requests.length ? "No requests with this status." : "When clients request changes, they'll appear here.") + "</div>";
+
+    $$("#owner-req-list [data-req]").forEach(function (card) {
+      var id = card.dataset.req;
+      $$("[data-field]", card).forEach(function (field) {
+        field.addEventListener("change", function () {
+          var changes = {};
+          changes[field.dataset.field] = field.value;
+          sb.from("change_requests").update(changes).eq("id", id).then(function (res) {
+            if (res.error) return toast(res.error.message, "err");
+            state.requests.forEach(function (r) { if (r.id === id) Object.assign(r, changes); });
+            if (field.dataset.field === "status") renderRequests();
+            renderOverview();
+            toast(field.dataset.field === "status" ? "Status updated" : "Reply saved. The client can see it now.");
+          });
+        });
+      });
+      $("[data-delete-req]", card).addEventListener("click", function () {
+        if (!confirm("Delete this request?")) return;
+        sb.from("change_requests").delete().eq("id", id).then(function (res) {
+          if (res.error) return toast(res.error.message, "err");
+          state.requests = state.requests.filter(function (r) { return r.id !== id; });
+          renderRequests(); renderOverview();
+        });
+      });
+    });
+  }
+
+  $$("#req-filters button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.reqFilter = b.dataset.status;
+      $$("#req-filters button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+      renderRequests();
+    });
   });
 
   // ---------- Products ----------

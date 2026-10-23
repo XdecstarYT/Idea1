@@ -11,7 +11,8 @@
 | [`docs/`](docs/) | **The live website** (this folder is what gets published) |
 | [`docs/demos/`](docs/demos/) | Three concept sites (tradie, café, salon) to show prospects and use as templates |
 | [`site/`](site/) | The source for the agency website: `config.json` (your details), `data.json` (fallback prices), `pages/`, `layout.html` and `build.js` |
-| [`docs/owner.html`](docs/owner.html) | **The owner panel**: sign in to manage leads, products, pricing and founding spots |
+| [`docs/account.html`](docs/account.html) | **Login & sign-up for everyone.** Clients get their portal; the owner is sent to the owner panel |
+| [`docs/owner.html`](docs/owner.html) | **The owner panel**: leads, clients, change requests, products, pricing and founding spots |
 | [`supabase/schema.sql`](supabase/schema.sql) | The database setup (Supabase project `marshall-web-co`, Sydney) |
 | [`MASTER_PROMPT.md`](MASTER_PROMPT.md) | The prompt this was all built from |
 
@@ -30,15 +31,21 @@
 12. [30-day launch plan](kit/12-30-day-launch-plan.md)
 13. [Setup checklist](kit/13-setup-checklist.md)
 
+## Logging in
+Everyone signs in at **/account.html** (the "Log in" link in the site's top menu).
+- **Clients** create an account there and get their own portal: their websites, progress, mockup links, notes from you, and change requests.
+- **You (the owner)** sign in on the same page and are taken straight to the owner panel. `/owner.html` also still works directly.
+
 ## Owner panel
-Go to **/owner.html** on the live site (there's also an "Owner login" link in the footer) and sign in with your owner account.
 
 - **Leads:** every free-mockup request lands here. Update status, add notes, export to CSV.
+- **Clients:** everyone with an account. Add a website to a client (status, mockup link, plan, price, next payment, a note) and it appears in their portal instantly.
+- **Change requests:** what clients have asked for. Reply and update the status; they see it in their portal.
 - **Products & pricing:** edit prices, features and badges, or add new packages. **Changes go live on the website instantly**, with no rebuild needed.
 - **Site settings:** founding spots left, discount and the announcement bar.
 - **Account:** change your password.
 
-The data lives in Supabase. Security is enforced by the database itself: visitors can only read prices and submit leads; only accounts listed in the `admins` table can see leads or change anything.
+The data lives in Supabase. Security is enforced by the database itself: visitors can only read prices and submit leads; clients can only see their own websites and requests; only accounts listed in the `admins` table can see leads, all clients, or change anything.
 
 ## Updating the website
 1. Change your details in `site/config.json`, or edit a page in `site/pages/`.
