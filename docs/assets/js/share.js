@@ -1,4 +1,4 @@
-// Share a design by private review link: copy, email or text it. Used by the owner panel and the builder.
+// Share a design by private review link: copy, email (opens your email app) or text it. Used by the owner panel and the builder.
 (function () {
   function esc(v) {
     return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
@@ -26,8 +26,7 @@
         '<p class="hint">Anyone with this link can view the design and approve it or request changes. No account needed.</p></div>' +
         '<div><label for="share-note">Personal note in the email (optional)</label><textarea id="share-note" maxlength="1500" rows="3" placeholder="e.g. Great chatting on the phone today. Here\'s the redesign I mentioned."></textarea></div>' +
         '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-          '<button type="button" class="btn btn-primary" id="share-send">✉️ Send email</button>' +
-          '<a class="btn btn-glass" id="share-email-btn" href="#">Use my email app</a>' +
+          '<button type="button" class="btn btn-primary" id="share-send">✉️ Email it</button>' +
           '<a class="btn btn-glass" id="share-sms-btn" href="#">💬 Text it</a>' +
           '<a class="btn btn-glass" id="share-open" href="#" target="_blank" rel="noopener">Open link ↗</a>' +
         "</div>" +
@@ -54,17 +53,14 @@
     // Show when this design was last emailed
     opts.sb.from("design_emails").select("to_email,status,created_at").eq("design_id", d.id).eq("kind", "share").order("created_at", { ascending: false }).limit(1).then(function (res) {
       var last = res.data && res.data[0];
-      if (last && !$("share-sent").textContent) $("share-sent").textContent = (last.status === "sent" ? "Last emailed to " : "Last email failed to ") + last.to_email + " · " + new Date(last.created_at).toLocaleString("en-AU", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+      if (last && !$("share-sent").textContent) $("share-sent").textContent = "Last emailed to " + last.to_email + " · " + new Date(last.created_at).toLocaleString("en-AU", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
     });
 
     function refreshLinks() {
       var link = reviewUrl(d);
       var first = ($("share-name").value.trim().split(" ")[0]) || "there";
-      var body = "Hi " + first + ",\n\nI've put together a refreshed website design for " + business + ". Have a look here (it works on your phone too):\n" + link +
-        "\n\nYou can approve it or tell me what you'd like changed right on that page.\n\nCheers,\nDeclan\nMarshall Web Co.";
       $("share-link").value = link;
       $("share-open").href = link;
-      $("share-email-btn").href = "mailto:" + encodeURIComponent($("share-email").value.trim()) + "?subject=" + encodeURIComponent("Your new website design: " + business) + "&body=" + encodeURIComponent(body);
       $("share-sms-btn").href = "sms:?&body=" + encodeURIComponent("Hi " + first + ", here's the new website design for " + business + ": " + link);
     }
 
@@ -80,27 +76,19 @@
       return true;
     });
 
-    // Send the email from the server (Brevo). If that isn't set up yet, fall back to the email app.
+    // Open the email, written and ready, in your own email app, and note it in the Sent history
     $("share-send").onclick = function () {
-      var to = $("share-email").value.trim();
+      var to = $("share-email").value.trim(), name = $("share-name").value.trim(), note = $("share-note").value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(to)) { $("share-sent").textContent = "Add their email address first."; $("share-email").focus(); return; }
-      var btn = $("share-send");
-      btn.disabled = true;
-      $("share-sent").textContent = "Sending…";
       activated.then(function (ok) {
-        if (ok === false) throw new Error("The link isn't active, so there's nothing to send yet.");
-        return send(opts.sb, { kind: "share", designId: d.id, to: to, name: $("share-name").value.trim(), note: $("share-note").value.trim() });
-      }).then(function () {
-        $("share-sent").textContent = "✓ Email sent to " + to + ". They'll get a button that opens the design.";
-        if (opts.toast) opts.toast("Email sent to " + to);
-        var c = { prospect_contact: $("share-name").value.trim(), prospect_email: to };
+        if (ok === false) { $("share-sent").textContent = "The link isn't active yet, so there's nothing to send."; return; }
+        var mail = compose({ kind: "share", design: d, name: name, note: note });
+        logEmail(opts.sb, { design_id: d.id, kind: "share", to_email: to, to_name: name });
+        var c = { prospect_contact: name, prospect_email: to };
         opts.sb.from("designs").update(c).eq("id", d.id).then(function (res) { if (!res.error) { Object.assign(d, c); if (opts.onChange) opts.onChange(d); } });
-      }).catch(function (err) {
-        if (err.code === "not_configured") {
-          $("share-sent").textContent = "Automatic email isn't switched on yet (see the README). Opening your email app instead.";
-          window.location.href = $("share-email-btn").href;
-        } else $("share-sent").textContent = "Couldn't send: " + err.message;
-      }).then(function () { btn.disabled = false; });
+        $("share-sent").textContent = "✓ Opening your email app with the email to " + to + " written. Just press send.";
+        window.MWCShare.openEmail(to, mail.subject, mail.body);
+      });
     };
 
     var saveTimer;
@@ -134,19 +122,28 @@
     dialog.showModal();
   }
 
-  // Calls the send-email function. Resolves on success; rejects with an Error that has a .code
-  var MESSAGES = { not_configured: "Automatic email isn't switched on yet.", bad_email: "That email address doesn't look right.", client_has_no_email: "This client has no email address on their account.", link_not_shared: "The link isn't active.", owner_only: "Only the owner can send emails.", not_signed_in: "You're signed out. Sign in again." };
-  function send(sb, body) {
-    return sb.functions.invoke("send-email", { body: body }).then(function (res) {
-      if (!res.error) return res.data;
-      var ctx = res.error.context;
-      return (ctx && ctx.json ? ctx.json() : Promise.resolve({})).catch(function () { return {}; }).then(function (j) {
-        var e = new Error(MESSAGES[j.error] || j.detail || res.error.message || "The email service didn't respond.");
-        e.code = j.error || "failed";
-        throw e;
-      });
-    });
+  // The email you send: a short, friendly note with the link. Used by the share dialog, the builder and the Send page.
+  // opts: { kind: "share" | "portal", design, name, note }
+  function compose(o) {
+    var d = o.design;
+    var theme = d.theme || (d.content && d.content.theme) || {};
+    var business = theme.business || d.prospect_name || "your business";
+    var first = (String(o.name || "").trim().split(/\s+/)[0]) || "there";
+    var portal = o.kind === "portal";
+    var link = portal ? window.location.href.replace(/[^/]*$/, "") + "account.html" : reviewUrl(d);
+    var subject = portal ? "New design to review: " + d.name : "Your new website design: " + business;
+    var body = "Hi " + first + ",\n\n" +
+      (portal ? "I've sent you a new website design to review: \"" + d.name + "\". Sign in to your client portal to have a look:" :
+        "I've put together a refreshed website design for " + business + ". Have a look here and click around, it works on your phone too:") +
+      "\n" + link + (o.note ? "\n\n" + o.note : "") +
+      "\n\n" + (portal ? "You can approve it or ask for changes from your portal, and message me there any time." : "You can approve it or tell me what you'd like changed right on that page.") +
+      "\n\nCheers,\nDeclan\nMarshall Web Co.";
+    return { subject: subject, body: body, link: link };
   }
+  function openEmail(to, subject, body) {
+    window.location.href = "mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+  function logEmail(sb, row) { return sb.from("design_emails").insert(row).then(function (res) { return res; }); }
 
-  window.MWCShare = { open: open, reviewUrl: reviewUrl, send: send, esc: esc };
+  window.MWCShare = { open: open, reviewUrl: reviewUrl, compose: compose, openEmail: openEmail, logEmail: logEmail, esc: esc };
 })();

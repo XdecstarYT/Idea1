@@ -52,16 +52,9 @@ Everyone signs in at **/account.html** (the "Log in" link in the site's top menu
 
 The data lives in Supabase. Security is enforced by the database itself: visitors can only read prices and submit leads; clients can only see their own websites and requests; only accounts listed in the `admins` table can see leads, all clients, or change anything.
 
-## Sending designs by email
+## Sending designs to clients
 
-Use **Send to client** in the owner panel (also on the Overview page, and the ✉️ Send button on each design): pick a design, type their name and email, add a note, see a live preview of the email, and send. Everything you've sent is listed there with a Resend button. The builder's Send buttons email the design too straight to the client through the `send-email` Supabase function (`supabase/functions/send-email`). Every email is logged in the `design_emails` table. Until it's switched on, the app opens your own email app instead.
-
-To switch it on (free, 300 emails a day):
-
-1. Make a free account at [brevo.com](https://www.brevo.com) and add **decmar098@gmail.com** as a sender (Senders, domains & IPs → Senders). Brevo emails you a code to confirm it.
-2. In Brevo, go to **SMTP & API → API keys** and create a key.
-3. In Supabase, open the project → **Edge Functions → Secrets** and add `BREVO_API_KEY` with that key.
-4. Optional secrets: `SENDER_EMAIL` (default decmar098@gmail.com), `SENDER_NAME` (default "Declan · Marshall Web Co."), `SITE_URL` (default https://marshallwebz.netlify.app).
+Use **Send to client** in the owner panel (also on the Overview page, and the ✉️ Send button on each design): pick a design, type their name and email, add a note and check the preview. Press **Send** and your email app opens with the email already written, so you just press send. Prospects get a private link (no account needed); clients with an account also get it in their portal with a chat message. Everything you send is listed under **Sent** with a Resend button (stored in the `design_emails` table).
 
 ## Updating the website
 1. Change your details in `site/config.json`, or edit a page in `site/pages/`.

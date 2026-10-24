@@ -408,7 +408,7 @@ revoke execute on function public.review_shared_design(text, text, text, text) f
 grant execute on function public.get_shared_design(text) to anon, authenticated;
 grant execute on function public.review_shared_design(text, text, text, text) to anon, authenticated;
 
--- ---------- Design emails (sent by the send-email edge function) ----------
+-- ---------- Design emails (the Sent history in the owner panel) ----------
 create table if not exists public.design_emails (
   id uuid primary key default gen_random_uuid(),
   design_id uuid references public.designs(id) on delete cascade,
@@ -423,4 +423,6 @@ create table if not exists public.design_emails (
 );
 alter table public.design_emails enable row level security;
 create policy "owner reads email log" on public.design_emails for select to authenticated using (private.is_admin());
+create policy "owner logs emails" on public.design_emails for insert to authenticated with check (private.is_admin());
+alter table public.design_emails alter column sent_by set default auth.uid();
 create index if not exists design_emails_design_idx on public.design_emails (design_id, created_at desc);

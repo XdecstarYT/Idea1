@@ -83,7 +83,7 @@
           <div class="panel-head"><h2>Latest leads</h2><button class="btn btn-glass btn-sm" data-goto="leads">All leads →</button></div>
           <div class="lead-list" id="recent-leads"></div>
         </div>
-        <button class="glass card send-cta" data-goto="send"><span class="send-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></span><span><h3>Send a website to a client</h3><p>Pick a design, type their email and hit send. They get a link that opens it, and can approve it or ask for changes.</p></span><span class="go">→</span></button>
+        <button class="glass card send-cta" data-goto="send"><span class="send-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></span><span><h3>Send a website to a client</h3><p>Pick a design, type their email and hit Send. Your email app opens with it written. They get a link and can approve it or ask for changes.</p></span><span class="go">→</span></button>
         <div class="grid grid-3">
           <button class="glass card" data-goto="products" style="display:block;width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit"><h3>Update pricing</h3><p>Change prices, features and badges. The website updates instantly.</p></button>
           <button class="glass card" data-goto="settings" style="display:block;width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit"><h3>Founding spots</h3><p>Count down spots as you sign clients, and edit the announcement bar.</p></button>
@@ -153,8 +153,7 @@
       <!-- Send to client -->
       <section class="view" data-view="send" style="padding:0">
         <div class="topbar"><h1>Send to a client</h1></div>
-        <p class="muted" style="margin-top:-12px">Pick a design, say who it's for, and send. They get an email with a button that opens the website. They can click through every page and approve it or ask for changes, no account needed.</p>
-        <div class="glass panel email-status" id="email-status" role="status">Checking email sending…</div>
+        <p class="muted" style="margin-top:-12px">Pick a design, say who it's for, and hit Send. Your email app opens with the email already written, so you just press send. They get a link to the website and can click through every page and approve it or ask for changes, no account needed.</p>
         <div class="send-grid">
           <form class="glass panel send-form" id="sp-form" novalidate>
             <div><label for="sp-design">Design to send</label><select id="sp-design"></select></div>
@@ -162,7 +161,7 @@
             <div class="two"><div><label for="sp-name">Their name</label><input id="sp-name" maxlength="120" autocomplete="off" placeholder="e.g. Jess"></div>
             <div><label for="sp-email">Their email</label><input id="sp-email" type="email" maxlength="200" autocomplete="off" placeholder="name@business.com"></div></div>
             <div><label for="sp-note">Personal note (optional)</label><textarea id="sp-note" maxlength="1500" rows="4" placeholder="e.g. Great chatting on the phone today. Here's the new website I mentioned. Have a click around on your phone!"></textarea></div>
-            <div class="editor-actions"><a class="btn btn-glass btn-sm" id="sp-view" href="#" target="_blank" rel="noopener">Preview the website ↗</a><button class="btn btn-primary" type="submit" id="sp-send">✉️ Send email</button></div>
+            <div class="editor-actions"><a class="btn btn-glass btn-sm" id="sp-view" href="#" target="_blank" rel="noopener">Preview the website ↗</a><button class="btn btn-primary" type="submit" id="sp-send">✉️ Send</button></div>
             <p class="hint" id="sp-state" role="status" aria-live="polite"></p>
           </form>
           <div class="glass panel email-preview">

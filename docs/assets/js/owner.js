@@ -510,8 +510,7 @@
   });
 
   // ---------- Send to client ----------
-  var sendFor = null, emailOn = null, previewTimer = null;
-  function sendError(err) { return err && err.message ? err.message : "Something went wrong."; }
+  var sendFor = null, previewTimer = null;
   function chosenDesign() { return (state.designs || []).find(function (d) { return d.id === $("#sp-design").value; }); }
   function clientOf(d) { return d && d.client_id ? state.clients.find(function (c) { return c.id === d.client_id; }) || {} : null; }
 
@@ -526,7 +525,6 @@
     $("#sp-send").disabled = !list.length;
     $("#sp-state").textContent = "";
     fillWho();
-    checkEmail();
     loadSent();
   }
 
@@ -549,38 +547,21 @@
     $("#sp-view").textContent = c ? "Open in builder ↗" : "Preview the website ↗";
     previewEmail();
   }
+  // Live preview of the email that will open in your email app
   function previewEmail() {
     clearTimeout(previewTimer);
     previewTimer = setTimeout(function () {
       var d = chosenDesign();
       if (!d) return;
-      window.MWCShare.send(sb, { kind: d.client_id ? "portal" : "share", preview: true, designId: d.id, name: $("#sp-name").value.trim(), note: $("#sp-note").value.trim() }).then(function (r) {
-        $("#sp-subject").textContent = "Subject: " + r.subject;
-        $("#sp-preview").srcdoc = r.html;
-      }, function () { $("#sp-subject").textContent = "The preview isn't available right now."; });
-    }, 350);
+      var mail = window.MWCShare.compose({ kind: d.client_id ? "portal" : "share", design: d, name: $("#sp-name").value.trim(), note: $("#sp-note").value.trim() });
+      $("#sp-subject").textContent = "Subject: " + mail.subject;
+      var body = esc(mail.body).split(esc(mail.link)).join('<a href="#">' + esc(mail.link) + "</a>");
+      $("#sp-preview").srcdoc = '<!doctype html><body style="margin:0;padding:22px;font:15px/1.6 Helvetica,Arial,sans-serif;color:#1b1f2a;background:#fff;white-space:pre-wrap;word-break:break-word">' + body + "</body>";
+    }, 150);
   }
   $("#sp-design").addEventListener("change", fillWho);
   $("#sp-name").addEventListener("input", previewEmail);
   $("#sp-note").addEventListener("input", previewEmail);
-
-  function checkEmail() {
-    if (emailOn !== null) return renderEmailStatus();
-    sb.functions.invoke("send-email", { body: { kind: "status" } }).then(function (res) {
-      emailOn = !!(res.data && res.data.configured);
-      renderEmailStatus(res.data && res.data.sender);
-    });
-  }
-  function renderEmailStatus(sender) {
-    var el = $("#email-status");
-    el.className = "glass panel email-status " + (emailOn ? "on" : "off");
-    el.innerHTML = emailOn
-      ? '<span class="dot"></span><div><b>Email sending is on</b>Emails go out from ' + esc(sender || "your Gmail") + ", and replies come straight back to you.</div>"
-      : '<span class="dot"></span><div><b>Email sending isn\'t switched on yet</b>Until it is, Send opens your own email app with everything written for you. To send straight from here (free, 300 a day):' +
-        '<ol><li>Make a free account at <a href="https://www.brevo.com" target="_blank" rel="noopener">brevo.com</a> and add decmar098@gmail.com as a sender (they email you a code).</li>' +
-        "<li>In Brevo go to <b style=\"display:inline\">SMTP &amp; API → API keys</b> and create a key.</li>" +
-        '<li>Paste it into <a href="https://supabase.com/dashboard/project/afjreaontwhchgyqeqft/functions/secrets" target="_blank" rel="noopener">Supabase → Edge Functions → Secrets</a> as <code>BREVO_API_KEY</code>.</li></ol></div>';
-  }
 
   function loadSent() {
     sb.from("design_emails").select("id,design_id,kind,to_email,to_name,status,error,created_at").order("created_at", { ascending: false }).limit(50).then(function (res) {
@@ -614,10 +595,9 @@
     if (!d) return;
     var c = clientOf(d);
     var name = $("#sp-name").value.trim(), to = $("#sp-email").value.trim(), note = $("#sp-note").value.trim();
-    if (!c && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(to)) { $("#sp-state").textContent = "Add their email address."; $("#sp-email").focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(to)) { $("#sp-state").textContent = c ? "This client has no email address on their account." : "Add their email address."; $("#sp-email").focus(); return; }
     var btn = $("#sp-send");
     btn.disabled = true;
-    $("#sp-state").textContent = "Sending…";
     // Put the design in front of them first: a live private link for prospects, the portal for clients
     var review = { status: "in_review", sent_at: new Date().toISOString(), client_feedback: "" };
     var changes = c ? review : Object.assign({ shared: true, prospect_contact: name, prospect_email: to }, d.status === "draft" || d.status === "changes_requested" ? review : {});
@@ -626,24 +606,16 @@
       Object.assign(d, changes);
       if (c) return sb.from("messages").insert({ client_id: d.client_id, sender_id: state.me, body: "I've sent you a new design to review: \"" + d.name + "\". Open My websites → Review design to take a look." + (note ? "\n\n" + note : "") });
     }).then(function () {
-      return window.MWCShare.send(sb, { kind: c ? "portal" : "share", designId: d.id, to: to, name: name, note: note });
+      return window.MWCShare.logEmail(sb, { design_id: d.id, kind: c ? "portal" : "share", to_email: to, to_name: name || null });
     }).then(function () {
-      $("#sp-state").textContent = "✓ Sent to " + (c ? c.email : to) + ". You'll see it below, and their answer shows in Designs.";
-      toast("Email sent to " + (name || to));
+      var mail = window.MWCShare.compose({ kind: c ? "portal" : "share", design: d, name: name, note: note });
+      $("#sp-state").textContent = "✓ Your email app is opening with the email to " + to + " written. Just press send." + (c ? " It's also in their portal now." : "");
       $("#sp-note").value = "";
       loadSent();
       renderDesigns();
+      window.MWCShare.openEmail(to, mail.subject, mail.body);
     }).catch(function (err) {
-      if (err.code === "not_configured") {
-        emailOn = false; renderEmailStatus();
-        var first = (name.split(" ")[0]) || "there";
-        var link = c ? location.href.replace(/[^/]*$/, "") + "account.html" : window.MWCShare.reviewUrl(d);
-        var business = (d.theme && d.theme.business) || d.prospect_name || "your business";
-        var body = "Hi " + first + ",\n\n" + (c ? "I've sent you a new website design to review in your client portal:" : "I've put together a refreshed website design for " + business + ". Have a look here (it works on your phone too):") + "\n" + link + (note ? "\n\n" + note : "") + "\n\nYou can approve it or tell me what you'd like changed right on that page.\n\nCheers,\nDeclan\nMarshall Web Co.";
-        $("#sp-state").textContent = "The design is ready for them. Email sending isn't switched on yet, so your email app is opening with the message written for you.";
-        renderDesigns();
-        window.location.href = "mailto:" + encodeURIComponent(c ? c.email : to) + "?subject=" + encodeURIComponent("Your new website design: " + business) + "&body=" + encodeURIComponent(body);
-      } else $("#sp-state").textContent = "Couldn't send: " + sendError(err);
+      $("#sp-state").textContent = "Couldn't get it ready: " + (err && err.message ? err.message : "something went wrong.");
     }).then(function () { btn.disabled = false; });
   });
 

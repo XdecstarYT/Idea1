@@ -572,12 +572,11 @@
         var who = state.client.full_name || "Your client";
         var wantEmail = $("#send-email").checked;
         sb.from("messages").insert({ client_id: state.design.client_id, sender_id: state.me.id, body: msg }).then(function () {
-          if (!wantEmail) return toast("Sent! " + who + " can review it now.");
-          return window.MWCShare.send(sb, { kind: "portal", designId: designId, note: note }).then(function () {
-            toast("Sent and emailed! " + who + " can review it now.");
-          }, function (err) {
-            toast("Sent to their portal, but the email didn't go: " + err.message, "err");
-          });
+          toast("Sent! " + who + " can review it now.");
+          if (!wantEmail || !state.client.email) return;
+          var mail = window.MWCShare.compose({ kind: "portal", design: state.design, name: state.client.full_name, note: note });
+          window.MWCShare.logEmail(sb, { design_id: designId, kind: "portal", to_email: state.client.email, to_name: state.client.full_name || null });
+          window.MWCShare.openEmail(state.client.email, mail.subject, mail.body);
         });
       });
     });
