@@ -1,22 +1,12 @@
 {
   "_note": "Fallback copy of the Supabase data, baked into the pages at build time. Live values come from the owner panel.",
   "settings": {
-    "founding_seats_left": 5,
-    "founding_discount": 40,
-    "announcement": "Founding client offer: 40% off for our first 5 clients.",
-    "show_announcement": true
+      "founding_seats_left": 5,
+      "founding_discount": 40,
+      "announcement": "Founding client offer: 40% off for our first 5 clients.",
+      "show_announcement": true
   },
   "products": [
-    { "slug": "starter", "kind": "package", "name": "Starter", "tagline": "For sole traders who need a professional presence, fast.", "price_upfront": 590, "price_monthly": 59, "delivery": "7 days", "features": ["1 long-scrolling page", "Tap-to-call & contact form", "Google Map & basic SEO", "Mobile-first, fast-loading design"], "badge": null, "featured": false, "active": true, "sort": 1 },
-    { "slug": "growth", "kind": "package", "name": "Growth", "tagline": "For established businesses that want more calls from Google.", "price_upfront": 1290, "price_monthly": 99, "delivery": "14 days", "features": ["Up to 5 pages", "Google Business Profile setup", "Gallery & reviews section", "We write all the words", "Pages for each town you cover"], "badge": "Most popular", "featured": true, "active": true, "sort": 2 },
-    { "slug": "premium", "kind": "package", "name": "Premium", "tagline": "For businesses that take bookings or quotes online.", "price_upfront": 2490, "price_monthly": 179, "delivery": "21 days", "features": ["Up to 10 pages", "Online booking or quote system", "Logo tidy-up", "Blog or news section", "Everything in Growth"], "badge": null, "featured": false, "active": true, "sort": 3 },
-    { "slug": "basic-care", "kind": "care", "name": "Basic Care", "tagline": "Hosting and peace of mind.", "price_upfront": null, "price_monthly": 29, "delivery": "", "features": ["Fast, secure hosting with SSL", "Daily backups & uptime monitoring", "30 minutes of changes each month"], "badge": null, "featured": false, "active": true, "sort": 1 },
-    { "slug": "plus-care", "kind": "care", "name": "Plus Care", "tagline": "Hosting plus ongoing growth.", "price_upfront": null, "price_monthly": 59, "delivery": "", "features": ["Everything in Basic", "1 hour of changes each month", "Monthly Google Business post", "Simple monthly report"], "badge": null, "featured": false, "active": true, "sort": 2 },
-    { "slug": "gbp", "kind": "addon", "name": "Google Business Profile", "tagline": "Set up or fix your listing so you show on Google Maps.", "price_upfront": 149, "price_monthly": null, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 1 },
-    { "slug": "extra-page", "kind": "addon", "name": "Extra page", "tagline": "One more page, written and designed.", "price_upfront": 99, "price_monthly": null, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 2 },
-    { "slug": "logo", "kind": "addon", "name": "Simple logo", "tagline": "A clean, professional logo in all the formats you need.", "price_upfront": 149, "price_monthly": null, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 3 },
-    { "slug": "review-card", "kind": "addon", "name": "Review QR card", "tagline": "Printable card that links straight to your Google reviews.", "price_upfront": 49, "price_monthly": null, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 4 },
-    { "slug": "booking", "kind": "addon", "name": "Online booking setup", "tagline": "Connect a booking system to your site.", "price_upfront": 199, "price_monthly": null, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 5 },
-    { "slug": "local-seo", "kind": "addon", "name": "Monthly local SEO", "tagline": "Ongoing work to climb Google for local searches.", "price_upfront": null, "price_monthly": 149, "delivery": "", "features": [], "badge": null, "featured": false, "active": true, "sort": 6 }
+    {"slug": "starter", "kind": "package", "name": "Starter", "tagline": "A brand new website, your the boss, what you say go’s.", "price_upfront": 150, "price_monthly": 40, "delivery": "", "features": ["Custom Website", "(OPTIONAL) Owner panel", "Don’t like it? No problem, all we require is a $5 cancellation fee."], "badge": "NEW", "featured": true, "active": true, "sort": 1}
   ]
 }

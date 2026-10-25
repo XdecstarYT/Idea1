@@ -45,7 +45,12 @@ const shared = {
   announcement: render.esc(s.announcement),
   seatIcons: render.seatIcons(s.founding_seats_left, 5),
   packagesHtml: render.packages(data.products, "monthly"),
+  planName: render.esc((render.calcPlan(data.products) || { name: "Starter" }).name),
+  planMonthly: String((render.calcPlan(data.products) || { monthly: 40 }).monthly),
   careHtml: render.care(data.products),
+  hideCompare: data.products.filter((p) => p.kind === "package" && p.active !== false).length < 2 ? " hidden" : "",
+  hideCare: render.care(data.products).trim() ? "" : " hidden",
+  hideAddons: render.addons(data.products).trim() ? "" : " hidden",
   addonsHtml: render.addons(data.products),
 };
 

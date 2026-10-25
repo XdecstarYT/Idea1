@@ -32,6 +32,7 @@
 11. [Payments and invoicing](kit/11-payments-and-invoicing.md)
 12. [30-day launch plan](kit/12-30-day-launch-plan.md)
 13. [Setup checklist](kit/13-setup-checklist.md)
+14. [Psychology playbook](kit/14-psychology-playbook.md): the research behind the website, and what we never do
 
 ## Logging in
 Everyone signs in at **/account.html** (the "Log in" link in the site's top menu).

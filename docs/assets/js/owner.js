@@ -17,6 +17,8 @@
     auth: { persistSession: true, autoRefreshToken: true, storageKey: "mwc-auth" },
   });
 
+  // What a lead said they need on the quote form (older leads stored a package name)
+  var NEEDS = { "new-site": "Needs a new website", refresh: "Fix up current site", gbp: "Google Maps listing", unsure: "Not sure yet" };
   var state = { leads: [], products: [], settings: null, clients: [], sites: [], requests: [], leadFilter: "all", leadSearch: "", reqFilter: "open", clientSearch: "", kind: "package", editing: null, editingSite: null, siteClient: null };
   var STATUSES = [["new", "New"], ["contacted", "Contacted"], ["mockup", "Mockup sent"], ["proposal", "Proposal"], ["won", "Won"], ["lost", "Lost"]];
 
@@ -167,7 +169,7 @@
       '<article class="glass lead-item" data-id="' + l.id + '">' +
         "<div><h3><span class=\"status-dot s-" + l.status + '"></span>' + esc(l.name) + "</h3>" +
           '<div class="sub">' + esc(l.business) + " · " + when(l.created_at) + "</div>" +
-          '<div class="tags">' + (l.industry ? '<span class="tag-pill">' + esc(l.industry) + "</span>" : "") + (l.package ? '<span class="tag-pill">Package: ' + esc(l.package) + "</span>" : "") + "</div>" +
+          '<div class="tags">' + (l.industry ? '<span class="tag-pill">' + esc(l.industry) + "</span>" : "") + (l.package ? '<span class="tag-pill">' + esc(NEEDS[l.package] || "Package: " + l.package) + "</span>" : "") + "</div>" +
           (l.message ? '<p class="msg">' + esc(l.message) + "</p>" : "") +
         "</div>" +
         '<div class="lead-contact">' +

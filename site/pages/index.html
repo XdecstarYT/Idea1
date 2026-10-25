@@ -62,6 +62,38 @@
       </div>
     </section>
 
+    <section id="research" style="padding-top:40px">
+      <div class="container">
+        <div class="section-head split reveal">
+          <div>
+            <span class="eyebrow">Backed by research</span>
+            <h2>Your website is judged <span class="serif">in a blink.</span></h2>
+          </div>
+          <p class="lead">Before anyone reads a word, they've already decided whether to trust you. Here's what the research says, and what I do about it.</p>
+        </div>
+        <div class="evidence">
+          <figure class="glass ev reveal">
+            <b class="ev-num">0.05<small>s</small></b>
+            <figcaption><p>People form a first impression of a website's look in about <b>50 milliseconds</b>, and that snap judgement tends to stick.</p>
+              <p class="ev-do"><span>What I do:</span> a clean, modern design that looks trustworthy at first glance.</p>
+              <cite>Lindgaard et al. (2006), <i>Behaviour &amp; Information Technology</i></cite></figcaption>
+          </figure>
+          <figure class="glass ev reveal" style="--d:80ms">
+            <b class="ev-num">46<small>%</small></b>
+            <figcaption><p>In a Stanford study of over 2,500 people, <b>46%</b> of comments about whether a website was credible were about its design and look.</p>
+              <p class="ev-do"><span>What I do:</span> real photos, clear layout and your reviews up front.</p>
+              <cite>Fogg et al. (2003), Stanford Persuasive Technology Lab</cite></figcaption>
+          </figure>
+          <figure class="glass ev reveal" style="--d:160ms">
+            <b class="ev-num">53<small>%</small></b>
+            <figcaption><p><b>53%</b> of visits on a phone are abandoned if the page takes longer than 3 seconds to load.</p>
+              <p class="ev-do"><span>What I do:</span> fast, lightweight sites built for phones first. <a href="#check">Test your current site's speed →</a></p>
+              <cite>Google (2016), <i>The Need for Mobile Speed</i></cite></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
     <section>
       <div class="container">
         <div class="section-head split reveal">
@@ -83,7 +115,7 @@
 
     <section style="padding-top:40px">
       <div class="container">
-        <div class="row-head reveal"><h3>Top 5 reasons locals choose us</h3></div>
+        <div class="row-head reveal"><h3>5 reasons to work with us</h3></div>
         <div class="top-row reveal">
           <div class="top-item"><span class="n" aria-hidden="true">1</span><div class="glass"><h3>Free mockup first</h3><p>See your new homepage before you spend a cent. Love it or walk away.</p></div></div>
           <div class="top-item"><span class="n" aria-hidden="true">2</span><div class="glass"><h3>$0 upfront</h3><p>Start with nothing upfront. Hosting, security and changes included.</p></div></div>
@@ -230,8 +262,9 @@
             <div class="big-number" id="o-year">$11,520</div>
             <div class="roi-row"><span>Extra jobs per month</span><b id="o-jobs">2.4</b></div>
             <div class="roi-row"><span>Extra revenue per month</span><b id="o-month">$960</b></div>
-            <div class="roi-row"><span>Growth plan, $0 upfront</span><b>$99/mo</b></div>
-            <div class="roi-badge" id="o-badge">That's about 10× what a Growth plan costs each month.</div>
+            <div class="roi-row"><span><span data-plan-name>{{planName}}</span> plan, $0 upfront</span><b>$<span data-plan-monthly>{{planMonthly}}</span>/mo</b></div>
+            <div class="roi-badge" id="o-badge"></div>
+            <p class="roi-wait" id="o-wait">Waiting 3 months could mean about <b>$2,880</b> of work going to someone else.</p>
             <p class="calc-fine">An illustration only, not a promise. Results depend on your business, market and follow-up.</p>
           </div>
         </div>
@@ -246,7 +279,7 @@
           <p class="lead">Every package starts with a free mockup. Choose how you'd like to pay.</p>
           <div class="toggle glass" role="group" aria-label="Payment option" data-price-toggle style="margin-top:18px">
             <button type="button" aria-pressed="false" data-mode="upfront">Pay upfront</button>
-            <button type="button" aria-pressed="true" data-mode="monthly">$0 upfront<span class="save">Popular</span></button>
+            <button type="button" aria-pressed="true" data-mode="monthly">$0 upfront<span class="save">Easiest start</span></button>
           </div>
         </div>
         <div class="pricing reveal" data-render="packages">{{packagesHtml}}</div>
@@ -309,7 +342,7 @@
           <details class="glass"><summary>I already have a website. Can you help?</summary><p>Absolutely. Run the free website check above, or I'll review it for you and tell you honestly whether it needs a rebuild, a tidy-up, or is fine as it is.</p></details>
           <details class="glass"><summary>Do I own my website?</summary><p>If you pay upfront, yes, it's yours. On monthly plans you own your domain and content, and you can buy out the design at any time.</p></details>
           <details class="glass"><summary>I'm not good with tech. Is that a problem?</summary><p>Not at all. That's what I'm for. Answer a short questionnaire, send some photos, and I handle the rest.</p></details>
-          <details class="glass"><summary>How long does it take?</summary><p>Your free mockup takes about 3 days. Starter sites go live in about 7 days and Growth in about 14, depending on how quickly we get your photos and details.</p></details>
+          <details class="glass"><summary>How long does it take?</summary><p>Your free mockup takes about 3 days. Most sites go live within one to two weeks, depending on how quickly we get your photos and details.</p></details>
         </div>
       </div>
     </section>
@@ -333,7 +366,7 @@
         { "@type": "Question", "name": "Is the mockup really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The homepage is designed before you commit to anything. If it's not right for you, you don't pay." } },
         { "@type": "Question", "name": "How does $0 upfront work?", "acceptedAnswer": { "@type": "Answer", "text": "You pay a monthly fee that covers the website, hosting, security and small changes, with a 12-month minimum term." } },
         { "@type": "Question", "name": "Do I own my website?", "acceptedAnswer": { "@type": "Answer", "text": "If you pay upfront, yes. On monthly plans you own your domain and content and can buy out the design at any time." } },
-        { "@type": "Question", "name": "How long does it take?", "acceptedAnswer": { "@type": "Answer", "text": "The free mockup takes about 3 days. Starter sites go live in about 7 days and Growth sites in about 14." } }
+        { "@type": "Question", "name": "How long does it take?", "acceptedAnswer": { "@type": "Answer", "text": "The free mockup takes about 3 days. Most sites go live within one to two weeks." } }
       ]
     }
     </script>

@@ -6,7 +6,7 @@
         <p class="lead">Every package starts with a free homepage mockup, so you see it before you spend a cent. Pay upfront, or start with $0.</p>
         <div class="toggle glass" role="group" aria-label="Payment option" data-price-toggle style="margin-top:22px">
           <button type="button" aria-pressed="false" data-mode="upfront">Pay upfront</button>
-          <button type="button" aria-pressed="true" data-mode="monthly">$0 upfront<span class="save">Popular</span></button>
+          <button type="button" aria-pressed="true" data-mode="monthly">$0 upfront<span class="save">Easiest start</span></button>
         </div>
       </div>
     </section>
@@ -18,7 +18,7 @@
       </div>
     </section>
 
-    <section>
+    <section data-needs-packages="2"{{hideCompare}}>
       <div class="container">
         <div class="section-head reveal">
           <span class="eyebrow">Compare</span>
@@ -46,7 +46,7 @@
       </div>
     </section>
 
-    <section>
+    <section data-hide-empty{{hideCare}}>
       <div class="container">
         <div class="section-head split reveal">
           <div>
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section>
+    <section data-hide-empty{{hideAddons}}>
       <div class="container">
         <div class="section-head reveal">
           <span class="eyebrow">Add-ons</span>

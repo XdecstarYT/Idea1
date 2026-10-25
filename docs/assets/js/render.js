@@ -20,6 +20,8 @@
       .sort(function (a, b) { return a.sort - b.sort; });
   }
 
+  function perDay(monthly) { return "That's about $" + (monthly * 12 / 365).toFixed(2) + " a day"; }
+
   // mode is "monthly" or "upfront"; both versions are stored on the element for the toggle
   function packageCard(p, mode, careFrom) {
     var monthly = p.price_monthly != null ? money(p.price_monthly) + "<small>/mo</small>" : money(p.price_upfront);
@@ -35,6 +37,8 @@
         '<p class="for">' + esc(p.tagline) + "</p>" +
         '<div class="price" data-upfront="' + esc(upfront) + '" data-monthly="' + esc(monthly) + '">' + (mode === "upfront" ? upfront : monthly) + "</div>" +
         '<div class="price-alt" data-upfront="' + esc(altUpfront) + '" data-monthly="' + esc(altMonthly) + '">' + (mode === "upfront" ? altUpfront : altMonthly) + "</div>" +
+        // Daily framing makes a monthly cost easier to weigh up (Gourville, 1998)
+        (p.price_monthly != null ? '<p class="per-day" data-upfront="" data-monthly="' + esc(perDay(p.price_monthly)) + '">' + (mode === "upfront" ? "" : perDay(p.price_monthly)) + "</p>" : "") +
         (p.delivery ? '<p class="delivery">Live in ' + esc(p.delivery) + "</p>" : "") +
         "<ul>" + features + "</ul>" +
         '<a class="btn ' + (p.featured ? "btn-go" : "btn-glass") + ' btn-block" href="contact.html?package=' + encodeURIComponent(p.slug) + '">Choose ' + esc(p.name) + "</a>" +
@@ -73,6 +77,12 @@
   return {
     esc: esc,
     money: money,
+    // The plan the calculator compares against: the featured package with a monthly price, else the cheapest monthly package
+    calcPlan: function (products) {
+      var monthly = byKind(products, "package").filter(function (p) { return p.price_monthly != null; });
+      var p = monthly.filter(function (x) { return x.featured; })[0] || monthly.sort(function (a, b) { return a.price_monthly - b.price_monthly; })[0];
+      return p ? { name: p.name, monthly: p.price_monthly } : null;
+    },
     packages: function (products, mode) {
       var careFrom = cheapestCare(products);
       return byKind(products, "package").map(function (p) { return packageCard(p, mode, careFrom); }).join("");

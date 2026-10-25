@@ -128,6 +128,7 @@
   });
 
   // ROI calculator
+  var updateCalc = function () {};
   var calc = $("#calc");
   if (calc) {
     var money = function (n) { return "$" + Math.round(n).toLocaleString("en-AU"); };
@@ -142,14 +143,18 @@
       $("#o-jobs").textContent = jobs.toFixed(1);
       $("#o-month").textContent = money(month);
       $("#o-year").textContent = money(month * 12);
-      var multiple = month / 99;
+      var plan = { name: $("[data-plan-name]").textContent, monthly: +$("[data-plan-monthly]").textContent || 1 };
+      var multiple = month / plan.monthly;
       $("#o-badge").textContent = multiple >= 1.5
-        ? "That's about " + Math.round(multiple) + "× what a Growth plan costs each month."
+        ? "That's about " + Math.round(multiple) + "× what the " + plan.name + " plan costs each month."
         : "Even one extra job a month goes a long way toward paying for the site.";
+      // Loss framing: people weigh what they stand to lose more heavily than an equal gain (Kahneman & Tversky, 1979)
+      if ($("#o-wait")) $("#o-wait").innerHTML = "Waiting 3 months could mean about <b>" + money(month * 3) + "</b> of work going to someone else.";
       [job, leads, close].forEach(fill);
     };
     [job, leads, close].forEach(function (el) { el.addEventListener("input", update); });
     update();
+    updateCalc = update;
   }
 
   // Free website check (Google PageSpeed Insights, mobile)
@@ -224,6 +229,16 @@
           var map = { packages: R.packages(products, priceMode), care: R.care(products), addons: R.addons(products) };
           $$("[data-render]").forEach(function (el) { el.innerHTML = map[el.dataset.render]; });
           applyPriceMode();
+          // Hide sections that have nothing to show (e.g. no care plans), and the comparison table when there's only one package
+          $$("[data-hide-empty]").forEach(function (sec) { var r = $("[data-render]", sec); sec.hidden = !!r && !r.innerHTML.trim(); });
+          var pkgCount = products.filter(function (p) { return p.kind === "package"; }).length;
+          $$("[data-needs-packages]").forEach(function (sec) { sec.hidden = pkgCount < +sec.dataset.needsPackages; });
+          var plan = R.calcPlan(products);
+          if (plan) {
+            $$("[data-plan-name]").forEach(function (el) { el.textContent = plan.name; });
+            $$("[data-plan-monthly]").forEach(function (el) { el.textContent = plan.monthly; });
+            updateCalc();
+          }
         })
         .catch(function () { /* keep the built-in prices */ });
     }
@@ -232,12 +247,42 @@
   // Contact form: prefill from links, then save the lead to Supabase
   var params = new URLSearchParams(window.location.search);
   var pkg = params.get("package");
-  if (pkg) { var opt = $('input[name="package"][value="' + pkg + '"]'); if (opt) opt.checked = true; }
+  if (pkg) {
+    var opt = $('input[name="package"][value="' + pkg + '"]');
+    if (opt) opt.checked = true;
+    else if ($("#plan")) { $("#plan").value = pkg; var ns = $('input[name="package"][value="new-site"]'); if (ns) ns.checked = true; }
+  }
   var site = params.get("site");
   if (site && $("#website")) $("#website").value = site;
 
   var form = $("#quote-form");
   if (!form) return;
+
+  // One short step at a time. Starting with easy taps (foot-in-the-door: Freedman & Fraser, 1966) and a visible
+  // progress bar (goal-gradient effect: Kivetz, Urminsky & Zheng, 2006) both make people more likely to finish.
+  var steps = $$(".form-step", form);
+  var hints = ["takes about a minute", "nearly there", "last one"];
+  function goStep(n, focus) {
+    steps.forEach(function (st, i) { st.classList.toggle("on", i === n); });
+    var nowEl = $("[data-step-now]", form), hint = $("[data-step-hint]", form), bar = $(".step-progress .bar i", form);
+    if (nowEl) nowEl.textContent = n + 1;
+    if (hint) hint.textContent = hints[n] || "";
+    if (bar) bar.style.setProperty("--p", ((n + 1) / steps.length * 100) + "%");
+    if (focus) { var first = $("input:not([type=radio]):not([type=hidden]), textarea", steps[n]); if (first) first.focus(); else steps[n].scrollIntoView({ block: "nearest" }); }
+  }
+  function stepMissing(st) { return $$("[required]", st).filter(function (el) { return !el.value.trim(); }); }
+  form.addEventListener("click", function (e) {
+    var at = steps.indexOf(e.target.closest(".form-step"));
+    if (e.target.closest("[data-next]")) {
+      var missing = stepMissing(steps[at]);
+      var status = $("#form-status");
+      if (missing.length) { status.className = "form-status err"; status.textContent = "Please fill in your name, business and phone."; missing[0].focus(); return; }
+      status.textContent = "";
+      goStep(at + 1, true);
+    } else if (e.target.closest("[data-back]")) goStep(at - 1, true);
+  });
+  if (steps.length) goStep(0, false);
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var status = $("#form-status");
@@ -246,12 +291,17 @@
     if (missing.length) {
       status.className = "form-status err";
       status.textContent = "Please fill in your name, business and phone.";
+      var st = missing[0].closest(".form-step");
+      if (st) goStep(steps.indexOf(st), false);
       missing[0].focus();
       return;
     }
     var data = new FormData(form);
     var val = function (k) { var v = (data.get(k) || "").toString().trim(); return v || null; };
-    var lead = { name: val("name"), business: val("business"), phone: val("phone"), email: val("email"), website: val("website"), industry: val("industry"), package: val("package"), message: val("message") };
+    // A chosen call time turns "I'll call you" into a plan (implementation intentions: Gollwitzer, 1999)
+    var extra = [val("call_time") ? "Best time to call: " + val("call_time") : "", val("plan") ? "Package from pricing page: " + val("plan") : ""].filter(Boolean).join("\n");
+    var msg = ([extra, val("message")].filter(Boolean).join("\n\n") || "").slice(0, 4000) || null;
+    var lead = { name: val("name"), business: val("business"), phone: val("phone"), email: val("email"), website: val("website"), industry: val("industry"), package: val("package"), message: msg };
     var btn = $("button[type=submit]", form);
     btn.disabled = true;
     status.className = "form-status";
@@ -262,7 +312,7 @@
         $("#form-wrap").innerHTML =
           '<div class="success-panel"><div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>' +
           "<h2 style='font-size:2.4rem'>Got it, " + R.esc(lead.name.split(" ")[0]) + "!</h2>" +
-          "<p class='lead' style='margin:0 auto'>I'll be in touch within one business day, and your free mockup will follow in about 72 hours.</p></div>";
+          "<p class='lead' style='margin:0 auto'>I'll call you " + (val("call_time") && val("call_time") !== "Any time" ? "in the " + R.esc(val("call_time").toLowerCase()) + " " : "") + "within one business day, and your free mockup will follow in about 72 hours.</p></div>";
       })
       .catch(function () {
         // Fall back to the visitor's email app so the enquiry isn't lost

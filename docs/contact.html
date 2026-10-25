@@ -87,39 +87,61 @@
       <div class="container contact-grid">
         <div class="glass form-card reveal" id="form-wrap">
           <form class="form" id="quote-form" data-fallback-email="decmar098@gmail.com" novalidate>
-            <fieldset class="opt-chips">
-              <legend class="label">What kind of business?</legend>
-              <label><input type="radio" name="industry" value="Trades"><span>🔧 Trades</span></label>
-              <label><input type="radio" name="industry" value="Hospitality"><span>☕ Café / restaurant</span></label>
-              <label><input type="radio" name="industry" value="Hair &amp; beauty"><span>✂️ Hair &amp; beauty</span></label>
-              <label><input type="radio" name="industry" value="Health"><span>🩺 Health</span></label>
-              <label><input type="radio" name="industry" value="Tourism"><span>🌊 Tourism</span></label>
-              <label><input type="radio" name="industry" value="Other"><span>Other</span></label>
+            <div class="step-progress" aria-hidden="true"><span>Step <b data-step-now>1</b> of 3 · <span data-step-hint>takes about a minute</span></span><div class="bar"><i></i></div></div>
+
+            <fieldset class="form-step" data-step="1">
+              <legend class="step-title">First, two quick taps.</legend>
+              <fieldset class="opt-chips">
+                <legend class="label">What kind of business?</legend>
+                <label><input type="radio" name="industry" value="Trades"><span>🔧 Trades</span></label>
+                <label><input type="radio" name="industry" value="Hospitality"><span>☕ Café / restaurant</span></label>
+                <label><input type="radio" name="industry" value="Hair &amp; beauty"><span>✂️ Hair &amp; beauty</span></label>
+                <label><input type="radio" name="industry" value="Health"><span>🩺 Health</span></label>
+                <label><input type="radio" name="industry" value="Tourism"><span>🌊 Tourism</span></label>
+                <label><input type="radio" name="industry" value="Retail"><span>🛍 Retail</span></label>
+                <label><input type="radio" name="industry" value="Other"><span>Other</span></label>
+              </fieldset>
+              <fieldset class="opt-chips">
+                <legend class="label">What do you need?</legend>
+                <label><input type="radio" name="package" value="new-site"><span>A new website</span></label>
+                <label><input type="radio" name="package" value="refresh"><span>Fix up my current one</span></label>
+                <label><input type="radio" name="package" value="gbp"><span>Show up on Google Maps</span></label>
+                <label><input type="radio" name="package" value="unsure" checked><span>Not sure yet</span></label>
+              </fieldset>
+              <input type="hidden" name="plan" id="plan">
+              <div class="step-nav"><span></span><button class="btn btn-primary btn-lg" type="button" data-next>Next
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
             </fieldset>
 
-            <div class="form-row">
-              <div><label for="name">Your name *</label><input id="name" name="name" autocomplete="name" maxlength="120" required></div>
-              <div><label for="business">Business name *</label><input id="business" name="business" autocomplete="organization" maxlength="160" required></div>
-            </div>
-            <div class="form-row">
-              <div><label for="phone">Phone *</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required></div>
-              <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="200"></div>
-            </div>
-            <div><label for="website">Current website (if you have one)</label><input id="website" name="website" placeholder="yourbusiness.com.au" maxlength="300"></div>
-
-            <fieldset class="opt-chips">
-              <legend class="label">Package you're interested in</legend>
-              <label><input type="radio" name="package" value="unsure" checked><span>Not sure yet</span></label>
-              <label><input type="radio" name="package" value="starter"><span>Starter</span></label>
-              <label><input type="radio" name="package" value="growth"><span>Growth</span></label>
-              <label><input type="radio" name="package" value="premium"><span>Premium</span></label>
-              <label><input type="radio" name="package" value="gbp"><span>Just Google Maps</span></label>
+            <fieldset class="form-step" data-step="2">
+              <legend class="step-title">Who should I make it for?</legend>
+              <div class="form-row">
+                <div><label for="name">Your name *</label><input id="name" name="name" autocomplete="name" maxlength="120" required></div>
+                <div><label for="business">Business name *</label><input id="business" name="business" autocomplete="organization" maxlength="160" required></div>
+              </div>
+              <div class="form-row">
+                <div><label for="phone">Phone *</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required></div>
+                <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="200"></div>
+              </div>
+              <div class="step-nav"><button class="btn btn-glass" type="button" data-back>Back</button><button class="btn btn-primary btn-lg" type="button" data-next>Next
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
             </fieldset>
 
-            <div><label for="message">Anything I should know?</label><textarea id="message" name="message" maxlength="4000" placeholder="What you do, the towns you cover, what you'd like the website to do"></textarea></div>
-            <div class="hp" aria-hidden="true"><label for="gotcha">Leave this empty</label><input id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off"></div>
-            <button class="btn btn-primary btn-lg" type="submit">Send me my free mockup
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <fieldset class="form-step" data-step="3">
+              <legend class="step-title">Last step. When's good to chat?</legend>
+              <fieldset class="opt-chips">
+                <legend class="label">Best time for a quick 15-minute call</legend>
+                <label><input type="radio" name="call_time" value="Morning"><span>Morning</span></label>
+                <label><input type="radio" name="call_time" value="Arvo"><span>Arvo</span></label>
+                <label><input type="radio" name="call_time" value="Evening"><span>Evening</span></label>
+                <label><input type="radio" name="call_time" value="Any time" checked><span>Any time</span></label>
+              </fieldset>
+              <div><label for="website">Current website (if you have one)</label><input id="website" name="website" placeholder="yourbusiness.com.au" maxlength="300"></div>
+              <div><label for="message">Anything I should know?</label><textarea id="message" name="message" maxlength="4000" placeholder="What you do, the towns you cover, what you'd like the website to do"></textarea></div>
+              <div class="hp" aria-hidden="true"><label for="gotcha">Leave this empty</label><input id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+              <div class="step-nav"><button class="btn btn-glass" type="button" data-back>Back</button><button class="btn btn-primary btn-lg" type="submit">Send me my free mockup
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+            </fieldset>
             <p class="form-note">🔒 Your details are only used to reply to you. No spam, ever. See the <a href="privacy.html">privacy policy</a>.</p>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
           </form>
