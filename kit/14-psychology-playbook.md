@@ -20,6 +20,22 @@ Every persuasion technique on marshallwebz.netlify.app is backed by published re
 | **Liking and similarity** | We trust people who are like us and close to us (Cialdini, 1984). | "A real local", founder section, "meet at your shop". |
 | **A clear recommendation (compromise effect)** | When unsure, people pick the option that's clearly recommended or in the middle (Simonson, 1989). | The featured package's badge. Use an honest label such as "Recommended" or "New", never "Most popular" until it's true. |
 
+## How the website looks, and why
+
+| Design choice | The evidence |
+|---|---|
+| **Light background, dark text** | Dark text on a light background is read faster and more accurately than light text on dark (Piepenbrock, Mayr, Mund & Buchner, 2013, *Ergonomics*). |
+| **Simple and familiar layout** (logo left, menu right, headline and button first, nothing swirling in the background) | Websites with low visual complexity and a familiar ("prototypical") layout get the best first impressions (Tuch, Presslaber, Stöcklin, Opwis & Bargas-Avila, 2012, *International Journal of Human-Computer Studies*). |
+| **Navy as the main colour** | Blue is consistently read as competent and trustworthy (Labrecque & Milne, 2012, *Journal of the Academy of Marketing Science*). |
+| **Gold only on the main "Get my free mockup" buttons** | An item that differs from everything around it is noticed and remembered (isolation effect, von Restorff, 1933). Don't use gold for anything else. |
+| **Good-looking design** | People judge attractive interfaces as easier to use and more trustworthy (aesthetic-usability effect: Kurosu & Kashimura, 1995; Tractinsky, Katz & Ikar, 2000). |
+| **Big buttons, plus a sticky Call / Free mockup bar on phones** | Bigger, closer targets are faster and easier to hit (Fitts, 1954). |
+| **The guarantee sits right next to the price** | Paying feels painful, and reassurance at that moment softens it (Prelec & Loewenstein, 1998). |
+| **A real face** (add your photo, see below) | Photos of people on a website increase trust and the feeling of dealing with a real person (Cyr, Head, Larios & Pan, 2009, *MIS Quarterly*). |
+| **The page follows the buyer's questions in order**: what is it, why it matters, proof, how it works, price, risk, who you are, questions, act | Each question is answered just as it comes up, and the last thing they see is the action (serial position effect: Murdock, 1962). |
+
+**Add your photo:** put a friendly, well-lit photo of yourself at `docs/assets/img/declan.jpg`, then set `"ownerPhoto": "assets/img/declan.jpg"` in `site/config.json` and run `node site/build.js`. The founder card on the homepage uses it instead of the "DM" initials.
+
 ## What we don't do
 
 - **No "Most popular" or "Popular" labels** until enough clients have actually chosen it. These were changed to "Recommended" and "Easiest start".

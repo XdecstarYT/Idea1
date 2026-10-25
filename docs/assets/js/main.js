@@ -44,6 +44,7 @@
   // Scroll-linked effects: product showcase zoom, mobile action bar, story progress
   var showcase = $("#showcase");
   var callbar = $(".callbar");
+  var header = $(".site-header");
   var ticking = false;
   function onScroll() {
     ticking = false;
@@ -54,6 +55,7 @@
       showcase.style.setProperty("--p", p.toFixed(3));
     }
     if (callbar) callbar.classList.toggle("show", window.scrollY > 600);
+    if (header) header.classList.toggle("scrolled", window.scrollY > 8);
   }
   window.addEventListener("scroll", function () {
     if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
@@ -174,7 +176,7 @@
       var url = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
       var btn = $("button", checkForm);
       btn.disabled = true;
-      report.innerHTML = '<div class="loader"><div class="spinner"></div><b style="color:#fff">Checking ' + esc(raw) + "…</b><p>Google is loading your site on a simulated phone. This takes 15–30 seconds.</p></div>";
+      report.innerHTML = '<div class="loader"><div class="spinner"></div><b>Checking ' + esc(raw) + "…</b><p>Google is loading your site on a simulated phone. This takes 15–30 seconds.</p></div>";
       fetch("https://www.googleapis.com/pagespeedonline/v5/runPagespeed?strategy=mobile&category=performance&category=accessibility&category=best-practices&category=seo&url=" + encodeURIComponent(url))
         .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
         .then(function (data) {
@@ -196,7 +198,7 @@
           report.innerHTML =
             "<h3>Results for " + esc(raw) + "</h3><p class='fine' style='margin-top:-4px'>Mobile scores out of 100, from Google</p>" +
             '<div class="scores">' + ring("Speed", perf) + ring("SEO", cats.seo.score) + ring("Accessibility", cats.accessibility.score) + ring("Best practice", cats["best-practices"].score) + "</div>" +
-            '<ul class="findings">' + items.join("") + "</ul><p><b style='color:#fff'>" + verdict + "</b></p>" +
+            '<ul class="findings">' + items.join("") + "</ul><p class='verdict'>" + verdict + "</p>" +
             '<a class="btn btn-primary" href="contact.html?site=' + encodeURIComponent(raw) + '">Get a free mockup that fixes this →</a>';
         })
         .catch(function () {

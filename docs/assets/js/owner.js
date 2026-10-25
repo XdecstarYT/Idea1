@@ -641,14 +641,19 @@
       var la = byClient[a.id] ? byClient[a.id].last.created_at : "", lb = byClient[b.id] ? byClient[b.id].last.created_at : "";
       return la < lb ? 1 : la > lb ? -1 : 0;
     });
-    $("#convo-list").innerHTML = clients.length ? clients.map(function (c) {
+    var html = clients.length ? clients.map(function (c) {
       var info = byClient[c.id];
       var name = c.full_name || c.email;
       return '<button class="convo" data-convo="' + c.id + '" aria-current="' + (c.id === activeClient) + '"><span class="chat-avatar">' + esc(name.charAt(0).toUpperCase()) + '</span><span class="c-text"><b>' + esc(name) + "</b><span>" +
         (info ? esc((info.last.sender_id === me ? "You: " : "") + info.last.body) : esc(c.business || "No messages yet")) + "</span></span>" + (info && info.unread ? '<span class="unread">' + info.unread + "</span>" : "") + "</button>";
     }).join("") : '<div class="empty"><b>No clients yet</b>When clients sign up, you can chat with them here.</div>';
-    $$("[data-convo]").forEach(function (b) { b.addEventListener("click", function () { openThread(b.dataset.convo); }); });
+    // Only redraw when something changed, so a click isn't lost to a refresh mid-tap
+    var list = $("#convo-list");
+    if (list.dataset.html === html) return;
+    list.dataset.html = html;
+    list.innerHTML = html;
   }
+  $("#convo-list").addEventListener("click", function (e) { var b = e.target.closest("[data-convo]"); if (b) openThread(b.dataset.convo); });
   function refreshInbox() { if (state.me) loadInbox().then(renderInbox); }
   function openThread(clientId) {
     var c = state.clients.find(function (x) { return x.id === clientId; });
